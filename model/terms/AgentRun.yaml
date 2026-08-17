@@ -151,22 +151,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: tbd
-  awesometree:
-    native_term: null
-    fidelity: tbd
-  mcp:
-    native_term: null
-    fidelity: none
-    notes: MCP has no AgentRun. MCP 2026-07-28 has no protocol-level session.
-  goose:
-    native_term: session
-    fidelity: ambiguous
-    notes: Goose session is commonly a host conversation or process. Not a verified AgentRun.
-  hermes:
-    native_term: session
-    fidelity: ambiguous
-    notes: Unverified.
-  crush:
-    native_term: session
-    fidelity: ambiguous
-    notes: Unverified.

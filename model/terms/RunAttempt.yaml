@@ -104,18 +104,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: tbd
-  awesometree:
-    native_term: null
-    fidelity: none
-  mcp:
-    native_term: null
-    fidelity: none
-  goose:
-    native_term: null
-    fidelity: tbd
-  hermes:
-    native_term: null
-    fidelity: tbd
-  crush:
-    native_term: null
-    fidelity: tbd

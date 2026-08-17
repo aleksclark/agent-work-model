@@ -120,452 +120,6 @@
         }
       },
       "verified_against": null
-    },
-    {
-      "compatibility_field_mappings": [],
-      "description": "Mapping hook for awesometree. Worktrees resemble Workspace resources. No awesometree revision has been verified against this model.",
-      "fidelity_overview": "partial",
-      "notes": "Encode only the obvious environment correspondence. Do not invent WorkSession or AgentRun mappings that have not been observed.",
-      "status": "draft",
-      "system": "awesometree",
-      "terms": {
-        "AgentInstance": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "AgentProfile": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "AgentRun": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Artifact": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "HostConversation": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "Principal": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "Project": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "ProjectSnapshot": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Resource": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "ResourceBinding": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "RunAttempt": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "Task": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Turn": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "WorkProfile": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "WorkSession": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Workspace": {
-          "fidelity": "partial",
-          "native_term": "worktree",
-          "notes": "A worktree is a material working environment. Not a WorkSession."
-        }
-      },
-      "verified_against": null
-    },
-    {
-      "compatibility_field_mappings": [
-        {
-          "awm_field": "(none)",
-          "native_field": "session",
-          "notes": "MCP 2026-07-28 has no protocol-level session. Historical \"session\" spellings MUST NOT be imported onto AWM terms."
-        },
-        {
-          "awm_field": "(none)",
-          "native_field": "Mcp-Session-Id",
-          "notes": "MCP 2026-07-28 removed Mcp-Session-Id. Historical identifiers MUST NOT be imported as unqualified session_id fields on AWM terms."
-        },
-        {
-          "awm_field": "(none)",
-          "native_field": "session_id",
-          "notes": "There is no current MCP session identifier. Do not keep session_id on an AWM term."
-        }
-      ],
-      "description": "Mapping hook for the Model Context Protocol specification dated 2026-07-28. MCP is a stateless tool-and-resource protocol. It does not define Agent Work Model work episodes, protocol-level sessions, or a durable Project.",
-      "fidelity_overview": "partial",
-      "notes": "Reviewed against https://modelcontextprotocol.io/specification/2026-07-28, https://modelcontextprotocol.io/specification/2026-07-28/changelog, https://modelcontextprotocol.io/specification/2026-07-28/deprecated, and https://modelcontextprotocol.io/extensions/tasks/overview. MCP removed protocol-level sessions and the Mcp-Session-Id header; the protocol is stateless. Roots are deprecated; new implementations pass directories and files via tool parameters, resource URIs, or server configuration. The optional Tasks extension io.modelcontextprotocol/tasks is a protocol-level long-running invocation, not an AWM WorkSession Task graph node. This document records those distinctions so implementations do not collapse MCP protocol objects onto work identity.",
-      "status": "reviewed",
-      "system": "mcp",
-      "terms": {
-        "AgentInstance": {
-          "fidelity": "ambiguous",
-          "native_term": "Server",
-          "notes": "An MCP server process is infrastructure. Not verified as AgentInstance."
-        },
-        "AgentProfile": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "AgentRun": {
-          "fidelity": "none",
-          "native_term": null,
-          "notes": "MCP has no AgentRun. There is no protocol-level MCP session to confuse with one."
-        },
-        "Artifact": {
-          "fidelity": "ambiguous",
-          "native_term": "Resource",
-          "notes": "Exposing a file as an MCP resource does not make it a published Artifact."
-        },
-        "HostConversation": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "Principal": {
-          "fidelity": "tbd",
-          "native_term": null,
-          "notes": "Auth is transport-specific."
-        },
-        "Project": {
-          "fidelity": "none",
-          "native_term": null,
-          "notes": "MCP has no durable collaboration-and-policy Project."
-        },
-        "ProjectSnapshot": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "Resource": {
-          "fidelity": "partial",
-          "native_term": "Resource",
-          "notes": "MCP Resources are addressable. They are not project-owned and have no AWM binding model."
-        },
-        "ResourceBinding": {
-          "fidelity": "partial",
-          "native_term": "Root",
-          "notes": "MCP roots are deprecated in 2026-07-28. Historical roots resembled grants; they are not WorkSession bindings. New implementations pass directories and files via tool parameters, resource URIs, or server configuration."
-        },
-        "RunAttempt": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "Task": {
-          "fidelity": "partial",
-          "native_term": "Task",
-          "notes": "MCP's optional Tasks extension (io.modelcontextprotocol/tasks) can track a long-running tool invocation. An AWM Task is a WorkSession graph node with session-owned lifecycle, dependencies, and artifacts. Related at the word \"task\" only; not a WorkSession Task."
-        },
-        "Turn": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "WorkProfile": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "WorkSession": {
-          "fidelity": "none",
-          "native_term": null,
-          "notes": "MCP 2026-07-28 is stateless and has no protocol-level session. Explicit non-mapping."
-        },
-        "Workspace": {
-          "fidelity": "partial",
-          "native_term": "Root",
-          "notes": "A historical MCP root could expose a filesystem-like environment. Roots are deprecated; they are not WorkSessions."
-        }
-      },
-      "verified_against": "https://modelcontextprotocol.io/specification/2026-07-28"
-    },
-    {
-      "compatibility_field_mappings": [
-        {
-          "awm_field": "host_conversation_id",
-          "native_field": "session",
-          "notes": "Compatibility hint only. Goose session is not accepted as WorkSession."
-        },
-        {
-          "awm_field": "host_conversation_id",
-          "native_field": "session_id",
-          "notes": "If imported, rewrite to a qualified host field. Never keep session_id on an AWM term."
-        }
-      ],
-      "description": "Mapping hook for Goose. Goose is a host product that owns conversation history. Its word \"session\" is treated as ambiguous until a specific Goose revision is reviewed.",
-      "fidelity_overview": "ambiguous",
-      "notes": "Do not assert that a Goose session is a WorkSession or an AgentRun. The conservative reading is HostConversation, and even that is only partial and unverified.",
-      "status": "draft",
-      "system": "goose",
-      "terms": {
-        "AgentInstance": {
-          "fidelity": "tbd",
-          "native_term": "goose process",
-          "notes": "A running Goose process is a likely AgentInstance. Unverified."
-        },
-        "AgentProfile": {
-          "fidelity": "ambiguous",
-          "native_term": "recipe",
-          "notes": "Recipes or extensions may overlap. Unverified."
-        },
-        "AgentRun": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Replacing the ambiguous \"agent session\" is the point of AgentRun. Unverified."
-        },
-        "Artifact": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "HostConversation": {
-          "fidelity": "partial",
-          "native_term": "session",
-          "notes": "Conservative mapping. Field-level equivalence is unverified."
-        },
-        "Principal": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Project": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "ProjectSnapshot": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Resource": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "ResourceBinding": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "RunAttempt": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Task": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Turn": {
-          "fidelity": "partial",
-          "native_term": "turn",
-          "notes": "Goose likely has turn-like steps. Unverified."
-        },
-        "WorkProfile": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "WorkSession": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Do not treat Goose session as WorkSession."
-        },
-        "Workspace": {
-          "fidelity": "tbd",
-          "native_term": "working directory",
-          "notes": "Likely a Workspace-like environment. Unverified."
-        }
-      },
-      "verified_against": null
-    },
-    {
-      "compatibility_field_mappings": [
-        {
-          "awm_field": "host_conversation_id",
-          "native_field": "session",
-          "notes": "Compatibility hint only."
-        },
-        {
-          "awm_field": "host_conversation_id",
-          "native_field": "session_id",
-          "notes": "Rewrite if imported. Never keep session_id on an AWM term."
-        }
-      ],
-      "description": "Mapping hook for Hermes. Hermes is treated as a host product that owns conversation history. No Hermes revision has been verified against this model.",
-      "fidelity_overview": "ambiguous",
-      "notes": "All correspondences are provisional. Prefer HostConversation over WorkSession when a Hermes \"session\" is encountered.",
-      "status": "draft",
-      "system": "hermes",
-      "terms": {
-        "AgentInstance": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "AgentProfile": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "AgentRun": {
-          "fidelity": "ambiguous",
-          "native_term": "session"
-        },
-        "Artifact": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "HostConversation": {
-          "fidelity": "partial",
-          "native_term": "session",
-          "notes": "Conservative mapping. Unverified."
-        },
-        "Principal": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Project": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "ProjectSnapshot": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Resource": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "ResourceBinding": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "RunAttempt": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Task": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Turn": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "WorkProfile": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "WorkSession": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Do not treat a Hermes session as a WorkSession without review."
-        },
-        "Workspace": {
-          "fidelity": "tbd",
-          "native_term": null
-        }
-      },
-      "verified_against": null
-    },
-    {
-      "compatibility_field_mappings": [
-        {
-          "awm_field": "host_conversation_id",
-          "native_field": "session",
-          "notes": "Compatibility hint only."
-        },
-        {
-          "awm_field": "host_conversation_id",
-          "native_field": "session_id",
-          "notes": "Rewrite if imported. Never keep session_id on an AWM term."
-        }
-      ],
-      "description": "Mapping hook for Crush. Crush is treated as a host product that owns conversation history. No Crush revision has been verified against this model.",
-      "fidelity_overview": "ambiguous",
-      "notes": "Crush \"session\" is recorded as a likely HostConversation and an explicit non-equivalent for WorkSession until verified.",
-      "status": "draft",
-      "system": "crush",
-      "terms": {
-        "AgentInstance": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "AgentProfile": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "AgentRun": {
-          "fidelity": "ambiguous",
-          "native_term": "session"
-        },
-        "Artifact": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "HostConversation": {
-          "fidelity": "partial",
-          "native_term": "session",
-          "notes": "Conservative mapping. Unverified."
-        },
-        "Principal": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Project": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "ProjectSnapshot": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Resource": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "ResourceBinding": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "RunAttempt": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Task": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "Turn": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "WorkProfile": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "WorkSession": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Do not treat a Crush session as a WorkSession."
-        },
-        "Workspace": {
-          "fidelity": "tbd",
-          "native_term": null
-        }
-      },
-      "verified_against": null
     }
   ],
   "model": {
@@ -870,31 +424,6 @@
         ]
       },
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null,
-          "notes": "No verified awesometree Project concept at the time of writing."
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null,
-          "notes": "Unverified."
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null,
-          "notes": "Unverified whether Goose persists a Project distinct from conversation or session."
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null,
-          "notes": "Unverified."
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null,
-          "notes": "MCP does not define a durable collaboration-and-policy Project."
-        },
         "project-interop": {
           "fidelity": "partial",
           "native_term": "Project",
@@ -1032,26 +561,6 @@
       ],
       "key": "ProjectSnapshot",
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null,
@@ -1158,26 +667,6 @@
       ],
       "key": "WorkProfile",
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -1286,27 +775,6 @@
       ],
       "key": "Resource",
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "partial",
-          "native_term": "Resource",
-          "notes": "MCP Resources are addressable, but MCP does not define project/session bindings."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -1462,27 +930,6 @@
         ]
       },
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "partial",
-          "native_term": "Root",
-          "notes": "MCP roots are deprecated in 2026-07-28 and were never WorkSession grants. New implementations pass paths via tools, resource URIs, or server configuration."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -1589,29 +1036,6 @@
       ],
       "key": "Workspace",
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "partial",
-          "native_term": "worktree",
-          "notes": "Awesometree worktrees look like Workspace resources; treat identity mapping as unverified."
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": "working directory",
-          "notes": "Goose working directories are a likely partial mapping, unverified."
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "partial",
-          "native_term": "Root",
-          "notes": "Historical MCP roots could expose filesystem-like environments. Roots are deprecated in 2026-07-28 and are not WorkSessions."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -1794,30 +1218,6 @@
         ]
       },
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Unverified; Crush session is likely a host conversation, not a WorkSession."
-        },
-        "goose": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Goose \"session\" often names host conversation or process state. Do not treat as WorkSession without a verified mapping."
-        },
-        "hermes": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Unverified; host products commonly overload \"session\"."
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null,
-          "notes": "MCP 2026-07-28 is stateless and has no protocol-level session. Explicit non-mapping."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -1974,27 +1374,6 @@
       ],
       "key": "AgentProfile",
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "ambiguous",
-          "native_term": "recipe",
-          "notes": "Goose recipes or extensions may overlap; do not treat as verified AgentProfile."
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -2051,7 +1430,7 @@
       "definition": "A running process or remote endpoint capable of executing RunAttempts. An AgentInstance is not an assignment and is not a Principal.",
       "deprecated_aliases": [],
       "examples": [
-        "A local goose process that executes several RunAttempts and is then replaced.",
+        "A local agent process that executes several RunAttempts and is then replaced.",
         "A remote agent endpoint that picks up attempts for more than one AgentRun."
       ],
       "fields": [
@@ -2161,28 +1540,6 @@
         ]
       },
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": "goose process",
-          "notes": "A running Goose process is a likely AgentInstance. Unverified."
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "ambiguous",
-          "native_term": "Server",
-          "notes": "An MCP server process is infrastructure, not an AgentRun. Mapping is not verified."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -2368,30 +1725,6 @@
         ]
       },
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Unverified."
-        },
-        "goose": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Goose session is commonly a host conversation or process. Not a verified AgentRun."
-        },
-        "hermes": {
-          "fidelity": "ambiguous",
-          "native_term": "session",
-          "notes": "Unverified."
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null,
-          "notes": "MCP has no AgentRun. MCP 2026-07-28 has no protocol-level session."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -2592,26 +1925,6 @@
         ]
       },
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -2759,27 +2072,6 @@
         ]
       },
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "partial",
-          "native_term": "turn",
-          "notes": "Goose likely has turn-like steps. Equivalence is unverified."
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -2856,7 +2148,7 @@
         {
           "kind": "descriptive",
           "name": "host_system",
-          "notes": "Name of the owning host (goose, hermes, crush, or other).",
+          "notes": "Name of the owning host product.",
           "portable_snapshot": true,
           "type": "string"
         }
@@ -2890,30 +2182,6 @@
       ],
       "key": "HostConversation",
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "partial",
-          "native_term": "session",
-          "notes": "Crush session/chat is a likely HostConversation. Unverified."
-        },
-        "goose": {
-          "fidelity": "partial",
-          "native_term": "session",
-          "notes": "Goose session/conversation is a likely HostConversation. Field-level mapping is unverified."
-        },
-        "hermes": {
-          "fidelity": "partial",
-          "native_term": "session",
-          "notes": "Hermes conversation history is a likely HostConversation. Unverified."
-        },
-        "mcp": {
-          "fidelity": "none",
-          "native_term": null,
-          "notes": "MCP is a tool protocol, not a host conversation store."
-        },
         "project-interop": {
           "fidelity": "none",
           "native_term": null
@@ -3078,27 +2346,6 @@
         ]
       },
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "partial",
-          "native_term": "Task",
-          "notes": "MCP Tasks (io.modelcontextprotocol/tasks) track long-running tool invocations. An AWM Task is a WorkSession graph node, not that protocol object."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -3239,27 +2486,6 @@
       ],
       "key": "Artifact",
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "ambiguous",
-          "native_term": "Resource",
-          "notes": "MCP resources can expose files; that does not make them published Artifacts."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null
@@ -3373,27 +2599,6 @@
       ],
       "key": "Principal",
       "mapping_hooks": {
-        "awesometree": {
-          "fidelity": "none",
-          "native_term": null
-        },
-        "crush": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "goose": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "hermes": {
-          "fidelity": "tbd",
-          "native_term": null
-        },
-        "mcp": {
-          "fidelity": "tbd",
-          "native_term": null,
-          "notes": "MCP auth is transport-specific; no verified Principal mapping."
-        },
         "project-interop": {
           "fidelity": "tbd",
           "native_term": null

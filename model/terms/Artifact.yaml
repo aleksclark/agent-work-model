@@ -81,19 +81,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: tbd
-  awesometree:
-    native_term: null
-    fidelity: tbd
-  mcp:
-    native_term: Resource
-    fidelity: ambiguous
-    notes: MCP resources can expose files; that does not make them published Artifacts.
-  goose:
-    native_term: null
-    fidelity: tbd
-  hermes:
-    native_term: null
-    fidelity: tbd
-  crush:
-    native_term: null
-    fidelity: tbd

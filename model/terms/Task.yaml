@@ -128,22 +128,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: tbd
-  awesometree:
-    native_term: null
-    fidelity: tbd
-  mcp:
-    native_term: Task
-    fidelity: partial
-    notes: >-
-      MCP Tasks (io.modelcontextprotocol/tasks) track long-running tool
-      invocations. An AWM Task is a WorkSession graph node, not that
-      protocol object.
-  goose:
-    native_term: null
-    fidelity: tbd
-  hermes:
-    native_term: null
-    fidelity: tbd
-  crush:
-    native_term: null
-    fidelity: tbd

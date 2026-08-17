@@ -101,11 +101,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd | No verified awesometree Project concept at the time of writing. |
-| `crush` | _none_ | tbd | Unverified. |
-| `goose` | _none_ | tbd | Unverified whether Goose persists a Project distinct from conversation or session. |
-| `hermes` | _none_ | tbd | Unverified. |
-| `mcp` | _none_ | none | MCP does not define a durable collaboration-and-policy Project. |
 | `project-interop` | `Project` | partial | Name alignment is likely; treat field-level equivalence as unverified. |
 
 ## ProjectSnapshot
@@ -160,11 +155,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | _none_ | tbd |  |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | _none_ | none |  |
 | `project-interop` | _none_ | tbd | Snapshot/export objects may exist; equivalence is unverified. |
 
 ## WorkProfile
@@ -215,11 +205,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | _none_ | tbd |  |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | _none_ | none |  |
 | `project-interop` | _none_ | tbd |  |
 
 ## Resource
@@ -276,11 +261,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | _none_ | tbd |  |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | `Resource` | partial | MCP Resources are addressable, but MCP does not define project/session bindings. |
 | `project-interop` | _none_ | tbd |  |
 
 ## ResourceBinding
@@ -346,11 +326,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | _none_ | tbd |  |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | `Root` | partial | MCP roots are deprecated in 2026-07-28 and were never WorkSession grants. New implementations pass paths via tools, resource URIs, or server configuration. |
 | `project-interop` | _none_ | tbd |  |
 
 ## Workspace
@@ -405,11 +380,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | `worktree` | partial | Awesometree worktrees look like Workspace resources; treat identity mapping as unverified. |
-| `crush` | _none_ | tbd |  |
-| `goose` | `working directory` | tbd | Goose working directories are a likely partial mapping, unverified. |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | `Root` | partial | Historical MCP roots could expose filesystem-like environments. Roots are deprecated in 2026-07-28 and are not WorkSessions. |
 | `project-interop` | _none_ | tbd |  |
 
 ## WorkSession
@@ -492,11 +462,6 @@ Transitions:
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd |  |
-| `crush` | `session` | ambiguous | Unverified; Crush session is likely a host conversation, not a WorkSession. |
-| `goose` | `session` | ambiguous | Goose "session" often names host conversation or process state. Do not treat as WorkSession without a verified mapping. |
-| `hermes` | `session` | ambiguous | Unverified; host products commonly overload "session". |
-| `mcp` | _none_ | none | MCP 2026-07-28 is stateless and has no protocol-level session. Explicit non-mapping. |
 | `project-interop` | _none_ | tbd |  |
 
 ## AgentProfile
@@ -548,11 +513,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | none |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | `recipe` | ambiguous | Goose recipes or extensions may overlap; do not treat as verified AgentProfile. |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | _none_ | none |  |
 | `project-interop` | _none_ | tbd |  |
 
 ## AgentInstance
@@ -616,7 +576,7 @@ _None._
 
 ### Examples
 
-- A local goose process that executes several RunAttempts and is then replaced.
+- A local agent process that executes several RunAttempts and is then replaced.
 - A remote agent endpoint that picks up attempts for more than one AgentRun.
 
 ### Anti-examples
@@ -627,11 +587,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | none |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | `goose process` | tbd | A running Goose process is a likely AgentInstance. Unverified. |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | `Server` | ambiguous | An MCP server process is infrastructure, not an AgentRun. Mapping is not verified. |
 | `project-interop` | _none_ | tbd |  |
 
 ## AgentRun
@@ -714,11 +669,6 @@ Transitions:
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd |  |
-| `crush` | `session` | ambiguous | Unverified. |
-| `goose` | `session` | ambiguous | Goose session is commonly a host conversation or process. Not a verified AgentRun. |
-| `hermes` | `session` | ambiguous | Unverified. |
-| `mcp` | _none_ | none | MCP has no AgentRun. MCP 2026-07-28 has no protocol-level session. |
 | `project-interop` | _none_ | tbd |  |
 
 ## RunAttempt
@@ -787,11 +737,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | none |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | _none_ | tbd |  |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | _none_ | none |  |
 | `project-interop` | _none_ | tbd |  |
 
 ## Turn
@@ -859,11 +804,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | none |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | `turn` | partial | Goose likely has turn-like steps. Equivalence is unverified. |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | _none_ | none |  |
 | `project-interop` | _none_ | tbd |  |
 
 ## HostConversation
@@ -919,11 +859,6 @@ Conversation history owned by a host product such as Goose, Hermes, or Crush. A 
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | none |  |
-| `crush` | `session` | partial | Crush session/chat is a likely HostConversation. Unverified. |
-| `goose` | `session` | partial | Goose session/conversation is a likely HostConversation. Field-level mapping is unverified. |
-| `hermes` | `session` | partial | Hermes conversation history is a likely HostConversation. Unverified. |
-| `mcp` | _none_ | none | MCP is a tool protocol, not a host conversation store. |
 | `project-interop` | _none_ | none |  |
 
 ## Task
@@ -1000,11 +935,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | _none_ | tbd |  |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | `Task` | partial | MCP Tasks (io.modelcontextprotocol/tasks) track long-running tool invocations. An AWM Task is a WorkSession graph node, not that protocol object. |
 | `project-interop` | _none_ | tbd |  |
 
 ## Artifact
@@ -1059,11 +989,6 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | tbd |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | _none_ | tbd |  |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | `Resource` | ambiguous | MCP resources can expose files; that does not make them published Artifacts. |
 | `project-interop` | _none_ | tbd |  |
 
 ## Principal
@@ -1119,9 +1044,4 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | _none_ | none |  |
-| `crush` | _none_ | tbd |  |
-| `goose` | _none_ | tbd |  |
-| `hermes` | _none_ | tbd |  |
-| `mcp` | _none_ | tbd | MCP auth is transport-specific; no verified Principal mapping. |
 | `project-interop` | _none_ | tbd |  |

@@ -87,18 +87,3 @@ mapping_hooks:
     native_term: null
     fidelity: tbd
     notes: Snapshot/export objects may exist; equivalence is unverified.
-  awesometree:
-    native_term: null
-    fidelity: tbd
-  mcp:
-    native_term: null
-    fidelity: none
-  goose:
-    native_term: null
-    fidelity: tbd
-  hermes:
-    native_term: null
-    fidelity: tbd
-  crush:
-    native_term: null
-    fidelity: tbd

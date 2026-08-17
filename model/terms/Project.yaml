@@ -104,23 +104,3 @@ mapping_hooks:
     native_term: Project
     fidelity: partial
     notes: Name alignment is likely; treat field-level equivalence as unverified.
-  awesometree:
-    native_term: null
-    fidelity: tbd
-    notes: No verified awesometree Project concept at the time of writing.
-  mcp:
-    native_term: null
-    fidelity: none
-    notes: MCP does not define a durable collaboration-and-policy Project.
-  goose:
-    native_term: null
-    fidelity: tbd
-    notes: Unverified whether Goose persists a Project distinct from conversation or session.
-  hermes:
-    native_term: null
-    fidelity: tbd
-    notes: Unverified.
-  crush:
-    native_term: null
-    fidelity: tbd
-    notes: Unverified.

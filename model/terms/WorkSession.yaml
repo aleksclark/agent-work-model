@@ -162,22 +162,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: tbd
-  awesometree:
-    native_term: null
-    fidelity: tbd
-  mcp:
-    native_term: null
-    fidelity: none
-    notes: MCP 2026-07-28 is stateless and has no protocol-level session. Explicit non-mapping.
-  goose:
-    native_term: session
-    fidelity: ambiguous
-    notes: Goose "session" often names host conversation or process state. Do not treat as WorkSession without a verified mapping.
-  hermes:
-    native_term: session
-    fidelity: ambiguous
-    notes: Unverified; host products commonly overload "session".
-  crush:
-    native_term: session
-    fidelity: ambiguous
-    notes: Unverified; Crush session is likely a host conversation, not a WorkSession.

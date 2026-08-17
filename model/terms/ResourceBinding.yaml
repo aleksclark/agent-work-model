@@ -101,22 +101,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: tbd
-  awesometree:
-    native_term: null
-    fidelity: tbd
-  mcp:
-    native_term: Root
-    fidelity: partial
-    notes: >-
-      MCP roots are deprecated in 2026-07-28 and were never WorkSession
-      grants. New implementations pass paths via tools, resource URIs, or
-      server configuration.
-  goose:
-    native_term: null
-    fidelity: tbd
-  hermes:
-    native_term: null
-    fidelity: tbd
-  crush:
-    native_term: null
-    fidelity: tbd

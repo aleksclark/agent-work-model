@@ -38,11 +38,6 @@ term_keys:
 
 systems:
   - project-interop
-  - awesometree
-  - mcp
-  - goose
-  - hermes
-  - crush
 
 # External authority roles. A term's authority.owner names exactly one of
 # these roles. The owner is never the term itself and never another entity.

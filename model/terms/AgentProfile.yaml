@@ -71,19 +71,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: tbd
-  awesometree:
-    native_term: null
-    fidelity: none
-  mcp:
-    native_term: null
-    fidelity: none
-  goose:
-    native_term: recipe
-    fidelity: ambiguous
-    notes: Goose recipes or extensions may overlap; do not treat as verified AgentProfile.
-  hermes:
-    native_term: null
-    fidelity: tbd
-  crush:
-    native_term: null
-    fidelity: tbd

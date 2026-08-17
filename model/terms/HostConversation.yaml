@@ -43,7 +43,7 @@ fields:
     kind: descriptive
     type: string
     portable_snapshot: true
-    notes: Name of the owning host (goose, hermes, crush, or other).
+    notes: Name of the owning host product.
 invariants:
   - level: MUST
     code: host-owned
@@ -78,22 +78,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: none
-  awesometree:
-    native_term: null
-    fidelity: none
-  mcp:
-    native_term: null
-    fidelity: none
-    notes: MCP is a tool protocol, not a host conversation store.
-  goose:
-    native_term: session
-    fidelity: partial
-    notes: Goose session/conversation is a likely HostConversation. Field-level mapping is unverified.
-  hermes:
-    native_term: session
-    fidelity: partial
-    notes: Hermes conversation history is a likely HostConversation. Unverified.
-  crush:
-    native_term: session
-    fidelity: partial
-    notes: Crush session/chat is a likely HostConversation. Unverified.

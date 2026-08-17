@@ -70,23 +70,3 @@ mapping_hooks:
   project-interop:
     native_term: null
     fidelity: tbd
-  awesometree:
-    native_term: worktree
-    fidelity: partial
-    notes: Awesometree worktrees look like Workspace resources; treat identity mapping as unverified.
-  mcp:
-    native_term: Root
-    fidelity: partial
-    notes: >-
-      Historical MCP roots could expose filesystem-like environments.
-      Roots are deprecated in 2026-07-28 and are not WorkSessions.
-  goose:
-    native_term: working directory
-    fidelity: tbd
-    notes: Goose working directories are a likely partial mapping, unverified.
-  hermes:
-    native_term: null
-    fidelity: tbd
-  crush:
-    native_term: null
-    fidelity: tbd

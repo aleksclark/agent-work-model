@@ -106,28 +106,11 @@ non_synonyms:
   - term: Principal
     reason: Identity for auth is Principal; the instance is infrastructure.
 examples:
-  - A local goose process that executes several RunAttempts and is then replaced.
+  - A local agent process that executes several RunAttempts and is then replaced.
   - A remote agent endpoint that picks up attempts for more than one AgentRun.
 anti_examples:
   - The logical assignment "review PR 42" (that is an AgentRun or Task).
 mapping_hooks:
   project-interop:
-    native_term: null
-    fidelity: tbd
-  awesometree:
-    native_term: null
-    fidelity: none
-  mcp:
-    native_term: Server
-    fidelity: ambiguous
-    notes: An MCP server process is infrastructure, not an AgentRun. Mapping is not verified.
-  goose:
-    native_term: goose process
-    fidelity: tbd
-    notes: A running Goose process is a likely AgentInstance. Unverified.
-  hermes:
-    native_term: null
-    fidelity: tbd
-  crush:
     native_term: null
     fidelity: tbd

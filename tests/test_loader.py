@@ -17,15 +17,9 @@ def test_canonical_load_order_follows_catalog() -> None:
 
 def test_canonical_systems_are_complete() -> None:
     model = load_model(REPO_ROOT / "model")
-    assert model.systems == [
-        "project-interop",
-        "awesometree",
-        "mcp",
-        "goose",
-        "hermes",
-        "crush",
-    ]
+    assert model.systems == ["project-interop"]
     assert set(model.mappings) == set(model.systems)
+    assert set(model.mappings) == {"project-interop"}
 
 
 def test_minimal_fixture_loads() -> None:
@@ -43,21 +37,12 @@ def test_canonical_authority_roles_are_loaded() -> None:
     assert "identity-provider" in role_ids
 
 
-def test_mcp_mapping_matches_2026_07_28() -> None:
+def test_project_interop_mapping_is_unverified_hook() -> None:
     model = load_model(REPO_ROOT / "model")
-    mapping = model.mappings["mcp"]
-    assert mapping["status"] == "reviewed"
-    assert mapping["verified_against"] == "https://modelcontextprotocol.io/specification/2026-07-28"
-    terms = mapping["terms"]
-    assert terms["WorkSession"]["native_term"] is None
-    assert terms["WorkSession"]["fidelity"] == "none"
-    assert terms["Task"]["native_term"] == "Task"
-    assert terms["Task"]["fidelity"] == "partial"
-    assert "connection" not in (terms["WorkSession"].get("notes") or "").lower()
-
-
-def test_awesometree_does_not_map_resource_to_entry() -> None:
-    model = load_model(REPO_ROOT / "model")
-    entry = model.mappings["awesometree"]["terms"]["Resource"]
-    assert entry["native_term"] is None
-    assert entry["fidelity"] == "tbd"
+    mapping = model.mappings["project-interop"]
+    assert mapping["system"] == "project-interop"
+    assert mapping["status"] == "draft"
+    assert mapping["verified_against"] is None
+    assert mapping["terms"]["Project"]["native_term"] == "Project"
+    assert mapping["terms"]["Project"]["fidelity"] == "partial"
+    assert mapping["terms"]["WorkSession"]["native_term"] is None

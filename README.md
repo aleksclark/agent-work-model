@@ -87,10 +87,11 @@ Semantic lint enforces, among other things:
 - credentials are not portable-snapshot fields
 - deterministic generated output
 
-Native mappings for `project-interop`, `awesometree`, `mcp`, `goose`,
-`hermes`, and `crush` are explicit about **exact**, **partial**,
-**ambiguous**, **tbd**, or **none**. Unverified implementation facts are
-not asserted.
+Native mapping hooks start with `project-interop` only. Each entry is
+explicit about **exact**, **partial**, **ambiguous**, **tbd**, or
+**none**. Unverified product crosswalks are not checked in; add a
+mapping document and catalog system entry only after a specific
+revision is reviewed.
 
 ## Develop
 
