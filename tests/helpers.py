@@ -25,9 +25,9 @@ def minimal_term(key: str, **overrides: Any) -> dict[str, Any]:
             "authorization": False,
         },
         "authority": {
-            "owner": key,
+            "owner": "fixture-catalog",
             "mutable": True,
-            "notes": "Fixture authority.",
+            "notes": "Fixture authority role, not the term itself.",
         },
         "mutability": "mutable",
         "relationships": [],

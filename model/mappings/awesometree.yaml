@@ -20,9 +20,8 @@ terms:
     native_term: null
     fidelity: tbd
   Resource:
-    native_term: entry
-    fidelity: partial
-    notes: Tree entries are independently addressable; identity mapping is unverified.
+    native_term: null
+    fidelity: tbd
   ResourceBinding:
     native_term: null
     fidelity: tbd

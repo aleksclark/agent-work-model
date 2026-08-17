@@ -1,0 +1,37 @@
+key: Parent
+status: accepted
+definition: Fixture parent used to prove parent and relationship declarations must agree.
+purpose: Pair with a drifting child.
+identity:
+  field: parent_id
+  kind: name
+  authorization: false
+authority:
+  owner: fixture-catalog
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships:
+  - name: children
+    target: Child
+    kind: contains
+    cardinality: 0..*
+    inverse: parent
+    inverse_cardinality: "1"
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint or schema.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: parent_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

@@ -30,11 +30,14 @@ rules:
   - id: one-mutable-authority
     level: MUST
     statement: >-
-      Each entity has exactly one mutable authority. Foreign entities are
-      referenced or observed, not duplicated as a second mutable truth.
+      Each entity names exactly one catalogued authority role as its
+      owner. Authority roles are external SYSTEM/ROLE boundaries, not the
+      term itself and not another entity. Foreign entities are referenced
+      or observed, not re-owned as a second mutable truth.
     enforcement: lint
     lint_codes:
       - MISSING_AUTHORITY
+      - UNKNOWN_AUTHORITY
       - FOREIGN_AUTHORITY
     applies_to:
       - authority
@@ -137,12 +140,15 @@ rules:
     level: MUST
     statement: >-
       Represented inverse relationships and cardinalities MUST agree on
-      both ends.
+      both ends. Every declared parent MUST also appear as a matching
+      child relationship to that parent, with the same target, inverse,
+      and cardinality.
     enforcement: lint
     lint_codes:
       - INVERSE_MISSING
       - INVERSE_CARDINALITY
       - INVERSE_TARGET
+      - PARENT_CARDINALITY
     applies_to:
       - relationships
       - parent
@@ -167,3 +173,16 @@ rules:
       - QUALIFIED_IDENTITY
     applies_to:
       - identity
+
+  - id: identity-in-fields
+    level: MUST
+    statement: >-
+      identity.field is the index of the term's handle. fields is the
+      exchange shape. The identity field MUST appear exactly once in
+      fields as an identity-kind entry with the same name.
+    enforcement: lint
+    lint_codes:
+      - IDENTITY_FIELD
+    applies_to:
+      - identity
+      - fields

@@ -5,7 +5,7 @@
   "title": "Agent Work Model Catalog",
   "type": "object",
   "additionalProperties": false,
-  "required": ["model", "load", "term_keys", "systems", "conventions"],
+  "required": ["model", "load", "term_keys", "systems", "authority_roles", "conventions"],
   "properties": {
     "model": {
       "type": "object",
@@ -66,6 +66,26 @@
       "items": {
         "type": "string",
         "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+      }
+    },
+    "authority_roles": {
+      "type": "array",
+      "minItems": 1,
+      "description": "External authority roles that terms may name. Role ids are not term keys and must not encode credentials or endpoints.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 8
+          }
+        }
       }
     },
     "conventions": {

@@ -12,9 +12,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: WorkProfile
+  owner: profile-catalog
   mutable: true
-  notes: The profile document is the sole mutable authority for the blueprint.
+  notes: The profile-catalog role is the sole mutable authority for the work blueprint.
 mutability: mutable
 relationships:
   - name: projects

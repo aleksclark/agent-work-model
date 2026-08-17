@@ -17,7 +17,7 @@ License: [Apache-2.0](LICENSE).
 
 | Path | Role |
 | --- | --- |
-| `model/catalog.yaml` | Model identity, accepted term keys, native systems, lint conventions |
+| `model/catalog.yaml` | Model identity, accepted term keys, native systems, authority roles, lint conventions |
 | `model/terms/*.yaml` | One accepted term per file |
 | `model/rules/*.yaml` | Architecture rules |
 | `model/mappings/*.yaml` | Native-system mapping hooks |
@@ -25,9 +25,15 @@ License: [Apache-2.0](LICENSE).
 | `generated/` | **Generated** glossary, reference, and normalized JSON |
 
 Each term records a stable key, status, definition, purpose, identity
-field, authority, mutability, parent and relationships, lifecycle,
+field, authority role, mutability, parent and relationships, lifecycle,
 MUST / MUST NOT / SHOULD invariants, aliases, non-synonyms, examples,
 anti-examples, and native-system mapping hooks.
+
+`authority.owner` names exactly one catalogued authority role from
+`catalog.authority_roles`. The owner is an external SYSTEM/ROLE, not
+the term itself and not another entity. Roles do not encode credentials
+or endpoints. `identity` is the index of the term's handle; `fields` is
+the exchange shape and MUST contain exactly one matching identity entry.
 
 Unqualified `session`, `agent`, and `context` are prohibited as
 normative field names. Compatibility spellings belong only in documented
@@ -69,11 +75,12 @@ Semantic lint enforces, among other things:
 
 - unique keys and accepted aliases
 - valid term references
-- inverse / cardinality consistency
+- inverse / cardinality consistency, including every declared parent
 - lifecycle transitions that cite declared states
 - qualified identity field names
+- identity field present exactly once in `fields`
 - no unqualified `session` / `agent` / `context` fields
-- one mutable authority per entity
+- one catalogued authority role per entity
 - immutable `ProjectSnapshot`
 - no runtime state on Project / ProjectSnapshot
 - AgentRun has exactly one WorkSession parent

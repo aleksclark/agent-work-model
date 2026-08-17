@@ -12,9 +12,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: ResourceBinding
+  owner: work-session-coordinator
   mutable: true
-  notes: The binding is the sole mutable authority for this session's grant, not for the Resource.
+  notes: The work-session-coordinator role is the sole mutable authority for this session grant, not for the Resource.
 mutability: mutable
 parent:
   term: WorkSession
@@ -107,7 +107,10 @@ mapping_hooks:
   mcp:
     native_term: Root
     fidelity: partial
-    notes: MCP roots or resource subscriptions are related but are not session grants.
+    notes: >-
+      MCP roots are deprecated in 2026-07-28 and were never WorkSession
+      grants. New implementations pass paths via tools, resource URIs, or
+      server configuration.
   goose:
     native_term: null
     fidelity: tbd

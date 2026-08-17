@@ -12,9 +12,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: RunAttempt
+  owner: agent-executor
   mutable: true
-  notes: The attempt record is the authority for this execution try.
+  notes: The agent-executor role is the authority for this execution try.
 mutability: ephemeral
 parent:
   term: AgentRun

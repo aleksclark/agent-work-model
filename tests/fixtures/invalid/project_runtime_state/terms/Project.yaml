@@ -7,7 +7,7 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Project
+  owner: fixture-catalog
   mutable: true
   notes: Fixture authority.
 mutability: mutable

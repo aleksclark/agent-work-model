@@ -12,9 +12,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: AgentRun
+  owner: work-session-coordinator
   mutable: true
-  notes: The AgentRun record is the sole mutable authority for the assignment.
+  notes: The work-session-coordinator role is the sole mutable authority for the assignment.
 mutability: mutable
 parent:
   term: WorkSession
@@ -157,7 +157,7 @@ mapping_hooks:
   mcp:
     native_term: null
     fidelity: none
-    notes: MCP has no AgentRun. An MCP session is a connection.
+    notes: MCP has no AgentRun. MCP 2026-07-28 has no protocol-level session.
   goose:
     native_term: session
     fidelity: ambiguous

@@ -10,7 +10,7 @@ glossary.
 
 | Path | Role |
 | --- | --- |
-| `catalog.yaml` | Model identity, load order, accepted term keys, native systems, lint conventions |
+| `catalog.yaml` | Model identity, load order, accepted term keys, native systems, authority roles, lint conventions |
 | `terms/*.yaml` | One accepted term per file |
 | `rules/*.yaml` | Architecture rules consumed by lint and future prose |
 | `mappings/*.yaml` | Native-system mapping hooks (exact / partial / ambiguous / tbd / none) |

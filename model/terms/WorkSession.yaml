@@ -13,9 +13,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: WorkSession
+  owner: work-session-coordinator
   mutable: true
-  notes: The WorkSession record is the sole mutable authority for the episode graph.
+  notes: The work-session-coordinator role is the sole mutable authority for the episode graph.
 mutability: mutable
 relationships:
   - name: project_snapshot
@@ -148,13 +148,15 @@ non_synonyms:
   - term: Workspace
     reason: A workspace is a bound environment, not the coordinating episode.
   - term: MCP session
-    reason: MCP connections are transports, not work episodes.
+    reason: >-
+      MCP 2026-07-28 has no protocol-level session; historical transport
+      identifiers are not work episodes.
 examples:
   - A time-bounded incident response that several agents and a human join.
   - A multi-hour implementation episode pinning one ProjectSnapshot.
 anti_examples:
   - A Crush or Goose chat thread taken as the work itself.
-  - An MCP stdio or HTTP session.
+  - An MCP transport connection or a historical Mcp-Session-Id.
   - A durable Project.
 mapping_hooks:
   project-interop:
@@ -164,9 +166,9 @@ mapping_hooks:
     native_term: null
     fidelity: tbd
   mcp:
-    native_term: session
+    native_term: null
     fidelity: none
-    notes: MCP session means a protocol connection. Documented as a non-mapping.
+    notes: MCP 2026-07-28 is stateless and has no protocol-level session. Explicit non-mapping.
   goose:
     native_term: session
     fidelity: ambiguous

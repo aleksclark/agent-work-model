@@ -1,0 +1,30 @@
+key: Widget
+status: accepted
+definition: Fixture term that omits its authority owner.
+purpose: Prove missing authority is rejected.
+identity:
+  field: widget_id
+  kind: name
+  authorization: false
+authority:
+  mutable: true
+  notes: Fixture authority missing its owner on purpose.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint or schema.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: widget_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

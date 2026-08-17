@@ -11,9 +11,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Task
+  owner: work-session-coordinator
   mutable: true
-  notes: The task record is the authority for this graph node.
+  notes: The work-session-coordinator role is the authority for this task graph node.
 mutability: mutable
 parent:
   term: WorkSession
@@ -132,8 +132,12 @@ mapping_hooks:
     native_term: null
     fidelity: tbd
   mcp:
-    native_term: null
-    fidelity: none
+    native_term: Task
+    fidelity: partial
+    notes: >-
+      MCP Tasks (io.modelcontextprotocol/tasks) track long-running tool
+      invocations. An AWM Task is a WorkSession graph node, not that
+      protocol object.
   goose:
     native_term: null
     fidelity: tbd

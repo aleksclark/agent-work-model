@@ -44,6 +44,11 @@ def test_agentrun_requires_exact_worksession_parent() -> None:
     assert "PARENT_CARDINALITY" in codes
 
 
+def test_parent_relationship_drift_is_rejected() -> None:
+    codes = _codes(fixture_dir("invalid", "parent_relationship_drift"))
+    assert "PARENT_CARDINALITY" in codes
+
+
 def test_mutable_project_snapshot_is_rejected() -> None:
     codes = _codes(fixture_dir("invalid", "mutable_snapshot"))
     assert "IMMUTABLE_VIOLATION" in codes
@@ -52,6 +57,21 @@ def test_mutable_project_snapshot_is_rejected() -> None:
 def test_project_runtime_state_is_rejected() -> None:
     codes = _codes(fixture_dir("invalid", "project_runtime_state"))
     assert "RUNTIME_STATE" in codes
+
+
+def test_missing_authority_fixture_is_rejected() -> None:
+    codes = _codes(fixture_dir("invalid", "missing_authority"))
+    assert "MISSING_AUTHORITY" in codes
+
+
+def test_unknown_authority_role_is_rejected() -> None:
+    codes = _codes(fixture_dir("invalid", "unknown_authority"))
+    assert "UNKNOWN_AUTHORITY" in codes
+
+
+def test_identity_field_drift_is_rejected() -> None:
+    codes = _codes(fixture_dir("invalid", "identity_field_drift"))
+    assert "IDENTITY_FIELD" in codes
 
 
 def test_lint_issues_are_deterministically_ordered() -> None:
@@ -74,3 +94,28 @@ def test_missing_authority_is_rejected() -> None:
     model.terms["Widget"]["authority"] = {}
     codes = {issue.code for issue in lint_model(model).issues if issue.level == "error"}
     assert "MISSING_AUTHORITY" in codes
+
+
+def test_self_named_authority_is_foreign() -> None:
+    model = load_model(fixture_dir("valid", "minimal"))
+    model.terms["Widget"]["authority"]["owner"] = "Widget"
+    codes = {issue.code for issue in lint_model(model).issues if issue.level == "error"}
+    assert "FOREIGN_AUTHORITY" in codes
+
+
+def test_identity_field_must_appear_in_fields() -> None:
+    model = load_model(fixture_dir("valid", "minimal"))
+    model.terms["Widget"]["fields"] = [
+        {"name": "display_name", "kind": "descriptive", "type": "string", "portable_snapshot": True}
+    ]
+    codes = {issue.code for issue in lint_model(model).issues if issue.level == "error"}
+    assert "IDENTITY_FIELD" in codes
+
+
+def test_canonical_authority_owners_are_roles_not_terms() -> None:
+    model = load_model(REPO_ROOT / "model")
+    role_ids = {item["id"] for item in model.catalog["authority_roles"]}
+    for term in model.terms.values():
+        owner = term["authority"]["owner"]
+        assert owner in role_ids
+        assert owner not in model.terms

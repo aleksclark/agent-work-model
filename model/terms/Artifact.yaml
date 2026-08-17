@@ -11,9 +11,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Artifact
+  owner: artifact-publisher
   mutable: true
-  notes: The artifact record is the authority for publication metadata, not for private reasoning.
+  notes: The artifact-publisher role is the authority for publication metadata, not for private reasoning.
 mutability: mutable
 relationships:
   - name: work_session

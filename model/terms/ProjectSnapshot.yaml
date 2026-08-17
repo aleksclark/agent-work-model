@@ -11,9 +11,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: ProjectSnapshot
+  owner: project-catalog
   mutable: false
-  notes: Snapshots are append-only. Corrections produce a new snapshot, never an edit.
+  notes: The project-catalog role publishes snapshots as append-only. Corrections produce a new snapshot, never an edit.
 mutability: immutable
 parent:
   term: Project

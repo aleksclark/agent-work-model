@@ -1,4 +1,46 @@
 {
+  "authority_roles": [
+    {
+      "description": "Durable project-definition catalog. Owns Project and ProjectSnapshot records and their published policy snapshots.",
+      "id": "project-catalog"
+    },
+    {
+      "description": "Profile-definition catalog. Owns WorkProfile and AgentProfile blueprints independently of any live run.",
+      "id": "profile-catalog"
+    },
+    {
+      "description": "Native owner of an independently addressable Resource. Project and session records only reference or bind it.",
+      "id": "native-resource-provider"
+    },
+    {
+      "description": "Workspace host or runtime that materializes a working environment.",
+      "id": "workspace-provider"
+    },
+    {
+      "description": "Runtime coordinator for a WorkSession and the bindings, tasks, and artifacts that exist only inside that episode.",
+      "id": "work-session-coordinator"
+    },
+    {
+      "description": "Supervisor that owns AgentInstance liveness for a process or endpoint.",
+      "id": "agent-runtime"
+    },
+    {
+      "description": "Host executor that records RunAttempts and Turns for an assigned run.",
+      "id": "agent-executor"
+    },
+    {
+      "description": "Host product that owns HostConversation history. Distinct from work coordination and from protocol connections.",
+      "id": "host-product"
+    },
+    {
+      "description": "Publishing authority for an Artifact's publication metadata.",
+      "id": "artifact-publisher"
+    },
+    {
+      "description": "Issuer of Principal names. Does not confer authorization by itself.",
+      "id": "identity-provider"
+    }
+  ],
   "generated_notice": "This file is generated from model/. Do not edit by hand.",
   "mappings": [
     {
@@ -120,9 +162,8 @@
           "native_term": null
         },
         "Resource": {
-          "fidelity": "partial",
-          "native_term": "entry",
-          "notes": "Tree entries are independently addressable; identity mapping is unverified."
+          "fidelity": "tbd",
+          "native_term": null
         },
         "ResourceBinding": {
           "fidelity": "tbd",
@@ -159,20 +200,25 @@
     {
       "compatibility_field_mappings": [
         {
-          "awm_field": "(none; MCP session is a connection)",
+          "awm_field": "(none)",
           "native_field": "session",
-          "notes": "Documented compatibility note only. Do not put session on AWM terms."
+          "notes": "MCP 2026-07-28 has no protocol-level session. Historical \"session\" spellings MUST NOT be imported onto AWM terms."
+        },
+        {
+          "awm_field": "(none)",
+          "native_field": "Mcp-Session-Id",
+          "notes": "MCP 2026-07-28 removed Mcp-Session-Id. Historical identifiers MUST NOT be imported as unqualified session_id fields on AWM terms."
         },
         {
           "awm_field": "(none)",
           "native_field": "session_id",
-          "notes": "MCP session identifiers MUST NOT be imported as unqualified session_id fields on AWM terms."
+          "notes": "There is no current MCP session identifier. Do not keep session_id on an AWM term."
         }
       ],
-      "description": "Mapping hook for the Model Context Protocol. MCP defines tools, resources, roots, and protocol connections. It does not define Agent Work Model work episodes. MCP \"session\" is a connection, not a WorkSession.",
+      "description": "Mapping hook for the Model Context Protocol specification dated 2026-07-28. MCP is a stateless tool-and-resource protocol. It does not define Agent Work Model work episodes, protocol-level sessions, or a durable Project.",
       "fidelity_overview": "partial",
-      "notes": "This mapping records known non-equivalences so implementations do not collapse MCP transport identity onto work identity. It is not a claim about any particular MCP SDK revision.",
-      "status": "draft",
+      "notes": "Reviewed against https://modelcontextprotocol.io/specification/2026-07-28, https://modelcontextprotocol.io/specification/2026-07-28/changelog, https://modelcontextprotocol.io/specification/2026-07-28/deprecated, and https://modelcontextprotocol.io/extensions/tasks/overview. MCP removed protocol-level sessions and the Mcp-Session-Id header; the protocol is stateless. Roots are deprecated; new implementations pass directories and files via tool parameters, resource URIs, or server configuration. The optional Tasks extension io.modelcontextprotocol/tasks is a protocol-level long-running invocation, not an AWM WorkSession Task graph node. This document records those distinctions so implementations do not collapse MCP protocol objects onto work identity.",
+      "status": "reviewed",
       "system": "mcp",
       "terms": {
         "AgentInstance": {
@@ -186,7 +232,8 @@
         },
         "AgentRun": {
           "fidelity": "none",
-          "native_term": null
+          "native_term": null,
+          "notes": "MCP has no AgentRun. There is no protocol-level MCP session to confuse with one."
         },
         "Artifact": {
           "fidelity": "ambiguous",
@@ -219,15 +266,16 @@
         "ResourceBinding": {
           "fidelity": "partial",
           "native_term": "Root",
-          "notes": "Roots and subscriptions resemble grants. They are not WorkSession bindings."
+          "notes": "MCP roots are deprecated in 2026-07-28. Historical roots resembled grants; they are not WorkSession bindings. New implementations pass directories and files via tool parameters, resource URIs, or server configuration."
         },
         "RunAttempt": {
           "fidelity": "none",
           "native_term": null
         },
         "Task": {
-          "fidelity": "none",
-          "native_term": null
+          "fidelity": "partial",
+          "native_term": "Task",
+          "notes": "MCP's optional Tasks extension (io.modelcontextprotocol/tasks) can track a long-running tool invocation. An AWM Task is a WorkSession graph node with session-owned lifecycle, dependencies, and artifacts. Related at the word \"task\" only; not a WorkSession Task."
         },
         "Turn": {
           "fidelity": "none",
@@ -239,16 +287,16 @@
         },
         "WorkSession": {
           "fidelity": "none",
-          "native_term": "session",
-          "notes": "MCP session is a protocol connection. Explicit non-mapping."
+          "native_term": null,
+          "notes": "MCP 2026-07-28 is stateless and has no protocol-level session. Explicit non-mapping."
         },
         "Workspace": {
           "fidelity": "partial",
           "native_term": "Root",
-          "notes": "A root can expose a filesystem-like environment."
+          "notes": "A historical MCP root could expose a filesystem-like environment. Roots are deprecated; they are not WorkSessions."
         }
       },
-      "verified_against": null
+      "verified_against": "https://modelcontextprotocol.io/specification/2026-07-28"
     },
     {
       "compatibility_field_mappings": [
@@ -564,9 +612,10 @@
           "level": "MUST",
           "lint_codes": [
             "MISSING_AUTHORITY",
+            "UNKNOWN_AUTHORITY",
             "FOREIGN_AUTHORITY"
           ],
-          "statement": "Each entity has exactly one mutable authority. Foreign entities are referenced or observed, not duplicated as a second mutable truth."
+          "statement": "Each entity names exactly one catalogued authority role as its owner. Authority roles are external SYSTEM/ROLE boundaries, not the term itself and not another entity. Foreign entities are referenced or observed, not re-owned as a second mutable truth."
         },
         {
           "applies_to": [
@@ -680,9 +729,10 @@
           "lint_codes": [
             "INVERSE_MISSING",
             "INVERSE_CARDINALITY",
-            "INVERSE_TARGET"
+            "INVERSE_TARGET",
+            "PARENT_CARDINALITY"
           ],
-          "statement": "Represented inverse relationships and cardinalities MUST agree on both ends."
+          "statement": "Represented inverse relationships and cardinalities MUST agree on both ends. Every declared parent MUST also appear as a matching child relationship to that parent, with the same target, inverse, and cardinality."
         },
         {
           "applies_to": [
@@ -707,6 +757,19 @@
             "QUALIFIED_IDENTITY"
           ],
           "statement": "Identity field names MUST be qualified snake_case names ending in _id, never a bare session, agent, or context token."
+        },
+        {
+          "applies_to": [
+            "identity",
+            "fields"
+          ],
+          "enforcement": "lint",
+          "id": "identity-in-fields",
+          "level": "MUST",
+          "lint_codes": [
+            "IDENTITY_FIELD"
+          ],
+          "statement": "identity.field is the index of the term's handle. fields is the exchange shape. The identity field MUST appear exactly once in fields as an identity-kind entry with the same name."
         }
       ],
       "title": "Architecture rules"
@@ -725,8 +788,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The Project record is the sole mutable authority for project policy and membership.",
-        "owner": "Project"
+        "notes": "The project-catalog role is the sole mutable authority for project policy and membership.",
+        "owner": "project-catalog"
       },
       "definition": "A durable named collaboration and policy scope. A Project outlives any single workspace, host conversation, or WorkSession and is the unit that people and systems recognize as \"the work we keep doing together.\"",
       "deprecated_aliases": [],
@@ -898,8 +961,8 @@
       ],
       "authority": {
         "mutable": false,
-        "notes": "Snapshots are append-only. Corrections produce a new snapshot, never an edit.",
-        "owner": "ProjectSnapshot"
+        "notes": "The project-catalog role publishes snapshots as append-only. Corrections produce a new snapshot, never an edit.",
+        "owner": "project-catalog"
       },
       "definition": "An immutable resolved project definition at an exact revision. It is the pinned meaning of a Project that a WorkSession actually ran against.",
       "deprecated_aliases": [],
@@ -1042,8 +1105,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The profile document is the sole mutable authority for the blueprint.",
-        "owner": "WorkProfile"
+        "notes": "The profile-catalog role is the sole mutable authority for the work blueprint.",
+        "owner": "profile-catalog"
       },
       "definition": "A reusable blueprint for a kind of WorkSession. It describes intended participants, resource shapes, and task patterns without being a live episode of work.",
       "deprecated_aliases": [],
@@ -1162,8 +1225,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The Resource's native authority remains authoritative. Project and session records only reference or bind it.",
-        "owner": "Resource"
+        "notes": "The native-resource-provider role remains authoritative. Project and session records only reference or bind the Resource.",
+        "owner": "native-resource-provider"
       },
       "definition": "An independently addressable thing relevant to work. A Resource is not necessarily owned by a Project; projects and sessions observe or bind it.",
       "deprecated_aliases": [],
@@ -1224,9 +1287,8 @@
       "key": "Resource",
       "mapping_hooks": {
         "awesometree": {
-          "fidelity": "partial",
-          "native_term": "entry",
-          "notes": "Tree entries may correspond to resources; do not assume identity equivalence."
+          "fidelity": "tbd",
+          "native_term": null
         },
         "crush": {
           "fidelity": "tbd",
@@ -1304,8 +1366,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The binding is the sole mutable authority for this session's grant, not for the Resource.",
-        "owner": "ResourceBinding"
+        "notes": "The work-session-coordinator role is the sole mutable authority for this session grant, not for the Resource.",
+        "owner": "work-session-coordinator"
       },
       "definition": "A WorkSession-specific resolution and grant for a Resource. The binding records how this session names, locates, and is allowed to use the Resource without becoming a second owner of it.",
       "deprecated_aliases": [],
@@ -1419,7 +1481,7 @@
         "mcp": {
           "fidelity": "partial",
           "native_term": "Root",
-          "notes": "MCP roots or resource subscriptions are related but are not session grants."
+          "notes": "MCP roots are deprecated in 2026-07-28 and were never WorkSession grants. New implementations pass paths via tools, resource URIs, or server configuration."
         },
         "project-interop": {
           "fidelity": "tbd",
@@ -1474,8 +1536,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The environment's host is the mutable authority for the Workspace resource.",
-        "owner": "Workspace"
+        "notes": "The workspace-provider role is the mutable authority for the Workspace environment.",
+        "owner": "workspace-provider"
       },
       "definition": "A Resource subtype that provides a material working environment (files, checkout, container, or equivalent). A Workspace is not a WorkSession.",
       "deprecated_aliases": [],
@@ -1548,7 +1610,7 @@
         "mcp": {
           "fidelity": "partial",
           "native_term": "Root",
-          "notes": "MCP roots expose filesystem-like environments; they are not WorkSessions."
+          "notes": "Historical MCP roots could expose filesystem-like environments. Roots are deprecated in 2026-07-28 and are not WorkSessions."
         },
         "project-interop": {
           "fidelity": "tbd",
@@ -1596,13 +1658,13 @@
       ],
       "anti_examples": [
         "A Crush or Goose chat thread taken as the work itself.",
-        "An MCP stdio or HTTP session.",
+        "An MCP transport connection or a historical Mcp-Session-Id.",
         "A durable Project."
       ],
       "authority": {
         "mutable": true,
-        "notes": "The WorkSession record is the sole mutable authority for the episode graph.",
-        "owner": "WorkSession"
+        "notes": "The work-session-coordinator role is the sole mutable authority for the episode graph.",
+        "owner": "work-session-coordinator"
       },
       "definition": "A bounded episode of work that coordinates resources and participants. A WorkSession may contain many AgentRuns and ResourceBindings. It is never an MCP connection and never a host chat transcript.",
       "deprecated_aliases": [
@@ -1753,8 +1815,8 @@
         },
         "mcp": {
           "fidelity": "none",
-          "native_term": "session",
-          "notes": "MCP session means a protocol connection. Documented as a non-mapping."
+          "native_term": null,
+          "notes": "MCP 2026-07-28 is stateless and has no protocol-level session. Explicit non-mapping."
         },
         "project-interop": {
           "fidelity": "tbd",
@@ -1776,7 +1838,7 @@
           "term": "Workspace"
         },
         {
-          "reason": "MCP connections are transports, not work episodes.",
+          "reason": "MCP 2026-07-28 has no protocol-level session; historical transport identifiers are not work episodes.",
           "term": "MCP session"
         }
       ],
@@ -1859,8 +1921,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The profile document is the sole mutable authority for the kind.",
-        "owner": "AgentProfile"
+        "notes": "The profile-catalog role is the sole mutable authority for the agent kind.",
+        "owner": "profile-catalog"
       },
       "definition": "A declarative description of an eligible kind of agent. It names capabilities, constraints, and intended roles without identifying a running process.",
       "deprecated_aliases": [],
@@ -1983,8 +2045,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The instance record is the authority for liveness of this process or endpoint.",
-        "owner": "AgentInstance"
+        "notes": "The agent-runtime role is the authority for liveness of this process or endpoint.",
+        "owner": "agent-runtime"
       },
       "definition": "A running process or remote endpoint capable of executing RunAttempts. An AgentInstance is not an assignment and is not a Principal.",
       "deprecated_aliases": [],
@@ -2181,8 +2243,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The AgentRun record is the sole mutable authority for the assignment.",
-        "owner": "AgentRun"
+        "notes": "The work-session-coordinator role is the sole mutable authority for the assignment.",
+        "owner": "work-session-coordinator"
       },
       "definition": "One agent's bounded assignment within exactly one WorkSession. An AgentRun may contain Turns and RunAttempts. This is the accepted term that replaces the ambiguous phrase \"agent session\".",
       "deprecated_aliases": [
@@ -2328,7 +2390,7 @@
         "mcp": {
           "fidelity": "none",
           "native_term": null,
-          "notes": "MCP has no AgentRun. An MCP session is a connection."
+          "notes": "MCP has no AgentRun. MCP 2026-07-28 has no protocol-level session."
         },
         "project-interop": {
           "fidelity": "tbd",
@@ -2431,8 +2493,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The attempt record is the authority for this execution try.",
-        "owner": "RunAttempt"
+        "notes": "The agent-executor role is the authority for this execution try.",
+        "owner": "agent-executor"
       },
       "definition": "One infrastructure execution attempt for an AgentRun. Failures, retries, and instance replacements produce new RunAttempts under the same AgentRun.",
       "deprecated_aliases": [],
@@ -2606,8 +2668,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The turn record is the authority for this cycle.",
-        "owner": "Turn"
+        "notes": "The agent-executor role is the authority for this cycle.",
+        "owner": "agent-executor"
       },
       "definition": "One input-to-output or control-yield cycle inside an AgentRun. A Turn is smaller than a RunAttempt and is not a HostConversation.",
       "deprecated_aliases": [],
@@ -2767,8 +2829,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The host product is the mutable authority for this conversation history.",
-        "owner": "HostConversation"
+        "notes": "The host-product role is the mutable authority for this conversation history.",
+        "owner": "host-product"
       },
       "definition": "Conversation history owned by a host product such as Goose, Hermes, or Crush. A HostConversation may attach to a WorkSession but is not the WorkSession.",
       "deprecated_aliases": [
@@ -2902,8 +2964,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The task record is the authority for this graph node.",
-        "owner": "Task"
+        "notes": "The work-session-coordinator role is the authority for this task graph node.",
+        "owner": "work-session-coordinator"
       },
       "definition": "A schedulable unit in a WorkSession task graph. A Task is not necessarily one-to-one with an AgentRun.",
       "deprecated_aliases": [],
@@ -3033,8 +3095,9 @@
           "native_term": null
         },
         "mcp": {
-          "fidelity": "none",
-          "native_term": null
+          "fidelity": "partial",
+          "native_term": "Task",
+          "notes": "MCP Tasks (io.modelcontextprotocol/tasks) track long-running tool invocations. An AWM Task is a WorkSession graph node, not that protocol object."
         },
         "project-interop": {
           "fidelity": "tbd",
@@ -3117,8 +3180,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The artifact record is the authority for publication metadata, not for private reasoning.",
-        "owner": "Artifact"
+        "notes": "The artifact-publisher role is the authority for publication metadata, not for private reasoning.",
+        "owner": "artifact-publisher"
       },
       "definition": "A durable explicit output published by a Task or AgentRun. An Artifact is not private reasoning, scratch, or an unpublished tool side effect.",
       "deprecated_aliases": [],
@@ -3256,8 +3319,8 @@
       ],
       "authority": {
         "mutable": true,
-        "notes": "The identity provider or issuer is the authority for the Principal.",
-        "owner": "Principal"
+        "notes": "The identity-provider role is the authority for the Principal name. It does not confer authorization.",
+        "owner": "identity-provider"
       },
       "definition": "An authenticated human, service, or agent identity. A Principal is not an AgentInstance and is not an assignment.",
       "deprecated_aliases": [],

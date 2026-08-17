@@ -58,6 +58,8 @@ def render_glossary(model: Model) -> str:
         "",
         "This glossary is generated from the machine-readable source. Edit the YAML, then run `awm generate`.",
         "",
+        "Each term names exactly one catalogued authority role. The owner is an external SYSTEM/ROLE, not the term itself.",
+        "",
         "## Terms",
         "",
         "| Key | Identity | Status | Definition |",
@@ -85,7 +87,7 @@ def _render_term_section(term: dict[str, Any], heading: str = "##") -> list[str]
         "",
         f"**Status:** {term.get('status', '')}  ",
         f"**Identity:** `{identity.get('field', '')}` ({identity.get('kind', 'name')}, not authorization)  ",
-        f"**Authority:** {authority.get('owner', '')}  ",
+        f"**Authority role:** `{authority.get('owner', '')}`  ",
         f"**Mutability:** {term.get('mutability', '')}  ",
     ]
     parent = term.get("parent")
@@ -195,9 +197,22 @@ def render_reference(model: Model) -> str:
         "",
         "Architecture rules and native-system mappings generated from the canonical source.",
         "",
-        "## Architecture rules",
+        "## Authority roles",
         "",
+        "External SYSTEM/ROLE boundaries. A term's `authority.owner` names exactly one of these roles. Roles are not entities and do not encode credentials or endpoints.",
+        "",
+        "| Role | Description |",
+        "| --- | --- |",
     ]
+    for role in model.catalog.get("authority_roles") or []:
+        lines.append(f"| `{role.get('id', '')}` | {_md_escape(role.get('description') or '')} |")
+    lines.extend(
+        [
+            "",
+            "## Architecture rules",
+            "",
+        ]
+    )
     for document in model.rules:
         title = document.get("title") or document.get("id") or "rules"
         lines.extend([f"### {title}", ""])

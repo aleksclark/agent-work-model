@@ -1,0 +1,31 @@
+key: Widget
+status: accepted
+definition: Fixture term that names an unknown authority role.
+purpose: Prove unknown authority roles are rejected.
+identity:
+  field: widget_id
+  kind: name
+  authorization: false
+authority:
+  owner: not-a-catalogued-role
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint or schema.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: widget_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

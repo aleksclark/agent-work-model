@@ -11,11 +11,11 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Resource
+  owner: native-resource-provider
   mutable: true
   notes: >-
-    The Resource's native authority remains authoritative. Project and
-    session records only reference or bind it.
+    The native-resource-provider role remains authoritative. Project and
+    session records only reference or bind the Resource.
 mutability: mutable
 relationships:
   - name: observed_by_projects
@@ -87,9 +87,8 @@ mapping_hooks:
     native_term: null
     fidelity: tbd
   awesometree:
-    native_term: entry
-    fidelity: partial
-    notes: Tree entries may correspond to resources; do not assume identity equivalence.
+    native_term: null
+    fidelity: tbd
   mcp:
     native_term: Resource
     fidelity: partial

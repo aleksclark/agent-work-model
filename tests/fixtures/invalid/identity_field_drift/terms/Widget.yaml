@@ -1,0 +1,31 @@
+key: Widget
+status: accepted
+definition: Fixture term whose identity field is not mirrored in fields.
+purpose: Prove identity.field must appear exactly once in fields as kind identity.
+identity:
+  field: widget_id
+  kind: name
+  authorization: false
+authority:
+  owner: fixture-catalog
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: widget_id
+    kind: descriptive
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

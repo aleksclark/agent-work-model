@@ -13,6 +13,9 @@ term_keys:
   - WorkSession
 systems:
   - fixture
+authority_roles:
+  - id: fixture-catalog
+    description: Fixture authority role used only by tests.
 conventions:
   identity_field_pattern: '^[a-z]+(_[a-z0-9]+)*_id$'
   prohibited_unqualified_fields:

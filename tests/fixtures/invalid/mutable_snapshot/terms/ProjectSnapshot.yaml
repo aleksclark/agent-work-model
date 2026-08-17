@@ -7,7 +7,7 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: ProjectSnapshot
+  owner: fixture-catalog
   mutable: true
   notes: Illegal mutable authority for an immutable snapshot.
 mutability: mutable

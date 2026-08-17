@@ -11,9 +11,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: AgentInstance
+  owner: agent-runtime
   mutable: true
-  notes: The instance record is the authority for liveness of this process or endpoint.
+  notes: The agent-runtime role is the authority for liveness of this process or endpoint.
 mutability: ephemeral
 relationships:
   - name: profile

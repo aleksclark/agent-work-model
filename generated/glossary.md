@@ -11,6 +11,8 @@ Protocol-neutral semantic interoperability model for agent work. The machine-rea
 
 This glossary is generated from the machine-readable source. Edit the YAML, then run `awm generate`.
 
+Each term names exactly one catalogued authority role. The owner is an external SYSTEM/ROLE, not the term itself.
+
 ## Terms
 
 | Key | Identity | Status | Definition |
@@ -36,7 +38,7 @@ This glossary is generated from the machine-readable source. Edit the YAML, then
 
 **Status:** accepted  
 **Identity:** `project_id` (name, not authorization)  
-**Authority:** Project  
+**Authority role:** `project-catalog`  
 **Mutability:** mutable  
 
 A durable named collaboration and policy scope. A Project outlives any single workspace, host conversation, or WorkSession and is the unit that people and systems recognize as "the work we keep doing together."
@@ -110,7 +112,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `project_snapshot_id` (name, not authorization)  
-**Authority:** ProjectSnapshot  
+**Authority role:** `project-catalog`  
 **Mutability:** immutable  
 **Parent:** Project `1` via `snapshots`
 
@@ -169,7 +171,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `work_profile_id` (name, not authorization)  
-**Authority:** WorkProfile  
+**Authority role:** `profile-catalog`  
 **Mutability:** mutable  
 
 A reusable blueprint for a kind of WorkSession. It describes intended participants, resource shapes, and task patterns without being a live episode of work.
@@ -224,7 +226,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `resource_id` (name, not authorization)  
-**Authority:** Resource  
+**Authority role:** `native-resource-provider`  
 **Mutability:** mutable  
 
 An independently addressable thing relevant to work. A Resource is not necessarily owned by a Project; projects and sessions observe or bind it.
@@ -274,7 +276,7 @@ _None._
 
 | System | Native term | Fidelity | Notes |
 | --- | --- | --- | --- |
-| `awesometree` | `entry` | partial | Tree entries may correspond to resources; do not assume identity equivalence. |
+| `awesometree` | _none_ | tbd |  |
 | `crush` | _none_ | tbd |  |
 | `goose` | _none_ | tbd |  |
 | `hermes` | _none_ | tbd |  |
@@ -285,7 +287,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `resource_binding_id` (name, not authorization)  
-**Authority:** ResourceBinding  
+**Authority role:** `work-session-coordinator`  
 **Mutability:** mutable  
 **Parent:** WorkSession `1` via `resource_bindings`
 
@@ -348,14 +350,14 @@ _None._
 | `crush` | _none_ | tbd |  |
 | `goose` | _none_ | tbd |  |
 | `hermes` | _none_ | tbd |  |
-| `mcp` | `Root` | partial | MCP roots or resource subscriptions are related but are not session grants. |
+| `mcp` | `Root` | partial | MCP roots are deprecated in 2026-07-28 and were never WorkSession grants. New implementations pass paths via tools, resource URIs, or server configuration. |
 | `project-interop` | _none_ | tbd |  |
 
 ## Workspace
 
 **Status:** accepted  
 **Identity:** `workspace_id` (name, not authorization)  
-**Authority:** Workspace  
+**Authority role:** `workspace-provider`  
 **Mutability:** mutable  
 
 A Resource subtype that provides a material working environment (files, checkout, container, or equivalent). A Workspace is not a WorkSession.
@@ -407,14 +409,14 @@ _None._
 | `crush` | _none_ | tbd |  |
 | `goose` | `working directory` | tbd | Goose working directories are a likely partial mapping, unverified. |
 | `hermes` | _none_ | tbd |  |
-| `mcp` | `Root` | partial | MCP roots expose filesystem-like environments; they are not WorkSessions. |
+| `mcp` | `Root` | partial | Historical MCP roots could expose filesystem-like environments. Roots are deprecated in 2026-07-28 and are not WorkSessions. |
 | `project-interop` | _none_ | tbd |  |
 
 ## WorkSession
 
 **Status:** accepted  
 **Identity:** `work_session_id` (name, not authorization)  
-**Authority:** WorkSession  
+**Authority role:** `work-session-coordinator`  
 **Mutability:** mutable  
 
 A bounded episode of work that coordinates resources and participants. A WorkSession may contain many AgentRuns and ResourceBindings. It is never an MCP connection and never a host chat transcript.
@@ -473,7 +475,7 @@ Transitions:
 - **HostConversation**: Host chat history may attach to a session; it is not the session.
 - **AgentRun**: An AgentRun is one agent's assignment inside the session.
 - **Workspace**: A workspace is a bound environment, not the coordinating episode.
-- **MCP session**: MCP connections are transports, not work episodes.
+- **MCP session**: MCP 2026-07-28 has no protocol-level session; historical transport identifiers are not work episodes.
 
 ### Examples
 
@@ -483,7 +485,7 @@ Transitions:
 ### Anti-examples
 
 - A Crush or Goose chat thread taken as the work itself.
-- An MCP stdio or HTTP session.
+- An MCP transport connection or a historical Mcp-Session-Id.
 - A durable Project.
 
 ### Native mapping hooks
@@ -494,14 +496,14 @@ Transitions:
 | `crush` | `session` | ambiguous | Unverified; Crush session is likely a host conversation, not a WorkSession. |
 | `goose` | `session` | ambiguous | Goose "session" often names host conversation or process state. Do not treat as WorkSession without a verified mapping. |
 | `hermes` | `session` | ambiguous | Unverified; host products commonly overload "session". |
-| `mcp` | `session` | none | MCP session means a protocol connection. Documented as a non-mapping. |
+| `mcp` | _none_ | none | MCP 2026-07-28 is stateless and has no protocol-level session. Explicit non-mapping. |
 | `project-interop` | _none_ | tbd |  |
 
 ## AgentProfile
 
 **Status:** accepted  
 **Identity:** `agent_profile_id` (name, not authorization)  
-**Authority:** AgentProfile  
+**Authority role:** `profile-catalog`  
 **Mutability:** mutable  
 
 A declarative description of an eligible kind of agent. It names capabilities, constraints, and intended roles without identifying a running process.
@@ -557,7 +559,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `agent_instance_id` (name, not authorization)  
-**Authority:** AgentInstance  
+**Authority role:** `agent-runtime`  
 **Mutability:** ephemeral  
 
 A running process or remote endpoint capable of executing RunAttempts. An AgentInstance is not an assignment and is not a Principal.
@@ -636,7 +638,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `agent_run_id` (name, not authorization)  
-**Authority:** AgentRun  
+**Authority role:** `work-session-coordinator`  
 **Mutability:** mutable  
 **Parent:** WorkSession `1` via `agent_runs`
 
@@ -716,14 +718,14 @@ Transitions:
 | `crush` | `session` | ambiguous | Unverified. |
 | `goose` | `session` | ambiguous | Goose session is commonly a host conversation or process. Not a verified AgentRun. |
 | `hermes` | `session` | ambiguous | Unverified. |
-| `mcp` | _none_ | none | MCP has no AgentRun. An MCP session is a connection. |
+| `mcp` | _none_ | none | MCP has no AgentRun. MCP 2026-07-28 has no protocol-level session. |
 | `project-interop` | _none_ | tbd |  |
 
 ## RunAttempt
 
 **Status:** accepted  
 **Identity:** `run_attempt_id` (name, not authorization)  
-**Authority:** RunAttempt  
+**Authority role:** `agent-executor`  
 **Mutability:** ephemeral  
 **Parent:** AgentRun `1` via `run_attempts`
 
@@ -796,7 +798,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `turn_id` (name, not authorization)  
-**Authority:** Turn  
+**Authority role:** `agent-executor`  
 **Mutability:** mutable  
 **Parent:** AgentRun `1` via `turns`
 
@@ -868,7 +870,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `host_conversation_id` (name, not authorization)  
-**Authority:** HostConversation  
+**Authority role:** `host-product`  
 **Mutability:** mutable  
 
 Conversation history owned by a host product such as Goose, Hermes, or Crush. A HostConversation may attach to a WorkSession but is not the WorkSession.
@@ -928,7 +930,7 @@ Conversation history owned by a host product such as Goose, Hermes, or Crush. A 
 
 **Status:** accepted  
 **Identity:** `task_id` (name, not authorization)  
-**Authority:** Task  
+**Authority role:** `work-session-coordinator`  
 **Mutability:** mutable  
 **Parent:** WorkSession `1` via `tasks`
 
@@ -1002,14 +1004,14 @@ _None._
 | `crush` | _none_ | tbd |  |
 | `goose` | _none_ | tbd |  |
 | `hermes` | _none_ | tbd |  |
-| `mcp` | _none_ | none |  |
+| `mcp` | `Task` | partial | MCP Tasks (io.modelcontextprotocol/tasks) track long-running tool invocations. An AWM Task is a WorkSession graph node, not that protocol object. |
 | `project-interop` | _none_ | tbd |  |
 
 ## Artifact
 
 **Status:** accepted  
 **Identity:** `artifact_id` (name, not authorization)  
-**Authority:** Artifact  
+**Authority role:** `artifact-publisher`  
 **Mutability:** mutable  
 
 A durable explicit output published by a Task or AgentRun. An Artifact is not private reasoning, scratch, or an unpublished tool side effect.
@@ -1068,7 +1070,7 @@ _None._
 
 **Status:** accepted  
 **Identity:** `principal_id` (name, not authorization)  
-**Authority:** Principal  
+**Authority role:** `identity-provider`  
 **Mutability:** mutable  
 
 An authenticated human, service, or agent identity. A Principal is not an AgentInstance and is not an assignment.

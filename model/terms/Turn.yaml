@@ -12,9 +12,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Turn
+  owner: agent-executor
   mutable: true
-  notes: The turn record is the authority for this cycle.
+  notes: The agent-executor role is the authority for this cycle.
 mutability: mutable
 parent:
   term: AgentRun

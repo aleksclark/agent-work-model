@@ -11,9 +11,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Principal
+  owner: identity-provider
   mutable: true
-  notes: The identity provider or issuer is the authority for the Principal.
+  notes: The identity-provider role is the authority for the Principal name. It does not confer authorization.
 mutability: mutable
 relationships:
   - name: participating_sessions

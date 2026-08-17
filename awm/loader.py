@@ -164,6 +164,7 @@ def model_as_dict(model: Model) -> dict[str, Any]:
     """Normalized, JSON-serializable view used by generate."""
 
     return {
+        "authority_roles": list(model.catalog.get("authority_roles") or []),
         "mappings": ordered_mappings(model),
         "model": model.catalog.get("model"),
         "rules": model.rules,

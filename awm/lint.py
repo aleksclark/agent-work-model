@@ -43,6 +43,22 @@ REQUIRED_AGENTRUN_RELS = (
     ("run_attempts", "RunAttempt"),
     ("turns", "Turn"),
 )
+# Fallback role ids used only when a fixture catalog omits authority_roles.
+# Canonical source always declares the catalog explicitly.
+DEFAULT_AUTHORITY_ROLES = frozenset(
+    {
+        "project-catalog",
+        "profile-catalog",
+        "native-resource-provider",
+        "workspace-provider",
+        "work-session-coordinator",
+        "agent-runtime",
+        "agent-executor",
+        "host-product",
+        "artifact-publisher",
+        "identity-provider",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -76,12 +92,17 @@ def _term_path(key: str) -> str:
 
 
 def _field_names(term: dict[str, Any]) -> Iterable[tuple[str, dict[str, Any]]]:
-    identity = term.get("identity") or {}
-    if identity.get("field"):
-        yield identity["field"], {"kind": "identity", "portable_snapshot": True, **identity}
+    """Yield exchange-shape fields. identity is the index, not a second field."""
+
     for item in term.get("fields") or []:
         if isinstance(item, dict) and item.get("name"):
             yield item["name"], item
+
+
+def _authority_role_ids(model: Model) -> set[str]:
+    roles = model.catalog.get("authority_roles") or []
+    ids = {item["id"] for item in roles if isinstance(item, dict) and item.get("id")}
+    return ids or set(DEFAULT_AUTHORITY_ROLES)
 
 
 def _cardinality_ok(value: str) -> bool:
@@ -117,7 +138,7 @@ def lint_model(model: Model) -> LintResult:
     _check_inverses_and_cardinalities(model, result, term_keys)
     _check_lifecycle(model, result)
     _check_identity_and_fields(model, result, conventions)
-    _check_authority(model, result)
+    _check_authority(model, result, term_keys)
     _check_immutability(model, result, conventions)
     _check_parents(model, result, conventions)
     _check_required_relationships(model, result)
@@ -130,13 +151,13 @@ def lint_model(model: Model) -> LintResult:
 
 
 def _check_catalog_coverage(model: Model, result: LintResult, listed: list[str], systems: list[str]) -> None:
-    if listed != sorted(listed, key=lambda k: listed.index(k)):
-        # catalog order is intentional; only flag duplicates here
-        pass
+    # catalog.term_keys order is intentionally normative and need not be
+    # alphabetical. Only duplicates and missing documents are errors.
     seen: set[str] = set()
     for key in listed:
         if key in seen:
             result.add("DUPLICATE_TERM_KEY", "catalog.yaml", f"duplicate term key in catalog: {key}")
+            result.add("NONDETERMINISTIC_CATALOG", "catalog.yaml", "catalog.term_keys contains duplicates")
         seen.add(key)
         if key not in model.terms:
             result.add("MISSING_TERM", "catalog.yaml", f"catalog term_keys entry has no document: {key}")
@@ -159,8 +180,23 @@ def _check_catalog_coverage(model: Model, result: LintResult, listed: list[str],
             f"mappings/{extra.name}",
             f"mapping file {extra.name} is not listed in catalog.systems",
         )
-    if listed != list(dict.fromkeys(listed)):
-        result.add("NONDETERMINISTIC_CATALOG", "catalog.yaml", "catalog.term_keys contains duplicates")
+    roles = model.catalog.get("authority_roles") or []
+    seen_roles: set[str] = set()
+    for index, item in enumerate(roles):
+        if not isinstance(item, dict) or not item.get("id"):
+            result.add("MISSING_AUTHORITY", "catalog.yaml#authority_roles", "authority role is missing an id")
+            continue
+        role_id = item["id"]
+        loc = f"catalog.yaml#authority_roles[{index}]"
+        if role_id in seen_roles:
+            result.add("DUPLICATE_TERM_KEY", loc, f"duplicate authority role {role_id!r}")
+        seen_roles.add(role_id)
+        if role_id in model.terms or any(role_id.casefold() == key.casefold() for key in model.terms):
+            result.add(
+                "FOREIGN_AUTHORITY",
+                loc,
+                f"authority role {role_id!r} collides with a term key; roles are external, not entities",
+            )
 
 
 def _fold_unique(values: list[Any]) -> list[str]:
@@ -379,9 +415,14 @@ def _check_lifecycle(model: Model, result: LintResult) -> None:
         if len(states) != len(state_set):
             result.add("LIFECYCLE_STATE", f"{path}#lifecycle.states", "duplicate lifecycle states")
         initial = lifecycle.get("initial")
-        if initial and initial not in state_set:
+        if not initial:
+            result.add("LIFECYCLE_STATE", f"{path}#lifecycle.initial", "lifecycle must declare an initial state")
+        elif initial not in state_set:
             result.add("LIFECYCLE_STATE", f"{path}#lifecycle.initial", f"initial state {initial!r} is not declared")
-        for item in lifecycle.get("terminal") or []:
+        terminals = list(lifecycle.get("terminal") or [])
+        if not terminals:
+            result.add("LIFECYCLE_STATE", f"{path}#lifecycle.terminal", "lifecycle must declare a terminal policy")
+        for item in terminals:
             if item not in state_set:
                 result.add("LIFECYCLE_STATE", f"{path}#lifecycle.terminal", f"terminal state {item!r} is not declared")
         for index, transition in enumerate(lifecycle.get("transitions") or []):
@@ -434,8 +475,9 @@ def _check_identity_and_fields(model: Model, result: LintResult, conventions: di
                 f"identity kind must be 'name', not {identity.get('kind')!r}",
             )
         seen_fields: set[str] = set()
+        identity_matches = 0
         for name, spec in _field_names(term):
-            if name in seen_fields and spec.get("kind") != "identity":
+            if name in seen_fields:
                 result.add("DUPLICATE_FIELD", f"{path}#fields", f"duplicate field name {name!r}")
             seen_fields.add(name)
             if name in prohibited or name in PROHIBITED_UNQUALIFIED:
@@ -446,22 +488,64 @@ def _check_identity_and_fields(model: Model, result: LintResult, conventions: di
                 )
             if not FIELD_NAME_RE.fullmatch(name):
                 result.add("QUALIFIED_IDENTITY", f"{path}#fields.{name}", f"field name {name!r} is not snake_case")
+            if field and name == field:
+                identity_matches += 1
+                if spec.get("kind") != "identity":
+                    result.add(
+                        "IDENTITY_FIELD",
+                        f"{path}#fields.{name}",
+                        "identity.field must appear in fields as kind identity; identity is the index and fields is the exchange shape",
+                    )
+        if field and identity_matches == 0:
+            result.add(
+                "IDENTITY_FIELD",
+                f"{path}#fields",
+                f"identity.field {field!r} must appear exactly once in fields",
+            )
+        elif field and identity_matches > 1:
+            result.add(
+                "IDENTITY_FIELD",
+                f"{path}#fields",
+                f"identity.field {field!r} appears {identity_matches} times in fields; expected exactly one",
+            )
 
 
-def _check_authority(model: Model, result: LintResult) -> None:
+def _check_authority(model: Model, result: LintResult, term_keys: set[str]) -> None:
+    """authority.owner names exactly one catalogued external role, not this term."""
+
+    role_ids = _authority_role_ids(model)
+    folded_keys = {key.casefold(): key for key in term_keys}
     for term in ordered_terms(model):
         key = str(term.get("key") or "?")
         path = _term_path(key)
         authority = term.get("authority")
         if not isinstance(authority, dict) or not authority.get("owner"):
-            result.add("MISSING_AUTHORITY", f"{path}#authority", "term must declare exactly one authority owner")
+            result.add(
+                "MISSING_AUTHORITY",
+                f"{path}#authority",
+                "term must declare exactly one catalogued authority role",
+            )
             continue
         owner = authority["owner"]
-        if owner != key:
+        if not isinstance(owner, str) or not owner:
+            result.add(
+                "MISSING_AUTHORITY",
+                f"{path}#authority.owner",
+                "term must declare exactly one catalogued authority role",
+            )
+            continue
+        if owner == key or owner.casefold() in folded_keys:
+            other = folded_keys.get(owner.casefold(), owner)
             result.add(
                 "FOREIGN_AUTHORITY",
                 f"{path}#authority.owner",
-                f"authority owner {owner!r} is not this term; foreign entities are referenced, not re-owned",
+                f"authority owner {owner!r} names entity {other!r}; foreign entities are referenced, not re-owned",
+            )
+        elif owner not in role_ids:
+            result.add(
+                "UNKNOWN_AUTHORITY",
+                f"{path}#authority.owner",
+                f"authority owner {owner!r} is not a catalogued authority role",
             )
         mutable_flag = authority.get("mutable")
         mutability = term.get("mutability")
@@ -524,17 +608,47 @@ def _check_parents(model: Model, result: LintResult, conventions: dict[str, Any]
                 f"{path}#parent.cardinality",
                 f"{child} parent cardinality must be {spec.get('cardinality')}, not {parent.get('cardinality')!r}",
             )
-        # Also require a relationship of cardinality 1 to that parent.
+
+    for term in ordered_terms(model):
+        key = str(term.get("key") or "?")
+        path = _term_path(key)
+        parent = term.get("parent")
+        if not isinstance(parent, dict) or not parent.get("term"):
+            continue
+        parent_term = parent.get("term")
+        parent_card = str(parent.get("cardinality")) if parent.get("cardinality") is not None else None
+        parent_inverse = parent.get("inverse")
         matches = [
             rel
             for rel in term.get("relationships") or []
-            if isinstance(rel, dict) and rel.get("target") == spec.get("term") and str(rel.get("cardinality")) == "1"
+            if isinstance(rel, dict) and rel.get("target") == parent_term
         ]
         if not matches:
             result.add(
                 "PARENT_CARDINALITY",
                 f"{path}#relationships",
-                f"{child} must declare a cardinality-1 relationship to {spec.get('term')}",
+                f"{key} must declare a relationship to parent {parent_term}",
+            )
+            continue
+        aligned = False
+        for rel in matches:
+            card_ok = parent_card is None or str(rel.get("cardinality")) == parent_card
+            inverse_ok = not parent_inverse or rel.get("inverse") == parent_inverse
+            if card_ok and inverse_ok:
+                aligned = True
+                expected_inv_card = parent.get("inverse_cardinality")
+                if expected_inv_card and rel.get("inverse_cardinality") and rel.get("inverse_cardinality") != expected_inv_card:
+                    result.add(
+                        "PARENT_CARDINALITY",
+                        f"{path}#relationships",
+                        f"{key} relationship to {parent_term} inverse_cardinality {rel.get('inverse_cardinality')!r} disagrees with parent.inverse_cardinality {expected_inv_card!r}",
+                    )
+                break
+        if not aligned:
+            result.add(
+                "PARENT_CARDINALITY",
+                f"{path}#relationships",
+                f"{key} relationship to parent {parent_term} must match parent cardinality and inverse",
             )
 
 

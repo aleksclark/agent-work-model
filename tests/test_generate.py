@@ -34,7 +34,8 @@ def test_generated_json_is_stable_sorted() -> None:
     assert payload.index('"key": "Project"') < payload.index('"key": "WorkSession"')
     assert payload.index('"key": "WorkSession"') < payload.index('"key": "AgentRun"')
     assert '"generated_notice"' in payload
-    # Object keys themselves are sorted (generated_notice before mappings before model).
+    # Object keys themselves are sorted alphabetically.
+    assert payload.index('"authority_roles"') < payload.index('"generated_notice"')
     assert payload.index('"generated_notice"') < payload.index('"mappings"')
     assert payload.index('"mappings"') < payload.index('"model"')
 

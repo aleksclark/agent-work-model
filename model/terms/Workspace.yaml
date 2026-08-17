@@ -11,9 +11,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Workspace
+  owner: workspace-provider
   mutable: true
-  notes: The environment's host is the mutable authority for the Workspace resource.
+  notes: The workspace-provider role is the mutable authority for the Workspace environment.
 mutability: mutable
 relationships:
   - name: as_resource
@@ -77,7 +77,9 @@ mapping_hooks:
   mcp:
     native_term: Root
     fidelity: partial
-    notes: MCP roots expose filesystem-like environments; they are not WorkSessions.
+    notes: >-
+      Historical MCP roots could expose filesystem-like environments.
+      Roots are deprecated in 2026-07-28 and are not WorkSessions.
   goose:
     native_term: working directory
     fidelity: tbd

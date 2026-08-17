@@ -7,7 +7,7 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: AgentRun
+  owner: fixture-catalog
   mutable: true
   notes: Fixture authority.
 mutability: mutable

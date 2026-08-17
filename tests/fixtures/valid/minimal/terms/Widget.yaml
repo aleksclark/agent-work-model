@@ -7,7 +7,7 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Widget
+  owner: fixture-catalog
   mutable: true
   notes: Fixture authority for Widget.
 mutability: mutable

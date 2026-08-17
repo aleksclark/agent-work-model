@@ -12,9 +12,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: Project
+  owner: project-catalog
   mutable: true
-  notes: The Project record is the sole mutable authority for project policy and membership.
+  notes: The project-catalog role is the sole mutable authority for project policy and membership.
 mutability: mutable
 relationships:
   - name: snapshots

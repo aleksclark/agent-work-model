@@ -13,9 +13,9 @@ identity:
   kind: name
   authorization: false
 authority:
-  owner: HostConversation
+  owner: host-product
   mutable: true
-  notes: The host product is the mutable authority for this conversation history.
+  notes: The host-product role is the mutable authority for this conversation history.
 mutability: mutable
 relationships:
   - name: work_session

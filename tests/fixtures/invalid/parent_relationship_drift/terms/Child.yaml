@@ -1,0 +1,42 @@
+key: Child
+status: accepted
+definition: Fixture child whose parent block disagrees with its relationship.
+purpose: Prove every declared parent must match a child relationship.
+identity:
+  field: child_id
+  kind: name
+  authorization: false
+authority:
+  owner: fixture-catalog
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+parent:
+  term: Parent
+  cardinality: "1"
+  inverse: children
+  inverse_cardinality: 0..*
+relationships:
+  - name: parent
+    target: Parent
+    kind: references
+    cardinality: 0..1
+    inverse: children
+    inverse_cardinality: 0..*
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: child_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}
