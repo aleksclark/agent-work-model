@@ -1,0 +1,99 @@
+key: Artifact
+status: accepted
+definition: >-
+  A durable explicit output published by a Task or AgentRun. An Artifact
+  is not private reasoning, scratch, or an unpublished tool side effect.
+purpose: >-
+  Name the things a session intends to keep and share so they can be
+  addressed independently of turns and attempts.
+identity:
+  field: artifact_id
+  kind: name
+  authorization: false
+authority:
+  owner: Artifact
+  mutable: true
+  notes: The artifact record is the authority for publication metadata, not for private reasoning.
+mutability: mutable
+relationships:
+  - name: work_session
+    target: WorkSession
+    kind: references
+    cardinality: 0..1
+    inverse: artifacts
+    inverse_cardinality: 0..*
+  - name: produced_by_task
+    target: Task
+    kind: produced_by
+    cardinality: 0..1
+    inverse: artifacts
+    inverse_cardinality: 0..*
+  - name: produced_by_run
+    target: AgentRun
+    kind: produced_by
+    cardinality: 0..1
+    inverse: artifacts
+    inverse_cardinality: 0..*
+fields:
+  - name: artifact_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: work_session_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: media_type
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+  - name: locator
+    kind: reference
+    type: uri
+    portable_snapshot: true
+    notes: Address of the published bytes. Not a credential.
+invariants:
+  - level: MUST
+    code: explicit-output
+    text: An Artifact MUST be an explicit published output, not private reasoning.
+  - level: MUST
+    code: produced-by
+    text: An Artifact SHOULD record the Task and/or AgentRun that published it.
+  - level: MUST NOT
+    code: no-credentials
+    text: An Artifact locator MUST NOT embed credentials.
+aliases:
+  - published-output
+deprecated_aliases: []
+non_synonyms:
+  - term: Resource
+    reason: A resource exists independently; an artifact is produced by work.
+  - term: Turn
+    reason: Intermediate model text is not an artifact until published.
+  - term: Task
+    reason: The task is the plan node; the artifact is the output.
+examples:
+  - A review report written to an agreed locator and attached to the WorkSession.
+anti_examples:
+  - Hidden chain-of-thought.
+  - An unpublished scratch file in a workspace.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: tbd
+  mcp:
+    native_term: Resource
+    fidelity: ambiguous
+    notes: MCP resources can expose files; that does not make them published Artifacts.
+  goose:
+    native_term: null
+    fidelity: tbd
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

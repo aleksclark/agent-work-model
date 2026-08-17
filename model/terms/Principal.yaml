@@ -1,0 +1,96 @@
+key: Principal
+status: accepted
+definition: >-
+  An authenticated human, service, or agent identity. A Principal is not
+  an AgentInstance and is not an assignment.
+purpose: >-
+  Be the subject of authentication and authorization so process identity
+  and work assignment stay separate from who is acting.
+identity:
+  field: principal_id
+  kind: name
+  authorization: false
+authority:
+  owner: Principal
+  mutable: true
+  notes: The identity provider or issuer is the authority for the Principal.
+mutability: mutable
+relationships:
+  - name: participating_sessions
+    target: WorkSession
+    kind: references
+    cardinality: 0..*
+    inverse: participants
+    inverse_cardinality: 0..*
+  - name: agent_instances
+    target: AgentInstance
+    kind: observes
+    cardinality: 0..*
+    inverse: principal
+    inverse_cardinality: 0..1
+  - name: owned_conversations
+    target: HostConversation
+    kind: observes
+    cardinality: 0..*
+    inverse: owner_principal
+    inverse_cardinality: 0..1
+fields:
+  - name: principal_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: kind
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+    notes: human, service, or agent identity kind.
+  - name: issuer
+    kind: metadata
+    type: string
+    portable_snapshot: true
+invariants:
+  - level: MUST
+    code: ids-are-names
+    text: principal_id is a name. Authorization is decided by policy, not by possessing the identifier.
+  - level: MUST NOT
+    code: not-an-instance
+    text: A Principal MUST NOT be treated as an AgentInstance.
+  - level: MUST NOT
+    code: no-credentials
+    text: A portable snapshot MUST NOT include the Principal's credentials.
+aliases:
+  - actor-identity
+deprecated_aliases: []
+non_synonyms:
+  - term: AgentInstance
+    reason: The instance is a process or endpoint that may present a Principal.
+  - term: AgentRun
+    reason: The run is an assignment given to a Principal or performed via an instance.
+  - term: AgentProfile
+    reason: The profile is a kind, not an authenticated identity.
+examples:
+  - A human user identity that opens a WorkSession.
+  - A service identity that an AgentInstance presents.
+anti_examples:
+  - A PID.
+  - An API token stored in a snapshot.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: none
+  mcp:
+    native_term: null
+    fidelity: tbd
+    notes: MCP auth is transport-specific; no verified Principal mapping.
+  goose:
+    native_term: null
+    fidelity: tbd
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

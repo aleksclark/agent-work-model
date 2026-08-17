@@ -1,0 +1,76 @@
+system: mcp
+status: draft
+description: >-
+  Mapping hook for the Model Context Protocol. MCP defines tools, resources,
+  roots, and protocol connections. It does not define Agent Work Model
+  work episodes. MCP "session" is a connection, not a WorkSession.
+fidelity_overview: partial
+verified_against: null
+notes: >-
+  This mapping records known non-equivalences so implementations do not
+  collapse MCP transport identity onto work identity. It is not a claim
+  about any particular MCP SDK revision.
+compatibility_field_mappings:
+  - native_field: session
+    awm_field: (none; MCP session is a connection)
+    notes: Documented compatibility note only. Do not put session on AWM terms.
+  - native_field: session_id
+    awm_field: (none)
+    notes: MCP session identifiers MUST NOT be imported as unqualified session_id fields on AWM terms.
+terms:
+  Project:
+    native_term: null
+    fidelity: none
+    notes: MCP has no durable collaboration-and-policy Project.
+  ProjectSnapshot:
+    native_term: null
+    fidelity: none
+  WorkProfile:
+    native_term: null
+    fidelity: none
+  Resource:
+    native_term: Resource
+    fidelity: partial
+    notes: MCP Resources are addressable. They are not project-owned and have no AWM binding model.
+  ResourceBinding:
+    native_term: Root
+    fidelity: partial
+    notes: Roots and subscriptions resemble grants. They are not WorkSession bindings.
+  Workspace:
+    native_term: Root
+    fidelity: partial
+    notes: A root can expose a filesystem-like environment.
+  WorkSession:
+    native_term: session
+    fidelity: none
+    notes: MCP session is a protocol connection. Explicit non-mapping.
+  AgentProfile:
+    native_term: null
+    fidelity: none
+  AgentInstance:
+    native_term: Server
+    fidelity: ambiguous
+    notes: An MCP server process is infrastructure. Not verified as AgentInstance.
+  AgentRun:
+    native_term: null
+    fidelity: none
+  RunAttempt:
+    native_term: null
+    fidelity: none
+  Turn:
+    native_term: null
+    fidelity: none
+  HostConversation:
+    native_term: null
+    fidelity: none
+  Task:
+    native_term: null
+    fidelity: none
+  Artifact:
+    native_term: Resource
+    fidelity: ambiguous
+    notes: Exposing a file as an MCP resource does not make it a published Artifact.
+  Principal:
+    native_term: null
+    fidelity: tbd
+    notes: Auth is transport-specific.

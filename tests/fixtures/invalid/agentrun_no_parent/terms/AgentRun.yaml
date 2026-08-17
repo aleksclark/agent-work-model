@@ -1,0 +1,31 @@
+key: AgentRun
+status: accepted
+definition: Fixture AgentRun that deliberately omits its exact WorkSession parent.
+purpose: Prove the linter enforces the one-parent AgentRun rule.
+identity:
+  field: agent_run_id
+  kind: name
+  authorization: false
+authority:
+  owner: AgentRun
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: agent_run_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

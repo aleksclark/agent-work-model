@@ -1,0 +1,65 @@
+system: project-interop
+status: draft
+description: >-
+  Mapping hook for the project-interop effort. Names appear related at the
+  Project layer; no implementation revision has been verified against this
+  model, so field-level equivalence is not asserted.
+fidelity_overview: partial
+verified_against: null
+notes: >-
+  Treat this document as a declared correspondence surface, not as an
+  audited crosswalk. Update fidelity to exact or partial only after
+  checking a specific project-interop revision.
+compatibility_field_mappings: []
+terms:
+  Project:
+    native_term: Project
+    fidelity: partial
+    notes: Shared name and likely shared purpose (durable collaboration scope). Unverified.
+  ProjectSnapshot:
+    native_term: null
+    fidelity: tbd
+    notes: Snapshot or export objects may exist; not verified.
+  WorkProfile:
+    native_term: null
+    fidelity: tbd
+  Resource:
+    native_term: null
+    fidelity: tbd
+  ResourceBinding:
+    native_term: null
+    fidelity: tbd
+  Workspace:
+    native_term: null
+    fidelity: tbd
+  WorkSession:
+    native_term: null
+    fidelity: tbd
+  AgentProfile:
+    native_term: null
+    fidelity: tbd
+  AgentInstance:
+    native_term: null
+    fidelity: tbd
+  AgentRun:
+    native_term: null
+    fidelity: tbd
+  RunAttempt:
+    native_term: null
+    fidelity: tbd
+  Turn:
+    native_term: null
+    fidelity: tbd
+  HostConversation:
+    native_term: null
+    fidelity: none
+    notes: Host chat is out of scope for a project-interop definition.
+  Task:
+    native_term: null
+    fidelity: tbd
+  Artifact:
+    native_term: null
+    fidelity: tbd
+  Principal:
+    native_term: null
+    fidelity: tbd

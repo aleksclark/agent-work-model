@@ -1,0 +1,86 @@
+key: WorkProfile
+status: accepted
+definition: >-
+  A reusable blueprint for a kind of WorkSession. It describes intended
+  participants, resource shapes, and task patterns without being a live
+  episode of work.
+purpose: >-
+  Let teams open many similar WorkSessions from one declared template
+  without copying ad-hoc session configuration.
+identity:
+  field: work_profile_id
+  kind: name
+  authorization: false
+authority:
+  owner: WorkProfile
+  mutable: true
+  notes: The profile document is the sole mutable authority for the blueprint.
+mutability: mutable
+relationships:
+  - name: projects
+    target: Project
+    kind: references
+    cardinality: 0..*
+    inverse: work_profiles
+    inverse_cardinality: 0..*
+  - name: work_sessions
+    target: WorkSession
+    kind: observes
+    cardinality: 0..*
+    inverse: work_profile
+    inverse_cardinality: 0..1
+fields:
+  - name: work_profile_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: display_name
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+  - name: intended_resources
+    kind: descriptive
+    type: list
+    portable_snapshot: true
+  - name: default_policy
+    kind: policy
+    type: PolicyDocument
+    portable_snapshot: true
+invariants:
+  - level: MUST NOT
+    code: not-a-session
+    text: A WorkProfile MUST NOT be treated as a live WorkSession or as runtime state.
+  - level: SHOULD
+    code: reusable
+    text: A WorkProfile SHOULD be reusable across many WorkSessions.
+aliases:
+  - session-blueprint
+deprecated_aliases: []
+non_synonyms:
+  - term: WorkSession
+    reason: The profile is a template; the session is a bounded episode created from it.
+  - term: AgentProfile
+    reason: AgentProfile describes an eligible kind of agent, not a kind of work episode.
+examples:
+  - A "code review" blueprint reused every time a review WorkSession is opened.
+anti_examples:
+  - The currently open review being performed by an agent.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: tbd
+  mcp:
+    native_term: null
+    fidelity: none
+  goose:
+    native_term: null
+    fidelity: tbd
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

@@ -1,0 +1,8 @@
+id: architecture
+title: Fixture rules
+description: Minimal rule document so the valid fixture matches the catalog shape.
+rules:
+  - id: fixture-rule
+    level: MUST
+    statement: Fixture models MUST remain self-contained.
+    enforcement: documentary

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-work-model.dev/schema/mapping.json",
+  "$comment": "Validates one native-system mapping document.",
+  "title": "Agent Work Model Native Mapping",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["system", "status", "description", "fidelity_overview", "terms"],
+  "properties": {
+    "system": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "reviewed", "verified"]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 8
+    },
+    "fidelity_overview": {
+      "type": "string",
+      "enum": ["exact", "partial", "ambiguous", "tbd", "none"]
+    },
+    "verified_against": {
+      "type": ["string", "null"],
+      "description": "Implementation revision or document this mapping was verified against. Null means unverified."
+    },
+    "notes": {
+      "type": "string"
+    },
+    "compatibility_field_mappings": {
+      "type": "array",
+      "description": "Documented exceptions that mention otherwise-prohibited unqualified field names.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["native_field", "awm_field", "notes"],
+        "properties": {
+          "native_field": {
+            "type": "string"
+          },
+          "awm_field": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "terms": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["fidelity"],
+        "properties": {
+          "native_term": {
+            "type": ["string", "null"]
+          },
+          "fidelity": {
+            "type": "string",
+            "enum": ["exact", "partial", "ambiguous", "tbd", "none"]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

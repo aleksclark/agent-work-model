@@ -1,0 +1,181 @@
+key: WorkSession
+status: accepted
+definition: >-
+  A bounded episode of work that coordinates resources and participants.
+  A WorkSession may contain many AgentRuns and ResourceBindings. It is
+  never an MCP connection and never a host chat transcript.
+purpose: >-
+  Be the unit that binds a ProjectSnapshot, resources, tasks, artifacts,
+  conversations, and agent assignments into one episode with a start and
+  an end.
+identity:
+  field: work_session_id
+  kind: name
+  authorization: false
+authority:
+  owner: WorkSession
+  mutable: true
+  notes: The WorkSession record is the sole mutable authority for the episode graph.
+mutability: mutable
+relationships:
+  - name: project_snapshot
+    target: ProjectSnapshot
+    kind: pins
+    cardinality: 0..1
+    inverse: pinned_by_work_sessions
+    inverse_cardinality: 0..*
+    notes: Project-bound sessions pin an exact snapshot revision.
+  - name: work_profile
+    target: WorkProfile
+    kind: references
+    cardinality: 0..1
+    inverse: work_sessions
+    inverse_cardinality: 0..*
+  - name: resource_bindings
+    target: ResourceBinding
+    kind: contains
+    cardinality: 0..*
+    inverse: work_session
+    inverse_cardinality: "1"
+  - name: agent_runs
+    target: AgentRun
+    kind: contains
+    cardinality: 0..*
+    inverse: work_session
+    inverse_cardinality: "1"
+  - name: host_conversation_attachments
+    target: HostConversation
+    kind: attaches
+    cardinality: 0..*
+    inverse: work_session
+    inverse_cardinality: 0..1
+  - name: tasks
+    target: Task
+    kind: contains
+    cardinality: 0..*
+    inverse: work_session
+    inverse_cardinality: "1"
+  - name: artifacts
+    target: Artifact
+    kind: contains
+    cardinality: 0..*
+    inverse: work_session
+    inverse_cardinality: 0..1
+  - name: participants
+    target: Principal
+    kind: references
+    cardinality: 0..*
+    inverse: participating_sessions
+    inverse_cardinality: 0..*
+lifecycle:
+  states:
+    - proposed
+    - open
+    - paused
+    - closed
+    - aborted
+  initial: proposed
+  terminal:
+    - closed
+    - aborted
+  transitions:
+    - from: proposed
+      to: open
+    - from: open
+      to: paused
+    - from: paused
+      to: open
+    - from: open
+      to: closed
+    - from: paused
+      to: closed
+    - from: open
+      to: aborted
+    - from: paused
+      to: aborted
+    - from: proposed
+      to: aborted
+fields:
+  - name: work_session_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: project_snapshot_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: work_profile_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: display_name
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+  - name: policy
+    kind: policy
+    type: PolicyDocument
+    portable_snapshot: true
+    notes: Must only narrow the pinned ProjectSnapshot policy.
+invariants:
+  - level: MUST
+    code: pin-exact-snapshot
+    text: A project-bound WorkSession MUST pin exactly one ProjectSnapshot revision.
+  - level: MUST
+    code: children-cardinalities
+    text: A WorkSession MUST allow 0..* ResourceBindings, AgentRuns, HostConversation attachments, Tasks, and Artifacts.
+  - level: MUST NOT
+    code: not-mcp-connection
+    text: A WorkSession MUST NOT be identified with an MCP connection or transport session.
+  - level: MUST NOT
+    code: not-host-conversation
+    text: A WorkSession MUST NOT be identified with a HostConversation.
+  - level: MUST NOT
+    code: no-credentials
+    text: A portable WorkSession snapshot MUST NOT serialize credentials.
+  - level: MUST
+    code: policy-narrows
+    text: WorkSession policy MUST only narrow the pinned project policy.
+aliases:
+  - work-episode
+deprecated_aliases:
+  - session
+non_synonyms:
+  - term: HostConversation
+    reason: Host chat history may attach to a session; it is not the session.
+  - term: AgentRun
+    reason: An AgentRun is one agent's assignment inside the session.
+  - term: Workspace
+    reason: A workspace is a bound environment, not the coordinating episode.
+  - term: MCP session
+    reason: MCP connections are transports, not work episodes.
+examples:
+  - A time-bounded incident response that several agents and a human join.
+  - A multi-hour implementation episode pinning one ProjectSnapshot.
+anti_examples:
+  - A Crush or Goose chat thread taken as the work itself.
+  - An MCP stdio or HTTP session.
+  - A durable Project.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: tbd
+  mcp:
+    native_term: session
+    fidelity: none
+    notes: MCP session means a protocol connection. Documented as a non-mapping.
+  goose:
+    native_term: session
+    fidelity: ambiguous
+    notes: Goose "session" often names host conversation or process state. Do not treat as WorkSession without a verified mapping.
+  hermes:
+    native_term: session
+    fidelity: ambiguous
+    notes: Unverified; host products commonly overload "session".
+  crush:
+    native_term: session
+    fidelity: ambiguous
+    notes: Unverified; Crush session is likely a host conversation, not a WorkSession.

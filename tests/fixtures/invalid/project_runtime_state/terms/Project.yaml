@@ -1,0 +1,44 @@
+key: Project
+status: accepted
+definition: Fixture Project that illegally stores live process state.
+purpose: Prove the linter rejects runtime-state fields on Project.
+identity:
+  field: project_id
+  kind: name
+  authorization: false
+authority:
+  owner: Project
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: project_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: agent_pid
+    kind: process
+    type: integer
+    portable_snapshot: true
+    notes: Illegal live process identifier.
+  - name: heartbeat
+    kind: heartbeat
+    type: timestamp
+    portable_snapshot: true
+  - name: current_workspace
+    kind: runtime
+    type: string
+    portable_snapshot: true
+mapping_hooks: {}

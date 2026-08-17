@@ -1,0 +1,110 @@
+key: Turn
+status: accepted
+definition: >-
+  One input-to-output or control-yield cycle inside an AgentRun. A Turn
+  is smaller than a RunAttempt and is not a HostConversation.
+purpose: >-
+  Account for the conversational or control steps that make up an
+  AgentRun without collapsing them into host chat or infrastructure
+  attempts.
+identity:
+  field: turn_id
+  kind: name
+  authorization: false
+authority:
+  owner: Turn
+  mutable: true
+  notes: The turn record is the authority for this cycle.
+mutability: mutable
+parent:
+  term: AgentRun
+  cardinality: "1"
+  inverse: turns
+  inverse_cardinality: 0..*
+relationships:
+  - name: agent_run
+    target: AgentRun
+    kind: references
+    cardinality: "1"
+    inverse: turns
+    inverse_cardinality: 0..*
+lifecycle:
+  states:
+    - open
+    - yielded
+    - completed
+    - aborted
+  initial: open
+  terminal:
+    - completed
+    - aborted
+  transitions:
+    - from: open
+      to: yielded
+    - from: yielded
+      to: open
+    - from: open
+      to: completed
+    - from: yielded
+      to: completed
+    - from: open
+      to: aborted
+    - from: yielded
+      to: aborted
+fields:
+  - name: turn_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: agent_run_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: sequence
+    kind: metadata
+    type: integer
+    portable_snapshot: true
+invariants:
+  - level: MUST
+    code: inside-run
+    text: A Turn MUST belong to exactly one AgentRun.
+  - level: MUST NOT
+    code: not-host-conversation
+    text: A Turn MUST NOT be treated as a HostConversation.
+  - level: MUST NOT
+    code: not-an-attempt
+    text: A Turn MUST NOT be treated as a RunAttempt.
+aliases:
+  - run-turn
+deprecated_aliases: []
+non_synonyms:
+  - term: HostConversation
+    reason: Host chat is owned by the host product and may span or omit turns.
+  - term: RunAttempt
+    reason: An attempt is an infrastructure execution, not one I/O cycle.
+  - term: AgentRun
+    reason: A run contains many turns.
+examples:
+  - One model invocation that yields a tool call and later completes.
+anti_examples:
+  - The entire Goose or Crush transcript.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: none
+  mcp:
+    native_term: null
+    fidelity: none
+  goose:
+    native_term: turn
+    fidelity: partial
+    notes: Goose likely has turn-like steps. Equivalence is unverified.
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

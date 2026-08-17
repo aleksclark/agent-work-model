@@ -1,0 +1,99 @@
+key: HostConversation
+status: accepted
+definition: >-
+  Conversation history owned by a host product such as Goose, Hermes, or
+  Crush. A HostConversation may attach to a WorkSession but is not the
+  WorkSession.
+purpose: >-
+  Keep host-owned chat history distinct from the work episode, the
+  assignment, and individual turns so products can attach transcripts
+  without becoming the model.
+identity:
+  field: host_conversation_id
+  kind: name
+  authorization: false
+authority:
+  owner: HostConversation
+  mutable: true
+  notes: The host product is the mutable authority for this conversation history.
+mutability: mutable
+relationships:
+  - name: work_session
+    target: WorkSession
+    kind: attaches
+    cardinality: 0..1
+    inverse: host_conversation_attachments
+    inverse_cardinality: 0..*
+  - name: owner_principal
+    target: Principal
+    kind: references
+    cardinality: 0..1
+    inverse: owned_conversations
+    inverse_cardinality: 0..*
+fields:
+  - name: host_conversation_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: work_session_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: host_system
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+    notes: Name of the owning host (goose, hermes, crush, or other).
+invariants:
+  - level: MUST
+    code: host-owned
+    text: A HostConversation MUST remain owned by its host product.
+  - level: MUST NOT
+    code: not-the-session
+    text: A HostConversation MUST NOT be treated as a WorkSession.
+  - level: MUST NOT
+    code: not-an-agent-run
+    text: A HostConversation MUST NOT be treated as an AgentRun.
+  - level: SHOULD
+    code: optional-attachment
+    text: A HostConversation SHOULD be attachable to at most one WorkSession.
+aliases:
+  - host-chat
+deprecated_aliases:
+  - session
+non_synonyms:
+  - term: WorkSession
+    reason: The session is the work episode; the conversation is host-owned history.
+  - term: Turn
+    reason: Turns live inside an AgentRun; host messages may not map 1:1.
+  - term: AgentRun
+    reason: An assignment is not a chat transcript.
+examples:
+  - A Goose conversation that a user later attaches to an existing WorkSession.
+  - A Crush chat that never attaches to any WorkSession.
+anti_examples:
+  - Calling the host chat the WorkSession.
+  - Using MCP connection identity as the conversation identity.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: none
+  awesometree:
+    native_term: null
+    fidelity: none
+  mcp:
+    native_term: null
+    fidelity: none
+    notes: MCP is a tool protocol, not a host conversation store.
+  goose:
+    native_term: session
+    fidelity: partial
+    notes: Goose session/conversation is a likely HostConversation. Field-level mapping is unverified.
+  hermes:
+    native_term: session
+    fidelity: partial
+    notes: Hermes conversation history is a likely HostConversation. Unverified.
+  crush:
+    native_term: session
+    fidelity: partial
+    notes: Crush session/chat is a likely HostConversation. Unverified.

@@ -1,0 +1,104 @@
+key: ProjectSnapshot
+status: accepted
+definition: >-
+  An immutable resolved project definition at an exact revision. It is the
+  pinned meaning of a Project that a WorkSession actually ran against.
+purpose: >-
+  Give WorkSessions a frozen, portable project definition so later mutation
+  of the live Project cannot rewrite history.
+identity:
+  field: project_snapshot_id
+  kind: name
+  authorization: false
+authority:
+  owner: ProjectSnapshot
+  mutable: false
+  notes: Snapshots are append-only. Corrections produce a new snapshot, never an edit.
+mutability: immutable
+parent:
+  term: Project
+  cardinality: "1"
+  inverse: snapshots
+  inverse_cardinality: 0..*
+relationships:
+  - name: project
+    target: Project
+    kind: references
+    cardinality: "1"
+    inverse: snapshots
+    inverse_cardinality: 0..*
+  - name: pinned_by_work_sessions
+    target: WorkSession
+    kind: observes
+    cardinality: 0..*
+    inverse: project_snapshot
+    inverse_cardinality: 0..1
+fields:
+  - name: project_snapshot_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: project_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: revision
+    kind: metadata
+    type: string
+    portable_snapshot: true
+    notes: Exact revision identifier of the resolved definition.
+  - name: definition_hash
+    kind: metadata
+    type: string
+    portable_snapshot: true
+  - name: resolved_definition
+    kind: payload
+    type: object
+    portable_snapshot: true
+    notes: Must not embed credentials or live runtime handles.
+invariants:
+  - level: MUST
+    code: immutable
+    text: A ProjectSnapshot MUST be immutable after publication.
+  - level: MUST NOT
+    code: no-runtime-state
+    text: A ProjectSnapshot MUST NOT contain PIDs, ports, heartbeats, or current workspace/run/conversation state.
+  - level: MUST NOT
+    code: no-credentials
+    text: A ProjectSnapshot MUST NOT serialize credentials or other secrets.
+  - level: MUST
+    code: pin-exact-revision
+    text: A project-bound WorkSession MUST pin exactly one ProjectSnapshot revision.
+aliases:
+  - project-revision
+deprecated_aliases: []
+non_synonyms:
+  - term: Project
+    reason: The live Project remains mutable; the snapshot is a frozen revision.
+  - term: WorkSession
+    reason: A snapshot is definition, not an episode of work.
+examples:
+  - Hash-addressed export of project policy and resource names used to open a WorkSession.
+anti_examples:
+  - A live project record that still accepts policy edits.
+  - A bundle that includes API tokens or raw credentials.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+    notes: Snapshot/export objects may exist; equivalence is unverified.
+  awesometree:
+    native_term: null
+    fidelity: tbd
+  mcp:
+    native_term: null
+    fidelity: none
+  goose:
+    native_term: null
+    fidelity: tbd
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

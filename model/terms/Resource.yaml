@@ -1,0 +1,105 @@
+key: Resource
+status: accepted
+definition: >-
+  An independently addressable thing relevant to work. A Resource is not
+  necessarily owned by a Project; projects and sessions observe or bind it.
+purpose: >-
+  Name the durable thing (repository, dataset, ticket tracker, workspace
+  environment, secret store) that bindings and policies talk about.
+identity:
+  field: resource_id
+  kind: name
+  authorization: false
+authority:
+  owner: Resource
+  mutable: true
+  notes: >-
+    The Resource's native authority remains authoritative. Project and
+    session records only reference or bind it.
+mutability: mutable
+relationships:
+  - name: observed_by_projects
+    target: Project
+    kind: observes
+    cardinality: 0..*
+    inverse: known_resources
+    inverse_cardinality: 0..*
+  - name: bindings
+    target: ResourceBinding
+    kind: observes
+    cardinality: 0..*
+    inverse: resource
+    inverse_cardinality: "1"
+  - name: workspace_form
+    target: Workspace
+    kind: observes
+    cardinality: 0..1
+    inverse: as_resource
+    inverse_cardinality: "1"
+    notes: Present when this resource is (or specializes as) a Workspace.
+fields:
+  - name: resource_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: uri
+    kind: identity
+    type: uri
+    portable_snapshot: true
+    notes: Address, not a capability.
+  - name: kind
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+  - name: display_name
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+invariants:
+  - level: MUST
+    code: independently-addressable
+    text: A Resource MUST remain independently addressable outside any one Project.
+  - level: MUST NOT
+    code: not-owned-by-binding
+    text: A ResourceBinding MUST NOT become the mutable authority for the Resource.
+  - level: MUST
+    code: ids-are-names
+    text: resource_id and uri are names. They do not grant access.
+aliases:
+  - work-resource
+deprecated_aliases: []
+non_synonyms:
+  - term: ResourceBinding
+    reason: The binding is a session-specific grant and resolution, not the thing itself.
+  - term: Artifact
+    reason: An Artifact is an output published by work, not an independently existing resource.
+  - term: Workspace
+    reason: Workspace is a Resource subtype, not a synonym for every Resource.
+examples:
+  - A git repository URL.
+  - A dataset catalog entry.
+  - A ticket project that several WorkSessions consult.
+anti_examples:
+  - An ephemeral in-memory retrieval blob with no address.
+  - A capability token (that is a credential, not a Resource identity).
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: entry
+    fidelity: partial
+    notes: Tree entries may correspond to resources; do not assume identity equivalence.
+  mcp:
+    native_term: Resource
+    fidelity: partial
+    notes: MCP Resources are addressable, but MCP does not define project/session bindings.
+  goose:
+    native_term: null
+    fidelity: tbd
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

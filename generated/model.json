@@ -1,0 +1,3384 @@
+{
+  "generated_notice": "This file is generated from model/. Do not edit by hand.",
+  "mappings": [
+    {
+      "compatibility_field_mappings": [],
+      "description": "Mapping hook for the project-interop effort. Names appear related at the Project layer; no implementation revision has been verified against this model, so field-level equivalence is not asserted.",
+      "fidelity_overview": "partial",
+      "notes": "Treat this document as a declared correspondence surface, not as an audited crosswalk. Update fidelity to exact or partial only after checking a specific project-interop revision.",
+      "status": "draft",
+      "system": "project-interop",
+      "terms": {
+        "AgentInstance": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "AgentProfile": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "AgentRun": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Artifact": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "HostConversation": {
+          "fidelity": "none",
+          "native_term": null,
+          "notes": "Host chat is out of scope for a project-interop definition."
+        },
+        "Principal": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Project": {
+          "fidelity": "partial",
+          "native_term": "Project",
+          "notes": "Shared name and likely shared purpose (durable collaboration scope). Unverified."
+        },
+        "ProjectSnapshot": {
+          "fidelity": "tbd",
+          "native_term": null,
+          "notes": "Snapshot or export objects may exist; not verified."
+        },
+        "Resource": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "ResourceBinding": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "RunAttempt": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Task": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Turn": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "WorkProfile": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "WorkSession": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Workspace": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "verified_against": null
+    },
+    {
+      "compatibility_field_mappings": [],
+      "description": "Mapping hook for awesometree. Worktrees resemble Workspace resources. No awesometree revision has been verified against this model.",
+      "fidelity_overview": "partial",
+      "notes": "Encode only the obvious environment correspondence. Do not invent WorkSession or AgentRun mappings that have not been observed.",
+      "status": "draft",
+      "system": "awesometree",
+      "terms": {
+        "AgentInstance": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "AgentProfile": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "AgentRun": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Artifact": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "HostConversation": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "Principal": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "Project": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "ProjectSnapshot": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Resource": {
+          "fidelity": "partial",
+          "native_term": "entry",
+          "notes": "Tree entries are independently addressable; identity mapping is unverified."
+        },
+        "ResourceBinding": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "RunAttempt": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "Task": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Turn": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "WorkProfile": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "WorkSession": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Workspace": {
+          "fidelity": "partial",
+          "native_term": "worktree",
+          "notes": "A worktree is a material working environment. Not a WorkSession."
+        }
+      },
+      "verified_against": null
+    },
+    {
+      "compatibility_field_mappings": [
+        {
+          "awm_field": "(none; MCP session is a connection)",
+          "native_field": "session",
+          "notes": "Documented compatibility note only. Do not put session on AWM terms."
+        },
+        {
+          "awm_field": "(none)",
+          "native_field": "session_id",
+          "notes": "MCP session identifiers MUST NOT be imported as unqualified session_id fields on AWM terms."
+        }
+      ],
+      "description": "Mapping hook for the Model Context Protocol. MCP defines tools, resources, roots, and protocol connections. It does not define Agent Work Model work episodes. MCP \"session\" is a connection, not a WorkSession.",
+      "fidelity_overview": "partial",
+      "notes": "This mapping records known non-equivalences so implementations do not collapse MCP transport identity onto work identity. It is not a claim about any particular MCP SDK revision.",
+      "status": "draft",
+      "system": "mcp",
+      "terms": {
+        "AgentInstance": {
+          "fidelity": "ambiguous",
+          "native_term": "Server",
+          "notes": "An MCP server process is infrastructure. Not verified as AgentInstance."
+        },
+        "AgentProfile": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "AgentRun": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "Artifact": {
+          "fidelity": "ambiguous",
+          "native_term": "Resource",
+          "notes": "Exposing a file as an MCP resource does not make it a published Artifact."
+        },
+        "HostConversation": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "Principal": {
+          "fidelity": "tbd",
+          "native_term": null,
+          "notes": "Auth is transport-specific."
+        },
+        "Project": {
+          "fidelity": "none",
+          "native_term": null,
+          "notes": "MCP has no durable collaboration-and-policy Project."
+        },
+        "ProjectSnapshot": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "Resource": {
+          "fidelity": "partial",
+          "native_term": "Resource",
+          "notes": "MCP Resources are addressable. They are not project-owned and have no AWM binding model."
+        },
+        "ResourceBinding": {
+          "fidelity": "partial",
+          "native_term": "Root",
+          "notes": "Roots and subscriptions resemble grants. They are not WorkSession bindings."
+        },
+        "RunAttempt": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "Task": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "Turn": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "WorkProfile": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "WorkSession": {
+          "fidelity": "none",
+          "native_term": "session",
+          "notes": "MCP session is a protocol connection. Explicit non-mapping."
+        },
+        "Workspace": {
+          "fidelity": "partial",
+          "native_term": "Root",
+          "notes": "A root can expose a filesystem-like environment."
+        }
+      },
+      "verified_against": null
+    },
+    {
+      "compatibility_field_mappings": [
+        {
+          "awm_field": "host_conversation_id",
+          "native_field": "session",
+          "notes": "Compatibility hint only. Goose session is not accepted as WorkSession."
+        },
+        {
+          "awm_field": "host_conversation_id",
+          "native_field": "session_id",
+          "notes": "If imported, rewrite to a qualified host field. Never keep session_id on an AWM term."
+        }
+      ],
+      "description": "Mapping hook for Goose. Goose is a host product that owns conversation history. Its word \"session\" is treated as ambiguous until a specific Goose revision is reviewed.",
+      "fidelity_overview": "ambiguous",
+      "notes": "Do not assert that a Goose session is a WorkSession or an AgentRun. The conservative reading is HostConversation, and even that is only partial and unverified.",
+      "status": "draft",
+      "system": "goose",
+      "terms": {
+        "AgentInstance": {
+          "fidelity": "tbd",
+          "native_term": "goose process",
+          "notes": "A running Goose process is a likely AgentInstance. Unverified."
+        },
+        "AgentProfile": {
+          "fidelity": "ambiguous",
+          "native_term": "recipe",
+          "notes": "Recipes or extensions may overlap. Unverified."
+        },
+        "AgentRun": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Replacing the ambiguous \"agent session\" is the point of AgentRun. Unverified."
+        },
+        "Artifact": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "HostConversation": {
+          "fidelity": "partial",
+          "native_term": "session",
+          "notes": "Conservative mapping. Field-level equivalence is unverified."
+        },
+        "Principal": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Project": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "ProjectSnapshot": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Resource": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "ResourceBinding": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "RunAttempt": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Task": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Turn": {
+          "fidelity": "partial",
+          "native_term": "turn",
+          "notes": "Goose likely has turn-like steps. Unverified."
+        },
+        "WorkProfile": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "WorkSession": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Do not treat Goose session as WorkSession."
+        },
+        "Workspace": {
+          "fidelity": "tbd",
+          "native_term": "working directory",
+          "notes": "Likely a Workspace-like environment. Unverified."
+        }
+      },
+      "verified_against": null
+    },
+    {
+      "compatibility_field_mappings": [
+        {
+          "awm_field": "host_conversation_id",
+          "native_field": "session",
+          "notes": "Compatibility hint only."
+        },
+        {
+          "awm_field": "host_conversation_id",
+          "native_field": "session_id",
+          "notes": "Rewrite if imported. Never keep session_id on an AWM term."
+        }
+      ],
+      "description": "Mapping hook for Hermes. Hermes is treated as a host product that owns conversation history. No Hermes revision has been verified against this model.",
+      "fidelity_overview": "ambiguous",
+      "notes": "All correspondences are provisional. Prefer HostConversation over WorkSession when a Hermes \"session\" is encountered.",
+      "status": "draft",
+      "system": "hermes",
+      "terms": {
+        "AgentInstance": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "AgentProfile": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "AgentRun": {
+          "fidelity": "ambiguous",
+          "native_term": "session"
+        },
+        "Artifact": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "HostConversation": {
+          "fidelity": "partial",
+          "native_term": "session",
+          "notes": "Conservative mapping. Unverified."
+        },
+        "Principal": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Project": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "ProjectSnapshot": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Resource": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "ResourceBinding": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "RunAttempt": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Task": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Turn": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "WorkProfile": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "WorkSession": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Do not treat a Hermes session as a WorkSession without review."
+        },
+        "Workspace": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "verified_against": null
+    },
+    {
+      "compatibility_field_mappings": [
+        {
+          "awm_field": "host_conversation_id",
+          "native_field": "session",
+          "notes": "Compatibility hint only."
+        },
+        {
+          "awm_field": "host_conversation_id",
+          "native_field": "session_id",
+          "notes": "Rewrite if imported. Never keep session_id on an AWM term."
+        }
+      ],
+      "description": "Mapping hook for Crush. Crush is treated as a host product that owns conversation history. No Crush revision has been verified against this model.",
+      "fidelity_overview": "ambiguous",
+      "notes": "Crush \"session\" is recorded as a likely HostConversation and an explicit non-equivalent for WorkSession until verified.",
+      "status": "draft",
+      "system": "crush",
+      "terms": {
+        "AgentInstance": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "AgentProfile": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "AgentRun": {
+          "fidelity": "ambiguous",
+          "native_term": "session"
+        },
+        "Artifact": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "HostConversation": {
+          "fidelity": "partial",
+          "native_term": "session",
+          "notes": "Conservative mapping. Unverified."
+        },
+        "Principal": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Project": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "ProjectSnapshot": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Resource": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "ResourceBinding": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "RunAttempt": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Task": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "Turn": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "WorkProfile": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "WorkSession": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Do not treat a Crush session as a WorkSession."
+        },
+        "Workspace": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "verified_against": null
+    }
+  ],
+  "model": {
+    "canonical_source": "model/",
+    "description": "Protocol-neutral semantic interoperability model for agent work. The machine-readable documents under model/ are canonical for terms, relationships, ownership, lifecycle, aliases, mappings, and guidance.",
+    "license": "Apache-2.0",
+    "name": "Agent Work Model",
+    "status": "draft",
+    "version": "0.1.0"
+  },
+  "rules": [
+    {
+      "description": "Cross-cutting rules that the semantic linter and future generated prose must treat as normative. Distinct owner, lifecycle, cardinality, or failure semantics imply distinct entities and IDs.",
+      "id": "architecture",
+      "rules": [
+        {
+          "applies_to": [
+            "*"
+          ],
+          "enforcement": "documentary",
+          "id": "distinct-semantics-distinct-entities",
+          "level": "MUST",
+          "statement": "Distinct owner, lifecycle, cardinality, or failure semantics imply distinct entities and distinct identity fields."
+        },
+        {
+          "applies_to": [
+            "fields",
+            "identity"
+          ],
+          "enforcement": "lint",
+          "id": "no-unqualified-session-agent-context",
+          "level": "MUST NOT",
+          "lint_codes": [
+            "PROHIBITED_FIELD"
+          ],
+          "statement": "Unqualified session, agent, and context MUST NOT appear as normative schema field names except in documented compatibility mappings."
+        },
+        {
+          "applies_to": [
+            "authority"
+          ],
+          "enforcement": "lint",
+          "id": "one-mutable-authority",
+          "level": "MUST",
+          "lint_codes": [
+            "MISSING_AUTHORITY",
+            "FOREIGN_AUTHORITY"
+          ],
+          "statement": "Each entity has exactly one mutable authority. Foreign entities are referenced or observed, not duplicated as a second mutable truth."
+        },
+        {
+          "applies_to": [
+            "Project",
+            "ProjectSnapshot"
+          ],
+          "enforcement": "lint",
+          "id": "no-project-runtime-state",
+          "level": "MUST NOT",
+          "lint_codes": [
+            "RUNTIME_STATE"
+          ],
+          "statement": "Project and ProjectSnapshot MUST NOT contain active runtime state such as PIDs, ports, heartbeats, or current workspaces, runs, or conversations."
+        },
+        {
+          "applies_to": [
+            "ProjectSnapshot",
+            "WorkSession"
+          ],
+          "enforcement": "lint",
+          "id": "snapshot-immutable",
+          "level": "MUST",
+          "lint_codes": [
+            "IMMUTABLE_VIOLATION"
+          ],
+          "statement": "ProjectSnapshot is immutable. A project-bound WorkSession pins an exact snapshot revision and does not mutate it."
+        },
+        {
+          "applies_to": [
+            "WorkSession"
+          ],
+          "enforcement": "lint",
+          "id": "worksession-children",
+          "level": "MUST",
+          "lint_codes": [
+            "REQUIRED_RELATIONSHIP"
+          ],
+          "statement": "A WorkSession has zero or more ResourceBindings, AgentRuns, HostConversation attachments, Tasks, and Artifacts."
+        },
+        {
+          "applies_to": [
+            "AgentRun"
+          ],
+          "enforcement": "lint",
+          "id": "agentrun-one-worksession",
+          "level": "MUST",
+          "lint_codes": [
+            "PARENT_CARDINALITY",
+            "REQUIRED_RELATIONSHIP"
+          ],
+          "statement": "An AgentRun belongs to exactly one WorkSession and has zero or more RunAttempts and Turns."
+        },
+        {
+          "applies_to": [
+            "AgentInstance",
+            "AgentRun",
+            "RunAttempt"
+          ],
+          "enforcement": "lint",
+          "id": "instance-not-assignment",
+          "level": "MUST",
+          "lint_codes": [
+            "REQUIRED_RELATIONSHIP"
+          ],
+          "statement": "An AgentInstance may execute many RunAttempts. Replacing or restarting an instance does not change the AgentRun identity."
+        },
+        {
+          "applies_to": [
+            "identity"
+          ],
+          "enforcement": "lint",
+          "id": "ids-are-names",
+          "level": "MUST",
+          "lint_codes": [
+            "IDENTITY_AUTHORIZATION"
+          ],
+          "statement": "Identity fields and handles are names, not authorization."
+        },
+        {
+          "applies_to": [
+            "fields"
+          ],
+          "enforcement": "lint",
+          "id": "no-credentials-in-snapshots",
+          "level": "MUST NOT",
+          "lint_codes": [
+            "CREDENTIAL_SNAPSHOT"
+          ],
+          "statement": "Credentials MUST NOT be serialized in portable project or session snapshots."
+        },
+        {
+          "applies_to": [
+            "Project",
+            "WorkSession",
+            "ResourceBinding",
+            "AgentRun"
+          ],
+          "enforcement": "documentary",
+          "id": "policy-narrows",
+          "level": "MUST",
+          "statement": "Policy only narrows across trust boundaries. A child binding or run MUST NOT grant more than its parent project or session allows."
+        },
+        {
+          "applies_to": [
+            "relationships",
+            "parent"
+          ],
+          "enforcement": "lint",
+          "id": "inverse-cardinality-consistency",
+          "level": "MUST",
+          "lint_codes": [
+            "INVERSE_MISSING",
+            "INVERSE_CARDINALITY",
+            "INVERSE_TARGET"
+          ],
+          "statement": "Represented inverse relationships and cardinalities MUST agree on both ends."
+        },
+        {
+          "applies_to": [
+            "lifecycle"
+          ],
+          "enforcement": "lint",
+          "id": "lifecycle-closed",
+          "level": "MUST",
+          "lint_codes": [
+            "LIFECYCLE_STATE"
+          ],
+          "statement": "Lifecycle transitions MUST reference declared states of the same term."
+        },
+        {
+          "applies_to": [
+            "identity"
+          ],
+          "enforcement": "lint",
+          "id": "qualified-identity",
+          "level": "MUST",
+          "lint_codes": [
+            "QUALIFIED_IDENTITY"
+          ],
+          "statement": "Identity field names MUST be qualified snake_case names ending in _id, never a bare session, agent, or context token."
+        }
+      ],
+      "title": "Architecture rules"
+    }
+  ],
+  "terms": [
+    {
+      "aliases": [
+        "collaboration-scope"
+      ],
+      "anti_examples": [
+        "A local checkout directory.",
+        "An MCP client connection.",
+        "The current Goose or Crush chat transcript.",
+        "A running agent process."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The Project record is the sole mutable authority for project policy and membership.",
+        "owner": "Project"
+      },
+      "definition": "A durable named collaboration and policy scope. A Project outlives any single workspace, host conversation, or WorkSession and is the unit that people and systems recognize as \"the work we keep doing together.\"",
+      "deprecated_aliases": [],
+      "examples": [
+        "A named product effort that several WorkSessions and hosts attach to over months.",
+        "An interoperability profile shared by multiple agent systems under one policy."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "project_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "display_name",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "policy",
+          "name": "policy",
+          "notes": "Policy at the project boundary. Children may only narrow it.",
+          "portable_snapshot": true,
+          "type": "PolicyDocument"
+        },
+        {
+          "kind": "descriptive",
+          "name": "description",
+          "portable_snapshot": true,
+          "type": "string"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "project_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "no-runtime-state",
+          "level": "MUST NOT",
+          "text": "A Project MUST NOT store PIDs, ports, heartbeats, or current run/workspace/conversation pointers."
+        },
+        {
+          "code": "one-authority",
+          "level": "MUST",
+          "text": "Project policy and membership have exactly one mutable authority, the Project itself."
+        },
+        {
+          "code": "policy-narrows",
+          "level": "MUST",
+          "text": "Any WorkSession or ResourceBinding under this Project MUST only narrow project policy."
+        },
+        {
+          "code": "not-a-workspace",
+          "level": "MUST NOT",
+          "text": "A Project MUST NOT be treated as a Workspace or WorkSession."
+        }
+      ],
+      "key": "Project",
+      "lifecycle": {
+        "initial": "active",
+        "states": [
+          "active",
+          "archived"
+        ],
+        "terminal": [
+          "archived"
+        ],
+        "transitions": [
+          {
+            "from": "active",
+            "notes": "Archiving retains identity and snapshots; it does not delete history.",
+            "to": "archived"
+          }
+        ]
+      },
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "tbd",
+          "native_term": null,
+          "notes": "No verified awesometree Project concept at the time of writing."
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null,
+          "notes": "Unverified."
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null,
+          "notes": "Unverified whether Goose persists a Project distinct from conversation or session."
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null,
+          "notes": "Unverified."
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null,
+          "notes": "MCP does not define a durable collaboration-and-policy Project."
+        },
+        "project-interop": {
+          "fidelity": "partial",
+          "native_term": "Project",
+          "notes": "Name alignment is likely; treat field-level equivalence as unverified."
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "A Workspace is a material working environment, not the durable collaboration scope.",
+          "term": "Workspace"
+        },
+        {
+          "reason": "A WorkSession is a bounded episode; a Project outlives many sessions.",
+          "term": "WorkSession"
+        },
+        {
+          "reason": "A version-control repository may be a Resource bound into work; it is not the Project.",
+          "term": "repository"
+        },
+        {
+          "reason": "Unqualified session is prohibited; it collapses several distinct entities.",
+          "term": "session"
+        }
+      ],
+      "purpose": "Hold stable identity, membership, and policy that WorkSessions pin via a ProjectSnapshot. Projects are not a place to store live runtime.",
+      "relationships": [
+        {
+          "cardinality": "0..*",
+          "inverse": "project",
+          "inverse_cardinality": "1",
+          "kind": "contains",
+          "name": "snapshots",
+          "notes": "Every snapshot is a frozen revision of this project.",
+          "target": "ProjectSnapshot"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "observed_by_projects",
+          "inverse_cardinality": "0..*",
+          "kind": "observes",
+          "name": "known_resources",
+          "notes": "Observation only. The Project does not become a second owner of the Resource.",
+          "target": "Resource"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "projects",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "work_profiles",
+          "target": "WorkProfile"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "project-revision"
+      ],
+      "anti_examples": [
+        "A live project record that still accepts policy edits.",
+        "A bundle that includes API tokens or raw credentials."
+      ],
+      "authority": {
+        "mutable": false,
+        "notes": "Snapshots are append-only. Corrections produce a new snapshot, never an edit.",
+        "owner": "ProjectSnapshot"
+      },
+      "definition": "An immutable resolved project definition at an exact revision. It is the pinned meaning of a Project that a WorkSession actually ran against.",
+      "deprecated_aliases": [],
+      "examples": [
+        "Hash-addressed export of project policy and resource names used to open a WorkSession."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "project_snapshot_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "project_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "metadata",
+          "name": "revision",
+          "notes": "Exact revision identifier of the resolved definition.",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "metadata",
+          "name": "definition_hash",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "payload",
+          "name": "resolved_definition",
+          "notes": "Must not embed credentials or live runtime handles.",
+          "portable_snapshot": true,
+          "type": "object"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "project_snapshot_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "immutable",
+          "level": "MUST",
+          "text": "A ProjectSnapshot MUST be immutable after publication."
+        },
+        {
+          "code": "no-runtime-state",
+          "level": "MUST NOT",
+          "text": "A ProjectSnapshot MUST NOT contain PIDs, ports, heartbeats, or current workspace/run/conversation state."
+        },
+        {
+          "code": "no-credentials",
+          "level": "MUST NOT",
+          "text": "A ProjectSnapshot MUST NOT serialize credentials or other secrets."
+        },
+        {
+          "code": "pin-exact-revision",
+          "level": "MUST",
+          "text": "A project-bound WorkSession MUST pin exactly one ProjectSnapshot revision."
+        }
+      ],
+      "key": "ProjectSnapshot",
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null,
+          "notes": "Snapshot/export objects may exist; equivalence is unverified."
+        }
+      },
+      "mutability": "immutable",
+      "non_synonyms": [
+        {
+          "reason": "The live Project remains mutable; the snapshot is a frozen revision.",
+          "term": "Project"
+        },
+        {
+          "reason": "A snapshot is definition, not an episode of work.",
+          "term": "WorkSession"
+        }
+      ],
+      "parent": {
+        "cardinality": "1",
+        "inverse": "snapshots",
+        "inverse_cardinality": "0..*",
+        "term": "Project"
+      },
+      "purpose": "Give WorkSessions a frozen, portable project definition so later mutation of the live Project cannot rewrite history.",
+      "relationships": [
+        {
+          "cardinality": "1",
+          "inverse": "snapshots",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "project",
+          "target": "Project"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "project_snapshot",
+          "inverse_cardinality": "0..1",
+          "kind": "observes",
+          "name": "pinned_by_work_sessions",
+          "target": "WorkSession"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "session-blueprint"
+      ],
+      "anti_examples": [
+        "The currently open review being performed by an agent."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The profile document is the sole mutable authority for the blueprint.",
+        "owner": "WorkProfile"
+      },
+      "definition": "A reusable blueprint for a kind of WorkSession. It describes intended participants, resource shapes, and task patterns without being a live episode of work.",
+      "deprecated_aliases": [],
+      "examples": [
+        "A \"code review\" blueprint reused every time a review WorkSession is opened."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "work_profile_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "display_name",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "descriptive",
+          "name": "intended_resources",
+          "portable_snapshot": true,
+          "type": "list"
+        },
+        {
+          "kind": "policy",
+          "name": "default_policy",
+          "portable_snapshot": true,
+          "type": "PolicyDocument"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "work_profile_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "not-a-session",
+          "level": "MUST NOT",
+          "text": "A WorkProfile MUST NOT be treated as a live WorkSession or as runtime state."
+        },
+        {
+          "code": "reusable",
+          "level": "SHOULD",
+          "text": "A WorkProfile SHOULD be reusable across many WorkSessions."
+        }
+      ],
+      "key": "WorkProfile",
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "The profile is a template; the session is a bounded episode created from it.",
+          "term": "WorkSession"
+        },
+        {
+          "reason": "AgentProfile describes an eligible kind of agent, not a kind of work episode.",
+          "term": "AgentProfile"
+        }
+      ],
+      "purpose": "Let teams open many similar WorkSessions from one declared template without copying ad-hoc session configuration.",
+      "relationships": [
+        {
+          "cardinality": "0..*",
+          "inverse": "work_profiles",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "projects",
+          "target": "Project"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "work_profile",
+          "inverse_cardinality": "0..1",
+          "kind": "observes",
+          "name": "work_sessions",
+          "target": "WorkSession"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "work-resource"
+      ],
+      "anti_examples": [
+        "An ephemeral in-memory retrieval blob with no address.",
+        "A capability token (that is a credential, not a Resource identity)."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The Resource's native authority remains authoritative. Project and session records only reference or bind it.",
+        "owner": "Resource"
+      },
+      "definition": "An independently addressable thing relevant to work. A Resource is not necessarily owned by a Project; projects and sessions observe or bind it.",
+      "deprecated_aliases": [],
+      "examples": [
+        "A git repository URL.",
+        "A dataset catalog entry.",
+        "A ticket project that several WorkSessions consult."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "resource_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "identity",
+          "name": "uri",
+          "notes": "Address, not a capability.",
+          "portable_snapshot": true,
+          "type": "uri"
+        },
+        {
+          "kind": "descriptive",
+          "name": "kind",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "descriptive",
+          "name": "display_name",
+          "portable_snapshot": true,
+          "type": "string"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "resource_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "independently-addressable",
+          "level": "MUST",
+          "text": "A Resource MUST remain independently addressable outside any one Project."
+        },
+        {
+          "code": "not-owned-by-binding",
+          "level": "MUST NOT",
+          "text": "A ResourceBinding MUST NOT become the mutable authority for the Resource."
+        },
+        {
+          "code": "ids-are-names",
+          "level": "MUST",
+          "text": "resource_id and uri are names. They do not grant access."
+        }
+      ],
+      "key": "Resource",
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "partial",
+          "native_term": "entry",
+          "notes": "Tree entries may correspond to resources; do not assume identity equivalence."
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "partial",
+          "native_term": "Resource",
+          "notes": "MCP Resources are addressable, but MCP does not define project/session bindings."
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "The binding is a session-specific grant and resolution, not the thing itself.",
+          "term": "ResourceBinding"
+        },
+        {
+          "reason": "An Artifact is an output published by work, not an independently existing resource.",
+          "term": "Artifact"
+        },
+        {
+          "reason": "Workspace is a Resource subtype, not a synonym for every Resource.",
+          "term": "Workspace"
+        }
+      ],
+      "purpose": "Name the durable thing (repository, dataset, ticket tracker, workspace environment, secret store) that bindings and policies talk about.",
+      "relationships": [
+        {
+          "cardinality": "0..*",
+          "inverse": "known_resources",
+          "inverse_cardinality": "0..*",
+          "kind": "observes",
+          "name": "observed_by_projects",
+          "target": "Project"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "resource",
+          "inverse_cardinality": "1",
+          "kind": "observes",
+          "name": "bindings",
+          "target": "ResourceBinding"
+        },
+        {
+          "cardinality": "0..1",
+          "inverse": "as_resource",
+          "inverse_cardinality": "1",
+          "kind": "observes",
+          "name": "workspace_form",
+          "notes": "Present when this resource is (or specializes as) a Workspace.",
+          "target": "Workspace"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "session-resource-grant"
+      ],
+      "anti_examples": [
+        "Copying the repository's mutable metadata into the session as a second source of truth."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The binding is the sole mutable authority for this session's grant, not for the Resource.",
+        "owner": "ResourceBinding"
+      },
+      "definition": "A WorkSession-specific resolution and grant for a Resource. The binding records how this session names, locates, and is allowed to use the Resource without becoming a second owner of it.",
+      "deprecated_aliases": [],
+      "examples": [
+        "Granting a WorkSession read-only access to a named repository at a pinned locator."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "resource_binding_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "work_session_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "resource_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "policy",
+          "name": "grant",
+          "notes": "Must be a narrowing of session and project policy.",
+          "portable_snapshot": true,
+          "type": "Grant"
+        },
+        {
+          "kind": "reference",
+          "name": "resolved_locator",
+          "notes": "How this session locates the resource. Not a credential.",
+          "portable_snapshot": true,
+          "type": "string"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "resource_binding_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "session-specific",
+          "level": "MUST",
+          "text": "A ResourceBinding MUST belong to exactly one WorkSession."
+        },
+        {
+          "code": "policy-narrows",
+          "level": "MUST",
+          "text": "A binding grant MUST NOT exceed the WorkSession or Project policy."
+        },
+        {
+          "code": "not-resource-authority",
+          "level": "MUST NOT",
+          "text": "A ResourceBinding MUST NOT claim mutable authority over the Resource."
+        },
+        {
+          "code": "no-credentials",
+          "level": "MUST NOT",
+          "text": "A portable binding MUST NOT serialize credentials."
+        }
+      ],
+      "key": "ResourceBinding",
+      "lifecycle": {
+        "initial": "proposed",
+        "states": [
+          "proposed",
+          "bound",
+          "revoked"
+        ],
+        "terminal": [
+          "revoked"
+        ],
+        "transitions": [
+          {
+            "from": "proposed",
+            "to": "bound"
+          },
+          {
+            "from": "bound",
+            "to": "revoked"
+          },
+          {
+            "from": "proposed",
+            "to": "revoked"
+          }
+        ]
+      },
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "partial",
+          "native_term": "Root",
+          "notes": "MCP roots or resource subscriptions are related but are not session grants."
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "The resource exists independently of any one session binding.",
+          "term": "Resource"
+        },
+        {
+          "reason": "A Workspace may be the bound resource; the binding is the grant, not the environment.",
+          "term": "Workspace"
+        }
+      ],
+      "parent": {
+        "cardinality": "1",
+        "inverse": "resource_bindings",
+        "inverse_cardinality": "0..*",
+        "term": "WorkSession"
+      },
+      "purpose": "Attach a Resource to one WorkSession with a narrowed grant, leaving the Resource's native authority intact.",
+      "relationships": [
+        {
+          "cardinality": "1",
+          "inverse": "resource_bindings",
+          "inverse_cardinality": "0..*",
+          "kind": "binds",
+          "name": "work_session",
+          "target": "WorkSession"
+        },
+        {
+          "cardinality": "1",
+          "inverse": "bindings",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "resource",
+          "target": "Resource"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "working-environment"
+      ],
+      "anti_examples": [
+        "The host product's chat transcript.",
+        "An MCP stdio connection."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The environment's host is the mutable authority for the Workspace resource.",
+        "owner": "Workspace"
+      },
+      "definition": "A Resource subtype that provides a material working environment (files, checkout, container, or equivalent). A Workspace is not a WorkSession.",
+      "deprecated_aliases": [],
+      "examples": [
+        "A git worktree used by one WorkSession.",
+        "A container filesystem mounted for an AgentRun."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "workspace_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "resource_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "environment_kind",
+          "portable_snapshot": true,
+          "type": "string"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "workspace_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "is-a-resource",
+          "level": "MUST",
+          "text": "A Workspace MUST be independently addressable as a Resource."
+        },
+        {
+          "code": "not-a-session",
+          "level": "MUST NOT",
+          "text": "A Workspace MUST NOT be treated as a WorkSession or as an MCP connection."
+        },
+        {
+          "code": "not-the-project",
+          "level": "MUST NOT",
+          "text": "A Workspace MUST NOT be treated as the Project."
+        }
+      ],
+      "key": "Workspace",
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "partial",
+          "native_term": "worktree",
+          "notes": "Awesometree worktrees look like Workspace resources; treat identity mapping as unverified."
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": "working directory",
+          "notes": "Goose working directories are a likely partial mapping, unverified."
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "partial",
+          "native_term": "Root",
+          "notes": "MCP roots expose filesystem-like environments; they are not WorkSessions."
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "The session coordinates work; the workspace is one bound environment.",
+          "term": "WorkSession"
+        },
+        {
+          "reason": "The project is the durable policy scope, not a checkout or container.",
+          "term": "Project"
+        },
+        {
+          "reason": "Chat history is not a working environment.",
+          "term": "HostConversation"
+        }
+      ],
+      "purpose": "Name the environment in which work is performed so it can be bound into a WorkSession without being confused with the episode of work itself.",
+      "relationships": [
+        {
+          "cardinality": "1",
+          "inverse": "workspace_form",
+          "inverse_cardinality": "0..1",
+          "kind": "specializes",
+          "name": "as_resource",
+          "target": "Resource"
+        },
+        {
+          "cardinality": "0..*",
+          "kind": "observes",
+          "name": "bound_in",
+          "notes": "Bindings attach the workspace into WorkSessions; they do not own it.",
+          "target": "ResourceBinding"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "work-episode"
+      ],
+      "anti_examples": [
+        "A Crush or Goose chat thread taken as the work itself.",
+        "An MCP stdio or HTTP session.",
+        "A durable Project."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The WorkSession record is the sole mutable authority for the episode graph.",
+        "owner": "WorkSession"
+      },
+      "definition": "A bounded episode of work that coordinates resources and participants. A WorkSession may contain many AgentRuns and ResourceBindings. It is never an MCP connection and never a host chat transcript.",
+      "deprecated_aliases": [
+        "session"
+      ],
+      "examples": [
+        "A time-bounded incident response that several agents and a human join.",
+        "A multi-hour implementation episode pinning one ProjectSnapshot."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "work_session_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "project_snapshot_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "work_profile_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "display_name",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "policy",
+          "name": "policy",
+          "notes": "Must only narrow the pinned ProjectSnapshot policy.",
+          "portable_snapshot": true,
+          "type": "PolicyDocument"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "work_session_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "pin-exact-snapshot",
+          "level": "MUST",
+          "text": "A project-bound WorkSession MUST pin exactly one ProjectSnapshot revision."
+        },
+        {
+          "code": "children-cardinalities",
+          "level": "MUST",
+          "text": "A WorkSession MUST allow 0..* ResourceBindings, AgentRuns, HostConversation attachments, Tasks, and Artifacts."
+        },
+        {
+          "code": "not-mcp-connection",
+          "level": "MUST NOT",
+          "text": "A WorkSession MUST NOT be identified with an MCP connection or transport session."
+        },
+        {
+          "code": "not-host-conversation",
+          "level": "MUST NOT",
+          "text": "A WorkSession MUST NOT be identified with a HostConversation."
+        },
+        {
+          "code": "no-credentials",
+          "level": "MUST NOT",
+          "text": "A portable WorkSession snapshot MUST NOT serialize credentials."
+        },
+        {
+          "code": "policy-narrows",
+          "level": "MUST",
+          "text": "WorkSession policy MUST only narrow the pinned project policy."
+        }
+      ],
+      "key": "WorkSession",
+      "lifecycle": {
+        "initial": "proposed",
+        "states": [
+          "proposed",
+          "open",
+          "paused",
+          "closed",
+          "aborted"
+        ],
+        "terminal": [
+          "closed",
+          "aborted"
+        ],
+        "transitions": [
+          {
+            "from": "proposed",
+            "to": "open"
+          },
+          {
+            "from": "open",
+            "to": "paused"
+          },
+          {
+            "from": "paused",
+            "to": "open"
+          },
+          {
+            "from": "open",
+            "to": "closed"
+          },
+          {
+            "from": "paused",
+            "to": "closed"
+          },
+          {
+            "from": "open",
+            "to": "aborted"
+          },
+          {
+            "from": "paused",
+            "to": "aborted"
+          },
+          {
+            "from": "proposed",
+            "to": "aborted"
+          }
+        ]
+      },
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Unverified; Crush session is likely a host conversation, not a WorkSession."
+        },
+        "goose": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Goose \"session\" often names host conversation or process state. Do not treat as WorkSession without a verified mapping."
+        },
+        "hermes": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Unverified; host products commonly overload \"session\"."
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": "session",
+          "notes": "MCP session means a protocol connection. Documented as a non-mapping."
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "Host chat history may attach to a session; it is not the session.",
+          "term": "HostConversation"
+        },
+        {
+          "reason": "An AgentRun is one agent's assignment inside the session.",
+          "term": "AgentRun"
+        },
+        {
+          "reason": "A workspace is a bound environment, not the coordinating episode.",
+          "term": "Workspace"
+        },
+        {
+          "reason": "MCP connections are transports, not work episodes.",
+          "term": "MCP session"
+        }
+      ],
+      "purpose": "Be the unit that binds a ProjectSnapshot, resources, tasks, artifacts, conversations, and agent assignments into one episode with a start and an end.",
+      "relationships": [
+        {
+          "cardinality": "0..1",
+          "inverse": "pinned_by_work_sessions",
+          "inverse_cardinality": "0..*",
+          "kind": "pins",
+          "name": "project_snapshot",
+          "notes": "Project-bound sessions pin an exact snapshot revision.",
+          "target": "ProjectSnapshot"
+        },
+        {
+          "cardinality": "0..1",
+          "inverse": "work_sessions",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "work_profile",
+          "target": "WorkProfile"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "work_session",
+          "inverse_cardinality": "1",
+          "kind": "contains",
+          "name": "resource_bindings",
+          "target": "ResourceBinding"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "work_session",
+          "inverse_cardinality": "1",
+          "kind": "contains",
+          "name": "agent_runs",
+          "target": "AgentRun"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "work_session",
+          "inverse_cardinality": "0..1",
+          "kind": "attaches",
+          "name": "host_conversation_attachments",
+          "target": "HostConversation"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "work_session",
+          "inverse_cardinality": "1",
+          "kind": "contains",
+          "name": "tasks",
+          "target": "Task"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "work_session",
+          "inverse_cardinality": "0..1",
+          "kind": "contains",
+          "name": "artifacts",
+          "target": "Artifact"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "participating_sessions",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "participants",
+          "target": "Principal"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "agent-kind"
+      ],
+      "anti_examples": [
+        "A PID of a currently running agent process."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The profile document is the sole mutable authority for the kind.",
+        "owner": "AgentProfile"
+      },
+      "definition": "A declarative description of an eligible kind of agent. It names capabilities, constraints, and intended roles without identifying a running process.",
+      "deprecated_aliases": [],
+      "examples": [
+        "A \"repository reviewer\" profile reused across many AgentRuns."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "agent_profile_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "display_name",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "descriptive",
+          "name": "capabilities",
+          "portable_snapshot": true,
+          "type": "list"
+        },
+        {
+          "kind": "policy",
+          "name": "constraints",
+          "portable_snapshot": true,
+          "type": "object"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "agent_profile_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "not-an-instance",
+          "level": "MUST NOT",
+          "text": "An AgentProfile MUST NOT be treated as a running AgentInstance."
+        },
+        {
+          "code": "not-an-assignment",
+          "level": "MUST NOT",
+          "text": "An AgentProfile MUST NOT be treated as an AgentRun."
+        }
+      ],
+      "key": "AgentProfile",
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "ambiguous",
+          "native_term": "recipe",
+          "notes": "Goose recipes or extensions may overlap; do not treat as verified AgentProfile."
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "The instance is a running process or endpoint, not the declared kind.",
+          "term": "AgentInstance"
+        },
+        {
+          "reason": "The run is a bounded assignment, not a reusable kind.",
+          "term": "AgentRun"
+        },
+        {
+          "reason": "A principal is an authenticated identity, which a profile is not.",
+          "term": "Principal"
+        }
+      ],
+      "purpose": "Select and constrain which kinds of agents may be assigned to AgentRuns without confusing the kind with a live instance or an assignment.",
+      "relationships": [
+        {
+          "cardinality": "0..*",
+          "inverse": "profile",
+          "inverse_cardinality": "0..1",
+          "kind": "observes",
+          "name": "instances",
+          "target": "AgentInstance"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "agent_profile",
+          "inverse_cardinality": "0..1",
+          "kind": "observes",
+          "name": "assigned_runs",
+          "target": "AgentRun"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "running-agent"
+      ],
+      "anti_examples": [
+        "The logical assignment \"review PR 42\" (that is an AgentRun or Task)."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The instance record is the authority for liveness of this process or endpoint.",
+        "owner": "AgentInstance"
+      },
+      "definition": "A running process or remote endpoint capable of executing RunAttempts. An AgentInstance is not an assignment and is not a Principal.",
+      "deprecated_aliases": [],
+      "examples": [
+        "A local goose process that executes several RunAttempts and is then replaced.",
+        "A remote agent endpoint that picks up attempts for more than one AgentRun."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "agent_instance_id",
+          "notes": "Instance identity is not required in portable project snapshots.",
+          "portable_snapshot": false,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "agent_profile_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "endpoint",
+          "portable_snapshot": false,
+          "type": "uri"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "agent_instance_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "many-attempts",
+          "level": "MUST",
+          "text": "An AgentInstance MAY execute many RunAttempts, including for different AgentRuns."
+        },
+        {
+          "code": "restart-does-not-change-run",
+          "level": "MUST NOT",
+          "text": "Replacing or restarting an AgentInstance MUST NOT change an AgentRun identity."
+        },
+        {
+          "code": "not-an-assignment",
+          "level": "MUST NOT",
+          "text": "An AgentInstance MUST NOT be treated as an AgentRun."
+        },
+        {
+          "code": "not-a-principal",
+          "level": "MUST NOT",
+          "text": "An AgentInstance MUST NOT be treated as the authenticated Principal."
+        }
+      ],
+      "key": "AgentInstance",
+      "lifecycle": {
+        "initial": "starting",
+        "states": [
+          "starting",
+          "ready",
+          "busy",
+          "stopping",
+          "stopped",
+          "failed"
+        ],
+        "terminal": [
+          "stopped",
+          "failed"
+        ],
+        "transitions": [
+          {
+            "from": "starting",
+            "to": "ready"
+          },
+          {
+            "from": "starting",
+            "to": "failed"
+          },
+          {
+            "from": "ready",
+            "to": "busy"
+          },
+          {
+            "from": "busy",
+            "to": "ready"
+          },
+          {
+            "from": "ready",
+            "to": "stopping"
+          },
+          {
+            "from": "busy",
+            "to": "stopping"
+          },
+          {
+            "from": "stopping",
+            "to": "stopped"
+          },
+          {
+            "from": "ready",
+            "to": "failed"
+          },
+          {
+            "from": "busy",
+            "to": "failed"
+          },
+          {
+            "from": "starting",
+            "to": "stopping"
+          }
+        ]
+      },
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": "goose process",
+          "notes": "A running Goose process is a likely AgentInstance. Unverified."
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "ambiguous",
+          "native_term": "Server",
+          "notes": "An MCP server process is infrastructure, not an AgentRun. Mapping is not verified."
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "ephemeral",
+      "non_synonyms": [
+        {
+          "reason": "The run is the assignment; the instance is the executor.",
+          "term": "AgentRun"
+        },
+        {
+          "reason": "The profile is the kind; the instance is a live process or endpoint.",
+          "term": "AgentProfile"
+        },
+        {
+          "reason": "Identity for auth is Principal; the instance is infrastructure.",
+          "term": "Principal"
+        }
+      ],
+      "purpose": "Name the live executor that performs attempts so that replacing or restarting it does not rewrite the AgentRun identity.",
+      "relationships": [
+        {
+          "cardinality": "0..1",
+          "inverse": "instances",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "profile",
+          "target": "AgentProfile"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "agent_instance",
+          "inverse_cardinality": "0..1",
+          "kind": "executes",
+          "name": "run_attempts",
+          "target": "RunAttempt"
+        },
+        {
+          "cardinality": "0..1",
+          "inverse": "agent_instances",
+          "inverse_cardinality": "0..*",
+          "kind": "authenticates",
+          "name": "principal",
+          "notes": "The instance may present a Principal; it is not itself the Principal.",
+          "target": "Principal"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "agent-assignment"
+      ],
+      "anti_examples": [
+        "Calling the host chat an \"agent session\".",
+        "Re-identifying the assignment when the process is restarted."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The AgentRun record is the sole mutable authority for the assignment.",
+        "owner": "AgentRun"
+      },
+      "definition": "One agent's bounded assignment within exactly one WorkSession. An AgentRun may contain Turns and RunAttempts. This is the accepted term that replaces the ambiguous phrase \"agent session\".",
+      "deprecated_aliases": [
+        "agent-session",
+        "agent session"
+      ],
+      "examples": [
+        "Assigning one reviewer agent to a WorkSession to produce a review Artifact."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "agent_run_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "work_session_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "agent_profile_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "assigned_principal_id",
+          "portable_snapshot": true,
+          "type": "name"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "agent_run_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "exact-one-worksession",
+          "level": "MUST",
+          "text": "An AgentRun MUST belong to exactly one WorkSession."
+        },
+        {
+          "code": "children",
+          "level": "MUST",
+          "text": "An AgentRun MUST allow 0..* RunAttempts and 0..* Turns."
+        },
+        {
+          "code": "instance-restart-stable",
+          "level": "MUST NOT",
+          "text": "Replacing or restarting an AgentInstance MUST NOT change agent_run_id."
+        },
+        {
+          "code": "not-agent-session",
+          "level": "MUST NOT",
+          "text": "Implementations MUST NOT use unqualified \"agent session\" as the name of this entity."
+        },
+        {
+          "code": "policy-narrows",
+          "level": "MUST",
+          "text": "An AgentRun MUST only receive grants that narrow WorkSession policy."
+        }
+      ],
+      "key": "AgentRun",
+      "lifecycle": {
+        "initial": "assigned",
+        "states": [
+          "assigned",
+          "running",
+          "blocked",
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "terminal": [
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "transitions": [
+          {
+            "from": "assigned",
+            "to": "running"
+          },
+          {
+            "from": "running",
+            "to": "blocked"
+          },
+          {
+            "from": "blocked",
+            "to": "running"
+          },
+          {
+            "from": "running",
+            "to": "succeeded"
+          },
+          {
+            "from": "running",
+            "to": "failed"
+          },
+          {
+            "from": "assigned",
+            "to": "cancelled"
+          },
+          {
+            "from": "running",
+            "to": "cancelled"
+          },
+          {
+            "from": "blocked",
+            "to": "cancelled"
+          },
+          {
+            "from": "assigned",
+            "to": "failed"
+          }
+        ]
+      },
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Unverified."
+        },
+        "goose": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Goose session is commonly a host conversation or process. Not a verified AgentRun."
+        },
+        "hermes": {
+          "fidelity": "ambiguous",
+          "native_term": "session",
+          "notes": "Unverified."
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null,
+          "notes": "MCP has no AgentRun. An MCP session is a connection."
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "The session may contain many AgentRuns.",
+          "term": "WorkSession"
+        },
+        {
+          "reason": "The instance executes attempts; it is not the assignment.",
+          "term": "AgentInstance"
+        },
+        {
+          "reason": "An attempt is one infrastructure execution of the run.",
+          "term": "RunAttempt"
+        },
+        {
+          "reason": "A turn is one input-to-output cycle inside the run.",
+          "term": "Turn"
+        },
+        {
+          "reason": "A task is a schedulable graph node and is not necessarily 1:1 with a run.",
+          "term": "Task"
+        },
+        {
+          "reason": "Host chat is not an agent assignment.",
+          "term": "HostConversation"
+        }
+      ],
+      "parent": {
+        "cardinality": "1",
+        "inverse": "agent_runs",
+        "inverse_cardinality": "0..*",
+        "term": "WorkSession"
+      },
+      "purpose": "Record the assignment, its outcomes, and the attempts and turns that fulfilled it, independently of which AgentInstance executed them.",
+      "relationships": [
+        {
+          "cardinality": "1",
+          "inverse": "agent_runs",
+          "inverse_cardinality": "0..*",
+          "kind": "assigns",
+          "name": "work_session",
+          "target": "WorkSession"
+        },
+        {
+          "cardinality": "0..1",
+          "inverse": "assigned_runs",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "agent_profile",
+          "target": "AgentProfile"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "agent_run",
+          "inverse_cardinality": "1",
+          "kind": "contains",
+          "name": "run_attempts",
+          "target": "RunAttempt"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "agent_run",
+          "inverse_cardinality": "1",
+          "kind": "contains",
+          "name": "turns",
+          "target": "Turn"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "agent_runs",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "tasks",
+          "notes": "A Task is not necessarily 1:1 with an AgentRun.",
+          "target": "Task"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "produced_by_run",
+          "inverse_cardinality": "0..1",
+          "kind": "publishes",
+          "name": "artifacts",
+          "target": "Artifact"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "execution-attempt"
+      ],
+      "anti_examples": [
+        "Minting a new AgentRun because the process crashed."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The attempt record is the authority for this execution try.",
+        "owner": "RunAttempt"
+      },
+      "definition": "One infrastructure execution attempt for an AgentRun. Failures, retries, and instance replacements produce new RunAttempts under the same AgentRun.",
+      "deprecated_aliases": [],
+      "examples": [
+        "Retrying a failed launch on a replacement AgentInstance under the same agent_run_id."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "run_attempt_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "agent_run_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "agent_instance_id",
+          "portable_snapshot": false,
+          "type": "name"
+        },
+        {
+          "kind": "metadata",
+          "name": "failure_class",
+          "portable_snapshot": true,
+          "type": "string"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "run_attempt_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "belongs-to-run",
+          "level": "MUST",
+          "text": "A RunAttempt MUST belong to exactly one AgentRun."
+        },
+        {
+          "code": "instance-replaceable",
+          "level": "MUST",
+          "text": "A later RunAttempt MAY be executed by a different AgentInstance than an earlier one."
+        },
+        {
+          "code": "not-the-run",
+          "level": "MUST NOT",
+          "text": "A RunAttempt MUST NOT replace the AgentRun identity."
+        }
+      ],
+      "key": "RunAttempt",
+      "lifecycle": {
+        "initial": "queued",
+        "states": [
+          "queued",
+          "running",
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "terminal": [
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "transitions": [
+          {
+            "from": "queued",
+            "to": "running"
+          },
+          {
+            "from": "running",
+            "to": "succeeded"
+          },
+          {
+            "from": "running",
+            "to": "failed"
+          },
+          {
+            "from": "queued",
+            "to": "cancelled"
+          },
+          {
+            "from": "running",
+            "to": "cancelled"
+          },
+          {
+            "from": "queued",
+            "to": "failed"
+          }
+        ]
+      },
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "ephemeral",
+      "non_synonyms": [
+        {
+          "reason": "The run is the assignment; the attempt is one try at executing it.",
+          "term": "AgentRun"
+        },
+        {
+          "reason": "Turns are conversational or control cycles, not infrastructure launches.",
+          "term": "Turn"
+        },
+        {
+          "reason": "The instance is the executor, not the attempt record.",
+          "term": "AgentInstance"
+        }
+      ],
+      "parent": {
+        "cardinality": "1",
+        "inverse": "run_attempts",
+        "inverse_cardinality": "0..*",
+        "term": "AgentRun"
+      },
+      "purpose": "Separate retry and crash semantics from the logical assignment so an AgentRun can survive executor replacement.",
+      "relationships": [
+        {
+          "cardinality": "1",
+          "inverse": "run_attempts",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "agent_run",
+          "target": "AgentRun"
+        },
+        {
+          "cardinality": "0..1",
+          "inverse": "run_attempts",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "agent_instance",
+          "target": "AgentInstance"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "run-turn"
+      ],
+      "anti_examples": [
+        "The entire Goose or Crush transcript."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The turn record is the authority for this cycle.",
+        "owner": "Turn"
+      },
+      "definition": "One input-to-output or control-yield cycle inside an AgentRun. A Turn is smaller than a RunAttempt and is not a HostConversation.",
+      "deprecated_aliases": [],
+      "examples": [
+        "One model invocation that yields a tool call and later completes."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "turn_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "agent_run_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "metadata",
+          "name": "sequence",
+          "portable_snapshot": true,
+          "type": "integer"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "turn_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "inside-run",
+          "level": "MUST",
+          "text": "A Turn MUST belong to exactly one AgentRun."
+        },
+        {
+          "code": "not-host-conversation",
+          "level": "MUST NOT",
+          "text": "A Turn MUST NOT be treated as a HostConversation."
+        },
+        {
+          "code": "not-an-attempt",
+          "level": "MUST NOT",
+          "text": "A Turn MUST NOT be treated as a RunAttempt."
+        }
+      ],
+      "key": "Turn",
+      "lifecycle": {
+        "initial": "open",
+        "states": [
+          "open",
+          "yielded",
+          "completed",
+          "aborted"
+        ],
+        "terminal": [
+          "completed",
+          "aborted"
+        ],
+        "transitions": [
+          {
+            "from": "open",
+            "to": "yielded"
+          },
+          {
+            "from": "yielded",
+            "to": "open"
+          },
+          {
+            "from": "open",
+            "to": "completed"
+          },
+          {
+            "from": "yielded",
+            "to": "completed"
+          },
+          {
+            "from": "open",
+            "to": "aborted"
+          },
+          {
+            "from": "yielded",
+            "to": "aborted"
+          }
+        ]
+      },
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "partial",
+          "native_term": "turn",
+          "notes": "Goose likely has turn-like steps. Equivalence is unverified."
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "Host chat is owned by the host product and may span or omit turns.",
+          "term": "HostConversation"
+        },
+        {
+          "reason": "An attempt is an infrastructure execution, not one I/O cycle.",
+          "term": "RunAttempt"
+        },
+        {
+          "reason": "A run contains many turns.",
+          "term": "AgentRun"
+        }
+      ],
+      "parent": {
+        "cardinality": "1",
+        "inverse": "turns",
+        "inverse_cardinality": "0..*",
+        "term": "AgentRun"
+      },
+      "purpose": "Account for the conversational or control steps that make up an AgentRun without collapsing them into host chat or infrastructure attempts.",
+      "relationships": [
+        {
+          "cardinality": "1",
+          "inverse": "turns",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "agent_run",
+          "target": "AgentRun"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "host-chat"
+      ],
+      "anti_examples": [
+        "Calling the host chat the WorkSession.",
+        "Using MCP connection identity as the conversation identity."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The host product is the mutable authority for this conversation history.",
+        "owner": "HostConversation"
+      },
+      "definition": "Conversation history owned by a host product such as Goose, Hermes, or Crush. A HostConversation may attach to a WorkSession but is not the WorkSession.",
+      "deprecated_aliases": [
+        "session"
+      ],
+      "examples": [
+        "A Goose conversation that a user later attaches to an existing WorkSession.",
+        "A Crush chat that never attaches to any WorkSession."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "host_conversation_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "work_session_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "host_system",
+          "notes": "Name of the owning host (goose, hermes, crush, or other).",
+          "portable_snapshot": true,
+          "type": "string"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "host_conversation_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "host-owned",
+          "level": "MUST",
+          "text": "A HostConversation MUST remain owned by its host product."
+        },
+        {
+          "code": "not-the-session",
+          "level": "MUST NOT",
+          "text": "A HostConversation MUST NOT be treated as a WorkSession."
+        },
+        {
+          "code": "not-an-agent-run",
+          "level": "MUST NOT",
+          "text": "A HostConversation MUST NOT be treated as an AgentRun."
+        },
+        {
+          "code": "optional-attachment",
+          "level": "SHOULD",
+          "text": "A HostConversation SHOULD be attachable to at most one WorkSession."
+        }
+      ],
+      "key": "HostConversation",
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "partial",
+          "native_term": "session",
+          "notes": "Crush session/chat is a likely HostConversation. Unverified."
+        },
+        "goose": {
+          "fidelity": "partial",
+          "native_term": "session",
+          "notes": "Goose session/conversation is a likely HostConversation. Field-level mapping is unverified."
+        },
+        "hermes": {
+          "fidelity": "partial",
+          "native_term": "session",
+          "notes": "Hermes conversation history is a likely HostConversation. Unverified."
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null,
+          "notes": "MCP is a tool protocol, not a host conversation store."
+        },
+        "project-interop": {
+          "fidelity": "none",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "The session is the work episode; the conversation is host-owned history.",
+          "term": "WorkSession"
+        },
+        {
+          "reason": "Turns live inside an AgentRun; host messages may not map 1:1.",
+          "term": "Turn"
+        },
+        {
+          "reason": "An assignment is not a chat transcript.",
+          "term": "AgentRun"
+        }
+      ],
+      "purpose": "Keep host-owned chat history distinct from the work episode, the assignment, and individual turns so products can attach transcripts without becoming the model.",
+      "relationships": [
+        {
+          "cardinality": "0..1",
+          "inverse": "host_conversation_attachments",
+          "inverse_cardinality": "0..*",
+          "kind": "attaches",
+          "name": "work_session",
+          "target": "WorkSession"
+        },
+        {
+          "cardinality": "0..1",
+          "inverse": "owned_conversations",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "owner_principal",
+          "target": "Principal"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "work-item"
+      ],
+      "anti_examples": [
+        "Equating every AgentRun with exactly one Task."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The task record is the authority for this graph node.",
+        "owner": "Task"
+      },
+      "definition": "A schedulable unit in a WorkSession task graph. A Task is not necessarily one-to-one with an AgentRun.",
+      "deprecated_aliases": [],
+      "examples": [
+        "A \"draft the migration plan\" node that two AgentRuns later serve."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "task_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "work_session_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "title",
+          "portable_snapshot": true,
+          "type": "string"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "task_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "session-scoped",
+          "level": "MUST",
+          "text": "A Task MUST belong to exactly one WorkSession."
+        },
+        {
+          "code": "not-1to1-run",
+          "level": "MUST NOT",
+          "text": "A Task MUST NOT be assumed to map 1:1 to an AgentRun."
+        }
+      ],
+      "key": "Task",
+      "lifecycle": {
+        "initial": "pending",
+        "states": [
+          "pending",
+          "ready",
+          "in_progress",
+          "blocked",
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "terminal": [
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "transitions": [
+          {
+            "from": "pending",
+            "to": "ready"
+          },
+          {
+            "from": "ready",
+            "to": "in_progress"
+          },
+          {
+            "from": "in_progress",
+            "to": "blocked"
+          },
+          {
+            "from": "blocked",
+            "to": "ready"
+          },
+          {
+            "from": "blocked",
+            "to": "in_progress"
+          },
+          {
+            "from": "in_progress",
+            "to": "succeeded"
+          },
+          {
+            "from": "in_progress",
+            "to": "failed"
+          },
+          {
+            "from": "pending",
+            "to": "cancelled"
+          },
+          {
+            "from": "ready",
+            "to": "cancelled"
+          },
+          {
+            "from": "in_progress",
+            "to": "cancelled"
+          },
+          {
+            "from": "blocked",
+            "to": "cancelled"
+          },
+          {
+            "from": "ready",
+            "to": "failed"
+          }
+        ]
+      },
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "Several runs may serve one task, or one run may serve several tasks.",
+          "term": "AgentRun"
+        },
+        {
+          "reason": "An artifact is an output, not the schedulable unit.",
+          "term": "Artifact"
+        },
+        {
+          "reason": "A turn is a cycle inside a run, not a graph node.",
+          "term": "Turn"
+        }
+      ],
+      "parent": {
+        "cardinality": "1",
+        "inverse": "tasks",
+        "inverse_cardinality": "0..*",
+        "term": "WorkSession"
+      },
+      "purpose": "Describe planned or in-flight work items and their dependencies without forcing each item to be an agent assignment.",
+      "relationships": [
+        {
+          "cardinality": "1",
+          "inverse": "tasks",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "work_session",
+          "target": "WorkSession"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "tasks",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "agent_runs",
+          "target": "AgentRun"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "produced_by_task",
+          "inverse_cardinality": "0..1",
+          "kind": "publishes",
+          "name": "artifacts",
+          "target": "Artifact"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "dependents",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "depends_on",
+          "target": "Task"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "depends_on",
+          "inverse_cardinality": "0..*",
+          "kind": "observes",
+          "name": "dependents",
+          "target": "Task"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "published-output"
+      ],
+      "anti_examples": [
+        "Hidden chain-of-thought.",
+        "An unpublished scratch file in a workspace."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The artifact record is the authority for publication metadata, not for private reasoning.",
+        "owner": "Artifact"
+      },
+      "definition": "A durable explicit output published by a Task or AgentRun. An Artifact is not private reasoning, scratch, or an unpublished tool side effect.",
+      "deprecated_aliases": [],
+      "examples": [
+        "A review report written to an agreed locator and attached to the WorkSession."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "artifact_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "reference",
+          "name": "work_session_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "media_type",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "reference",
+          "name": "locator",
+          "notes": "Address of the published bytes. Not a credential.",
+          "portable_snapshot": true,
+          "type": "uri"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "artifact_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "explicit-output",
+          "level": "MUST",
+          "text": "An Artifact MUST be an explicit published output, not private reasoning."
+        },
+        {
+          "code": "produced-by",
+          "level": "MUST",
+          "text": "An Artifact SHOULD record the Task and/or AgentRun that published it."
+        },
+        {
+          "code": "no-credentials",
+          "level": "MUST NOT",
+          "text": "An Artifact locator MUST NOT embed credentials."
+        }
+      ],
+      "key": "Artifact",
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "ambiguous",
+          "native_term": "Resource",
+          "notes": "MCP resources can expose files; that does not make them published Artifacts."
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "A resource exists independently; an artifact is produced by work.",
+          "term": "Resource"
+        },
+        {
+          "reason": "Intermediate model text is not an artifact until published.",
+          "term": "Turn"
+        },
+        {
+          "reason": "The task is the plan node; the artifact is the output.",
+          "term": "Task"
+        }
+      ],
+      "purpose": "Name the things a session intends to keep and share so they can be addressed independently of turns and attempts.",
+      "relationships": [
+        {
+          "cardinality": "0..1",
+          "inverse": "artifacts",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "work_session",
+          "target": "WorkSession"
+        },
+        {
+          "cardinality": "0..1",
+          "inverse": "artifacts",
+          "inverse_cardinality": "0..*",
+          "kind": "produced_by",
+          "name": "produced_by_task",
+          "target": "Task"
+        },
+        {
+          "cardinality": "0..1",
+          "inverse": "artifacts",
+          "inverse_cardinality": "0..*",
+          "kind": "produced_by",
+          "name": "produced_by_run",
+          "target": "AgentRun"
+        }
+      ],
+      "status": "accepted"
+    },
+    {
+      "aliases": [
+        "actor-identity"
+      ],
+      "anti_examples": [
+        "A PID.",
+        "An API token stored in a snapshot."
+      ],
+      "authority": {
+        "mutable": true,
+        "notes": "The identity provider or issuer is the authority for the Principal.",
+        "owner": "Principal"
+      },
+      "definition": "An authenticated human, service, or agent identity. A Principal is not an AgentInstance and is not an assignment.",
+      "deprecated_aliases": [],
+      "examples": [
+        "A human user identity that opens a WorkSession.",
+        "A service identity that an AgentInstance presents."
+      ],
+      "fields": [
+        {
+          "kind": "identity",
+          "name": "principal_id",
+          "portable_snapshot": true,
+          "type": "name"
+        },
+        {
+          "kind": "descriptive",
+          "name": "kind",
+          "notes": "human, service, or agent identity kind.",
+          "portable_snapshot": true,
+          "type": "string"
+        },
+        {
+          "kind": "metadata",
+          "name": "issuer",
+          "portable_snapshot": true,
+          "type": "string"
+        }
+      ],
+      "identity": {
+        "authorization": false,
+        "field": "principal_id",
+        "kind": "name"
+      },
+      "invariants": [
+        {
+          "code": "ids-are-names",
+          "level": "MUST",
+          "text": "principal_id is a name. Authorization is decided by policy, not by possessing the identifier."
+        },
+        {
+          "code": "not-an-instance",
+          "level": "MUST NOT",
+          "text": "A Principal MUST NOT be treated as an AgentInstance."
+        },
+        {
+          "code": "no-credentials",
+          "level": "MUST NOT",
+          "text": "A portable snapshot MUST NOT include the Principal's credentials."
+        }
+      ],
+      "key": "Principal",
+      "mapping_hooks": {
+        "awesometree": {
+          "fidelity": "none",
+          "native_term": null
+        },
+        "crush": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "goose": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "hermes": {
+          "fidelity": "tbd",
+          "native_term": null
+        },
+        "mcp": {
+          "fidelity": "tbd",
+          "native_term": null,
+          "notes": "MCP auth is transport-specific; no verified Principal mapping."
+        },
+        "project-interop": {
+          "fidelity": "tbd",
+          "native_term": null
+        }
+      },
+      "mutability": "mutable",
+      "non_synonyms": [
+        {
+          "reason": "The instance is a process or endpoint that may present a Principal.",
+          "term": "AgentInstance"
+        },
+        {
+          "reason": "The run is an assignment given to a Principal or performed via an instance.",
+          "term": "AgentRun"
+        },
+        {
+          "reason": "The profile is a kind, not an authenticated identity.",
+          "term": "AgentProfile"
+        }
+      ],
+      "purpose": "Be the subject of authentication and authorization so process identity and work assignment stay separate from who is acting.",
+      "relationships": [
+        {
+          "cardinality": "0..*",
+          "inverse": "participants",
+          "inverse_cardinality": "0..*",
+          "kind": "references",
+          "name": "participating_sessions",
+          "target": "WorkSession"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "principal",
+          "inverse_cardinality": "0..1",
+          "kind": "observes",
+          "name": "agent_instances",
+          "target": "AgentInstance"
+        },
+        {
+          "cardinality": "0..*",
+          "inverse": "owner_principal",
+          "inverse_cardinality": "0..1",
+          "kind": "observes",
+          "name": "owned_conversations",
+          "target": "HostConversation"
+        }
+      ],
+      "status": "accepted"
+    }
+  ]
+}

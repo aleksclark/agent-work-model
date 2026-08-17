@@ -1,0 +1,31 @@
+key: ProjectSnapshot
+status: accepted
+definition: Fixture ProjectSnapshot that illegally claims mutability.
+purpose: Prove the linter rejects a mutable ProjectSnapshot.
+identity:
+  field: project_snapshot_id
+  kind: name
+  authorization: false
+authority:
+  owner: ProjectSnapshot
+  mutable: true
+  notes: Illegal mutable authority for an immutable snapshot.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: project_snapshot_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

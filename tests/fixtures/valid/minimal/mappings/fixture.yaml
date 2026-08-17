@@ -1,0 +1,12 @@
+system: fixture
+status: draft
+description: Identity mapping used only by the valid fixture.
+fidelity_overview: exact
+verified_against: tests
+notes: Not a real native system.
+compatibility_field_mappings: []
+terms:
+  Widget:
+    native_term: widget
+    fidelity: exact
+    notes: Fixture mapping.

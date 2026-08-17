@@ -1,0 +1,12 @@
+system: fixture
+status: draft
+description: Identity mapping used only by this fixture.
+fidelity_overview: none
+terms:
+  Widget:
+    native_term: null
+    fidelity: none
+  Ghost:
+    native_term: null
+    fidelity: none
+    notes: Ghost is not a defined term and must fail the mapping reference check.

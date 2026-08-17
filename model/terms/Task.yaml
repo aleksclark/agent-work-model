@@ -1,0 +1,145 @@
+key: Task
+status: accepted
+definition: >-
+  A schedulable unit in a WorkSession task graph. A Task is not
+  necessarily one-to-one with an AgentRun.
+purpose: >-
+  Describe planned or in-flight work items and their dependencies without
+  forcing each item to be an agent assignment.
+identity:
+  field: task_id
+  kind: name
+  authorization: false
+authority:
+  owner: Task
+  mutable: true
+  notes: The task record is the authority for this graph node.
+mutability: mutable
+parent:
+  term: WorkSession
+  cardinality: "1"
+  inverse: tasks
+  inverse_cardinality: 0..*
+relationships:
+  - name: work_session
+    target: WorkSession
+    kind: references
+    cardinality: "1"
+    inverse: tasks
+    inverse_cardinality: 0..*
+  - name: agent_runs
+    target: AgentRun
+    kind: references
+    cardinality: 0..*
+    inverse: tasks
+    inverse_cardinality: 0..*
+  - name: artifacts
+    target: Artifact
+    kind: publishes
+    cardinality: 0..*
+    inverse: produced_by_task
+    inverse_cardinality: 0..1
+  - name: depends_on
+    target: Task
+    kind: references
+    cardinality: 0..*
+    inverse: dependents
+    inverse_cardinality: 0..*
+  - name: dependents
+    target: Task
+    kind: observes
+    cardinality: 0..*
+    inverse: depends_on
+    inverse_cardinality: 0..*
+lifecycle:
+  states:
+    - pending
+    - ready
+    - in_progress
+    - blocked
+    - succeeded
+    - failed
+    - cancelled
+  initial: pending
+  terminal:
+    - succeeded
+    - failed
+    - cancelled
+  transitions:
+    - from: pending
+      to: ready
+    - from: ready
+      to: in_progress
+    - from: in_progress
+      to: blocked
+    - from: blocked
+      to: ready
+    - from: blocked
+      to: in_progress
+    - from: in_progress
+      to: succeeded
+    - from: in_progress
+      to: failed
+    - from: pending
+      to: cancelled
+    - from: ready
+      to: cancelled
+    - from: in_progress
+      to: cancelled
+    - from: blocked
+      to: cancelled
+    - from: ready
+      to: failed
+fields:
+  - name: task_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: work_session_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: title
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+invariants:
+  - level: MUST
+    code: session-scoped
+    text: A Task MUST belong to exactly one WorkSession.
+  - level: MUST NOT
+    code: not-1to1-run
+    text: A Task MUST NOT be assumed to map 1:1 to an AgentRun.
+aliases:
+  - work-item
+deprecated_aliases: []
+non_synonyms:
+  - term: AgentRun
+    reason: Several runs may serve one task, or one run may serve several tasks.
+  - term: Artifact
+    reason: An artifact is an output, not the schedulable unit.
+  - term: Turn
+    reason: A turn is a cycle inside a run, not a graph node.
+examples:
+  - A "draft the migration plan" node that two AgentRuns later serve.
+anti_examples:
+  - Equating every AgentRun with exactly one Task.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: tbd
+  mcp:
+    native_term: null
+    fidelity: none
+  goose:
+    native_term: null
+    fidelity: tbd
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

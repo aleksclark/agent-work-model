@@ -1,0 +1,121 @@
+key: RunAttempt
+status: accepted
+definition: >-
+  One infrastructure execution attempt for an AgentRun. Failures, retries,
+  and instance replacements produce new RunAttempts under the same
+  AgentRun.
+purpose: >-
+  Separate retry and crash semantics from the logical assignment so an
+  AgentRun can survive executor replacement.
+identity:
+  field: run_attempt_id
+  kind: name
+  authorization: false
+authority:
+  owner: RunAttempt
+  mutable: true
+  notes: The attempt record is the authority for this execution try.
+mutability: ephemeral
+parent:
+  term: AgentRun
+  cardinality: "1"
+  inverse: run_attempts
+  inverse_cardinality: 0..*
+relationships:
+  - name: agent_run
+    target: AgentRun
+    kind: references
+    cardinality: "1"
+    inverse: run_attempts
+    inverse_cardinality: 0..*
+  - name: agent_instance
+    target: AgentInstance
+    kind: references
+    cardinality: 0..1
+    inverse: run_attempts
+    inverse_cardinality: 0..*
+lifecycle:
+  states:
+    - queued
+    - running
+    - succeeded
+    - failed
+    - cancelled
+  initial: queued
+  terminal:
+    - succeeded
+    - failed
+    - cancelled
+  transitions:
+    - from: queued
+      to: running
+    - from: running
+      to: succeeded
+    - from: running
+      to: failed
+    - from: queued
+      to: cancelled
+    - from: running
+      to: cancelled
+    - from: queued
+      to: failed
+fields:
+  - name: run_attempt_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: agent_run_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: agent_instance_id
+    kind: reference
+    type: name
+    portable_snapshot: false
+  - name: failure_class
+    kind: metadata
+    type: string
+    portable_snapshot: true
+invariants:
+  - level: MUST
+    code: belongs-to-run
+    text: A RunAttempt MUST belong to exactly one AgentRun.
+  - level: MUST
+    code: instance-replaceable
+    text: A later RunAttempt MAY be executed by a different AgentInstance than an earlier one.
+  - level: MUST NOT
+    code: not-the-run
+    text: A RunAttempt MUST NOT replace the AgentRun identity.
+aliases:
+  - execution-attempt
+deprecated_aliases: []
+non_synonyms:
+  - term: AgentRun
+    reason: The run is the assignment; the attempt is one try at executing it.
+  - term: Turn
+    reason: Turns are conversational or control cycles, not infrastructure launches.
+  - term: AgentInstance
+    reason: The instance is the executor, not the attempt record.
+examples:
+  - Retrying a failed launch on a replacement AgentInstance under the same agent_run_id.
+anti_examples:
+  - Minting a new AgentRun because the process crashed.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: none
+  mcp:
+    native_term: null
+    fidelity: none
+  goose:
+    native_term: null
+    fidelity: tbd
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

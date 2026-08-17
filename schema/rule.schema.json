@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-work-model.dev/schema/rule.json",
+  "$comment": "Validates one Agent Work Model architecture-rule source document.",
+  "title": "Agent Work Model Rule Document",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "rules"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "level", "statement", "enforcement"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          },
+          "level": {
+            "type": "string",
+            "enum": ["MUST", "MUST NOT", "SHOULD", "SHOULD NOT"]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 8
+          },
+          "enforcement": {
+            "type": "string",
+            "enum": ["lint", "schema", "documentary"]
+          },
+          "lint_codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]*$"
+            }
+          },
+          "applies_to": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

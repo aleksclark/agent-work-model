@@ -1,0 +1,172 @@
+key: AgentRun
+status: accepted
+definition: >-
+  One agent's bounded assignment within exactly one WorkSession. An
+  AgentRun may contain Turns and RunAttempts. This is the accepted term
+  that replaces the ambiguous phrase "agent session".
+purpose: >-
+  Record the assignment, its outcomes, and the attempts and turns that
+  fulfilled it, independently of which AgentInstance executed them.
+identity:
+  field: agent_run_id
+  kind: name
+  authorization: false
+authority:
+  owner: AgentRun
+  mutable: true
+  notes: The AgentRun record is the sole mutable authority for the assignment.
+mutability: mutable
+parent:
+  term: WorkSession
+  cardinality: "1"
+  inverse: agent_runs
+  inverse_cardinality: 0..*
+relationships:
+  - name: work_session
+    target: WorkSession
+    kind: assigns
+    cardinality: "1"
+    inverse: agent_runs
+    inverse_cardinality: 0..*
+  - name: agent_profile
+    target: AgentProfile
+    kind: references
+    cardinality: 0..1
+    inverse: assigned_runs
+    inverse_cardinality: 0..*
+  - name: run_attempts
+    target: RunAttempt
+    kind: contains
+    cardinality: 0..*
+    inverse: agent_run
+    inverse_cardinality: "1"
+  - name: turns
+    target: Turn
+    kind: contains
+    cardinality: 0..*
+    inverse: agent_run
+    inverse_cardinality: "1"
+  - name: tasks
+    target: Task
+    kind: references
+    cardinality: 0..*
+    inverse: agent_runs
+    inverse_cardinality: 0..*
+    notes: A Task is not necessarily 1:1 with an AgentRun.
+  - name: artifacts
+    target: Artifact
+    kind: publishes
+    cardinality: 0..*
+    inverse: produced_by_run
+    inverse_cardinality: 0..1
+lifecycle:
+  states:
+    - assigned
+    - running
+    - blocked
+    - succeeded
+    - failed
+    - cancelled
+  initial: assigned
+  terminal:
+    - succeeded
+    - failed
+    - cancelled
+  transitions:
+    - from: assigned
+      to: running
+    - from: running
+      to: blocked
+    - from: blocked
+      to: running
+    - from: running
+      to: succeeded
+    - from: running
+      to: failed
+    - from: assigned
+      to: cancelled
+    - from: running
+      to: cancelled
+    - from: blocked
+      to: cancelled
+    - from: assigned
+      to: failed
+fields:
+  - name: agent_run_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: work_session_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: agent_profile_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: assigned_principal_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+invariants:
+  - level: MUST
+    code: exact-one-worksession
+    text: An AgentRun MUST belong to exactly one WorkSession.
+  - level: MUST
+    code: children
+    text: An AgentRun MUST allow 0..* RunAttempts and 0..* Turns.
+  - level: MUST NOT
+    code: instance-restart-stable
+    text: Replacing or restarting an AgentInstance MUST NOT change agent_run_id.
+  - level: MUST NOT
+    code: not-agent-session
+    text: Implementations MUST NOT use unqualified "agent session" as the name of this entity.
+  - level: MUST
+    code: policy-narrows
+    text: An AgentRun MUST only receive grants that narrow WorkSession policy.
+aliases:
+  - agent-assignment
+deprecated_aliases:
+  - agent-session
+  - agent session
+non_synonyms:
+  - term: WorkSession
+    reason: The session may contain many AgentRuns.
+  - term: AgentInstance
+    reason: The instance executes attempts; it is not the assignment.
+  - term: RunAttempt
+    reason: An attempt is one infrastructure execution of the run.
+  - term: Turn
+    reason: A turn is one input-to-output cycle inside the run.
+  - term: Task
+    reason: A task is a schedulable graph node and is not necessarily 1:1 with a run.
+  - term: HostConversation
+    reason: Host chat is not an agent assignment.
+examples:
+  - Assigning one reviewer agent to a WorkSession to produce a review Artifact.
+anti_examples:
+  - Calling the host chat an "agent session".
+  - Re-identifying the assignment when the process is restarted.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: tbd
+  mcp:
+    native_term: null
+    fidelity: none
+    notes: MCP has no AgentRun. An MCP session is a connection.
+  goose:
+    native_term: session
+    fidelity: ambiguous
+    notes: Goose session is commonly a host conversation or process. Not a verified AgentRun.
+  hermes:
+    native_term: session
+    fidelity: ambiguous
+    notes: Unverified.
+  crush:
+    native_term: session
+    fidelity: ambiguous
+    notes: Unverified.

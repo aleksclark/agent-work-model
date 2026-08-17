@@ -1,0 +1,351 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-work-model.dev/schema/term.json",
+  "$comment": "Validates one Agent Work Model term source document.",
+  "title": "Agent Work Model Term",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "key",
+    "status",
+    "definition",
+    "purpose",
+    "identity",
+    "authority",
+    "mutability",
+    "relationships",
+    "invariants",
+    "aliases",
+    "deprecated_aliases",
+    "non_synonyms",
+    "examples",
+    "anti_examples",
+    "fields",
+    "mapping_hooks"
+  ],
+  "properties": {
+    "key": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]*$",
+      "description": "Stable PascalCase term key. This is the canonical identifier."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["accepted", "draft", "deprecated", "reserved"]
+    },
+    "definition": {
+      "type": "string",
+      "minLength": 8
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 8
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "kind", "authorization"],
+      "properties": {
+        "field": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*$",
+          "description": "Normative identity field name. Must be qualified; not a bare session/agent/context token."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["name"],
+          "description": "IDs and handles are names, not authorization."
+        },
+        "authorization": {
+          "type": "boolean",
+          "const": false,
+          "description": "Identity values never confer authorization."
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "mutable", "notes"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Single mutable authority for this entity. Usually the term key itself."
+        },
+        "mutable": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "mutability": {
+      "type": "string",
+      "enum": ["mutable", "immutable", "ephemeral"]
+    },
+    "parent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["term", "cardinality", "inverse"],
+      "properties": {
+        "term": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Za-z0-9]*$"
+        },
+        "cardinality": {
+          "$ref": "#/$defs/cardinality"
+        },
+        "inverse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inverse_cardinality": {
+          "$ref": "#/$defs/cardinality"
+        }
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "target", "kind", "cardinality"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*$"
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Za-z0-9]*$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "contains",
+              "references",
+              "attaches",
+              "executes",
+              "publishes",
+              "specializes",
+              "observes",
+              "pins",
+              "assigns",
+              "authenticates",
+              "binds",
+              "produced_by"
+            ]
+          },
+          "cardinality": {
+            "$ref": "#/$defs/cardinality"
+          },
+          "inverse": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inverse_cardinality": {
+            "$ref": "#/$defs/cardinality"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["states", "transitions"],
+      "properties": {
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*$"
+          }
+        },
+        "initial": {
+          "type": "string"
+        },
+        "terminal": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to"],
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["level", "code", "text"],
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": ["MUST", "MUST NOT", "SHOULD", "SHOULD NOT"]
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 8
+          }
+        }
+      }
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "deprecated_aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "non_synonyms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["term", "reason"],
+        "properties": {
+          "term": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 8
+          }
+        }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "anti_examples": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "kind", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "identity",
+              "descriptive",
+              "ownership",
+              "policy",
+              "metadata",
+              "reference",
+              "lifecycle",
+              "payload",
+              "runtime",
+              "process",
+              "heartbeat",
+              "connection",
+              "credential",
+              "secret",
+              "token"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "portable_snapshot": {
+            "type": "boolean",
+            "description": "Whether this field may appear in a portable project or session snapshot."
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "mapping_hooks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["fidelity"],
+        "properties": {
+          "native_term": {
+            "type": ["string", "null"]
+          },
+          "fidelity": {
+            "$ref": "#/$defs/fidelity"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "cardinality": {
+      "type": "string",
+      "pattern": "^(0|1|\\*|0\\.\\.1|0\\.\\.\\*|1\\.\\.\\*)$"
+    },
+    "fidelity": {
+      "type": "string",
+      "enum": ["exact", "partial", "ambiguous", "tbd", "none"]
+    }
+  }
+}

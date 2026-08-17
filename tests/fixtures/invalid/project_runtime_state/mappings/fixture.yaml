@@ -1,0 +1,8 @@
+system: fixture
+status: draft
+description: Identity mapping used only by this fixture.
+fidelity_overview: none
+terms:
+  Project:
+    native_term: null
+    fidelity: none

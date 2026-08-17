@@ -1,0 +1,89 @@
+key: AgentProfile
+status: accepted
+definition: >-
+  A declarative description of an eligible kind of agent. It names
+  capabilities, constraints, and intended roles without identifying a
+  running process.
+purpose: >-
+  Select and constrain which kinds of agents may be assigned to AgentRuns
+  without confusing the kind with a live instance or an assignment.
+identity:
+  field: agent_profile_id
+  kind: name
+  authorization: false
+authority:
+  owner: AgentProfile
+  mutable: true
+  notes: The profile document is the sole mutable authority for the kind.
+mutability: mutable
+relationships:
+  - name: instances
+    target: AgentInstance
+    kind: observes
+    cardinality: 0..*
+    inverse: profile
+    inverse_cardinality: 0..1
+  - name: assigned_runs
+    target: AgentRun
+    kind: observes
+    cardinality: 0..*
+    inverse: agent_profile
+    inverse_cardinality: 0..1
+fields:
+  - name: agent_profile_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: display_name
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+  - name: capabilities
+    kind: descriptive
+    type: list
+    portable_snapshot: true
+  - name: constraints
+    kind: policy
+    type: object
+    portable_snapshot: true
+invariants:
+  - level: MUST NOT
+    code: not-an-instance
+    text: An AgentProfile MUST NOT be treated as a running AgentInstance.
+  - level: MUST NOT
+    code: not-an-assignment
+    text: An AgentProfile MUST NOT be treated as an AgentRun.
+aliases:
+  - agent-kind
+deprecated_aliases: []
+non_synonyms:
+  - term: AgentInstance
+    reason: The instance is a running process or endpoint, not the declared kind.
+  - term: AgentRun
+    reason: The run is a bounded assignment, not a reusable kind.
+  - term: Principal
+    reason: A principal is an authenticated identity, which a profile is not.
+examples:
+  - A "repository reviewer" profile reused across many AgentRuns.
+anti_examples:
+  - A PID of a currently running agent process.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: none
+  mcp:
+    native_term: null
+    fidelity: none
+  goose:
+    native_term: recipe
+    fidelity: ambiguous
+    notes: Goose recipes or extensions may overlap; do not treat as verified AgentProfile.
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

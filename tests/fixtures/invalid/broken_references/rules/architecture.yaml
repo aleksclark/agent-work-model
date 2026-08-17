@@ -1,0 +1,7 @@
+id: architecture
+title: Fixture rules
+rules:
+  - id: fixture-rule
+    level: MUST
+    statement: Fixture models MUST remain self-contained.
+    enforcement: documentary

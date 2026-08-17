@@ -1,0 +1,126 @@
+key: Project
+status: accepted
+definition: >-
+  A durable named collaboration and policy scope. A Project outlives any
+  single workspace, host conversation, or WorkSession and is the unit that
+  people and systems recognize as "the work we keep doing together."
+purpose: >-
+  Hold stable identity, membership, and policy that WorkSessions pin via a
+  ProjectSnapshot. Projects are not a place to store live runtime.
+identity:
+  field: project_id
+  kind: name
+  authorization: false
+authority:
+  owner: Project
+  mutable: true
+  notes: The Project record is the sole mutable authority for project policy and membership.
+mutability: mutable
+relationships:
+  - name: snapshots
+    target: ProjectSnapshot
+    kind: contains
+    cardinality: 0..*
+    inverse: project
+    inverse_cardinality: "1"
+    notes: Every snapshot is a frozen revision of this project.
+  - name: known_resources
+    target: Resource
+    kind: observes
+    cardinality: 0..*
+    inverse: observed_by_projects
+    inverse_cardinality: 0..*
+    notes: Observation only. The Project does not become a second owner of the Resource.
+  - name: work_profiles
+    target: WorkProfile
+    kind: references
+    cardinality: 0..*
+    inverse: projects
+    inverse_cardinality: 0..*
+lifecycle:
+  states:
+    - active
+    - archived
+  initial: active
+  terminal:
+    - archived
+  transitions:
+    - from: active
+      to: archived
+      notes: Archiving retains identity and snapshots; it does not delete history.
+fields:
+  - name: project_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: display_name
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+  - name: policy
+    kind: policy
+    type: PolicyDocument
+    portable_snapshot: true
+    notes: Policy at the project boundary. Children may only narrow it.
+  - name: description
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+invariants:
+  - level: MUST NOT
+    code: no-runtime-state
+    text: A Project MUST NOT store PIDs, ports, heartbeats, or current run/workspace/conversation pointers.
+  - level: MUST
+    code: one-authority
+    text: Project policy and membership have exactly one mutable authority, the Project itself.
+  - level: MUST
+    code: policy-narrows
+    text: Any WorkSession or ResourceBinding under this Project MUST only narrow project policy.
+  - level: MUST NOT
+    code: not-a-workspace
+    text: A Project MUST NOT be treated as a Workspace or WorkSession.
+aliases:
+  - collaboration-scope
+deprecated_aliases: []
+non_synonyms:
+  - term: Workspace
+    reason: A Workspace is a material working environment, not the durable collaboration scope.
+  - term: WorkSession
+    reason: A WorkSession is a bounded episode; a Project outlives many sessions.
+  - term: repository
+    reason: A version-control repository may be a Resource bound into work; it is not the Project.
+  - term: session
+    reason: Unqualified session is prohibited; it collapses several distinct entities.
+examples:
+  - A named product effort that several WorkSessions and hosts attach to over months.
+  - An interoperability profile shared by multiple agent systems under one policy.
+anti_examples:
+  - A local checkout directory.
+  - An MCP client connection.
+  - The current Goose or Crush chat transcript.
+  - A running agent process.
+mapping_hooks:
+  project-interop:
+    native_term: Project
+    fidelity: partial
+    notes: Name alignment is likely; treat field-level equivalence as unverified.
+  awesometree:
+    native_term: null
+    fidelity: tbd
+    notes: No verified awesometree Project concept at the time of writing.
+  mcp:
+    native_term: null
+    fidelity: none
+    notes: MCP does not define a durable collaboration-and-policy Project.
+  goose:
+    native_term: null
+    fidelity: tbd
+    notes: Unverified whether Goose persists a Project distinct from conversation or session.
+  hermes:
+    native_term: null
+    fidelity: tbd
+    notes: Unverified.
+  crush:
+    native_term: null
+    fidelity: tbd
+    notes: Unverified.

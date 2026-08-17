@@ -1,0 +1,39 @@
+model:
+  name: Fixture
+  version: 0.0.0
+  status: draft
+  license: Apache-2.0
+  canonical_source: model/
+  description: Invalid fixture whose Project carries live runtime state.
+load:
+  terms: terms
+  rules: rules
+  mappings: mappings
+term_keys:
+  - Project
+systems:
+  - fixture
+conventions:
+  identity_field_pattern: '^[a-z]+(_[a-z0-9]+)*_id$'
+  prohibited_unqualified_fields:
+    - session_id
+  runtime_field_name_patterns:
+    - '(^|_)pid($|_)'
+    - '(^|_)port($|_)'
+    - heartbeat
+    - current_workspace
+    - current_run
+    - current_conversation
+  runtime_field_kinds:
+    - runtime
+    - process
+    - heartbeat
+    - connection
+  credential_field_kinds:
+    - credential
+  no_runtime_state_terms:
+    - Project
+    - ProjectSnapshot
+  immutable_terms:
+    - ProjectSnapshot
+  exact_parent: {}

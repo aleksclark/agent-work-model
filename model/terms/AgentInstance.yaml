@@ -1,0 +1,133 @@
+key: AgentInstance
+status: accepted
+definition: >-
+  A running process or remote endpoint capable of executing RunAttempts.
+  An AgentInstance is not an assignment and is not a Principal.
+purpose: >-
+  Name the live executor that performs attempts so that replacing or
+  restarting it does not rewrite the AgentRun identity.
+identity:
+  field: agent_instance_id
+  kind: name
+  authorization: false
+authority:
+  owner: AgentInstance
+  mutable: true
+  notes: The instance record is the authority for liveness of this process or endpoint.
+mutability: ephemeral
+relationships:
+  - name: profile
+    target: AgentProfile
+    kind: references
+    cardinality: 0..1
+    inverse: instances
+    inverse_cardinality: 0..*
+  - name: run_attempts
+    target: RunAttempt
+    kind: executes
+    cardinality: 0..*
+    inverse: agent_instance
+    inverse_cardinality: 0..1
+  - name: principal
+    target: Principal
+    kind: authenticates
+    cardinality: 0..1
+    inverse: agent_instances
+    inverse_cardinality: 0..*
+    notes: The instance may present a Principal; it is not itself the Principal.
+lifecycle:
+  states:
+    - starting
+    - ready
+    - busy
+    - stopping
+    - stopped
+    - failed
+  initial: starting
+  terminal:
+    - stopped
+    - failed
+  transitions:
+    - from: starting
+      to: ready
+    - from: starting
+      to: failed
+    - from: ready
+      to: busy
+    - from: busy
+      to: ready
+    - from: ready
+      to: stopping
+    - from: busy
+      to: stopping
+    - from: stopping
+      to: stopped
+    - from: ready
+      to: failed
+    - from: busy
+      to: failed
+    - from: starting
+      to: stopping
+fields:
+  - name: agent_instance_id
+    kind: identity
+    type: name
+    portable_snapshot: false
+    notes: Instance identity is not required in portable project snapshots.
+  - name: agent_profile_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: endpoint
+    kind: descriptive
+    type: uri
+    portable_snapshot: false
+invariants:
+  - level: MUST
+    code: many-attempts
+    text: An AgentInstance MAY execute many RunAttempts, including for different AgentRuns.
+  - level: MUST NOT
+    code: restart-does-not-change-run
+    text: Replacing or restarting an AgentInstance MUST NOT change an AgentRun identity.
+  - level: MUST NOT
+    code: not-an-assignment
+    text: An AgentInstance MUST NOT be treated as an AgentRun.
+  - level: MUST NOT
+    code: not-a-principal
+    text: An AgentInstance MUST NOT be treated as the authenticated Principal.
+aliases:
+  - running-agent
+deprecated_aliases: []
+non_synonyms:
+  - term: AgentRun
+    reason: The run is the assignment; the instance is the executor.
+  - term: AgentProfile
+    reason: The profile is the kind; the instance is a live process or endpoint.
+  - term: Principal
+    reason: Identity for auth is Principal; the instance is infrastructure.
+examples:
+  - A local goose process that executes several RunAttempts and is then replaced.
+  - A remote agent endpoint that picks up attempts for more than one AgentRun.
+anti_examples:
+  - The logical assignment "review PR 42" (that is an AgentRun or Task).
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: none
+  mcp:
+    native_term: Server
+    fidelity: ambiguous
+    notes: An MCP server process is infrastructure, not an AgentRun. Mapping is not verified.
+  goose:
+    native_term: goose process
+    fidelity: tbd
+    notes: A running Goose process is a likely AgentInstance. Unverified.
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

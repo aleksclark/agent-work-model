@@ -1,0 +1,31 @@
+key: WorkSession
+status: accepted
+definition: Fixture WorkSession that illegally uses an unqualified session_id field.
+purpose: Prove the linter rejects ambiguous session_id on a normative term.
+identity:
+  field: session_id
+  kind: name
+  authorization: false
+authority:
+  owner: WorkSession
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: session_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

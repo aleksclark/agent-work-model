@@ -1,0 +1,119 @@
+key: ResourceBinding
+status: accepted
+definition: >-
+  A WorkSession-specific resolution and grant for a Resource. The binding
+  records how this session names, locates, and is allowed to use the
+  Resource without becoming a second owner of it.
+purpose: >-
+  Attach a Resource to one WorkSession with a narrowed grant, leaving the
+  Resource's native authority intact.
+identity:
+  field: resource_binding_id
+  kind: name
+  authorization: false
+authority:
+  owner: ResourceBinding
+  mutable: true
+  notes: The binding is the sole mutable authority for this session's grant, not for the Resource.
+mutability: mutable
+parent:
+  term: WorkSession
+  cardinality: "1"
+  inverse: resource_bindings
+  inverse_cardinality: 0..*
+relationships:
+  - name: work_session
+    target: WorkSession
+    kind: binds
+    cardinality: "1"
+    inverse: resource_bindings
+    inverse_cardinality: 0..*
+  - name: resource
+    target: Resource
+    kind: references
+    cardinality: "1"
+    inverse: bindings
+    inverse_cardinality: 0..*
+fields:
+  - name: resource_binding_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: work_session_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: resource_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: grant
+    kind: policy
+    type: Grant
+    portable_snapshot: true
+    notes: Must be a narrowing of session and project policy.
+  - name: resolved_locator
+    kind: reference
+    type: string
+    portable_snapshot: true
+    notes: How this session locates the resource. Not a credential.
+lifecycle:
+  states:
+    - proposed
+    - bound
+    - revoked
+  initial: proposed
+  terminal:
+    - revoked
+  transitions:
+    - from: proposed
+      to: bound
+    - from: bound
+      to: revoked
+    - from: proposed
+      to: revoked
+invariants:
+  - level: MUST
+    code: session-specific
+    text: A ResourceBinding MUST belong to exactly one WorkSession.
+  - level: MUST
+    code: policy-narrows
+    text: A binding grant MUST NOT exceed the WorkSession or Project policy.
+  - level: MUST NOT
+    code: not-resource-authority
+    text: A ResourceBinding MUST NOT claim mutable authority over the Resource.
+  - level: MUST NOT
+    code: no-credentials
+    text: A portable binding MUST NOT serialize credentials.
+aliases:
+  - session-resource-grant
+deprecated_aliases: []
+non_synonyms:
+  - term: Resource
+    reason: The resource exists independently of any one session binding.
+  - term: Workspace
+    reason: A Workspace may be the bound resource; the binding is the grant, not the environment.
+examples:
+  - Granting a WorkSession read-only access to a named repository at a pinned locator.
+anti_examples:
+  - Copying the repository's mutable metadata into the session as a second source of truth.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: null
+    fidelity: tbd
+  mcp:
+    native_term: Root
+    fidelity: partial
+    notes: MCP roots or resource subscriptions are related but are not session grants.
+  goose:
+    native_term: null
+    fidelity: tbd
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

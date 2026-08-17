@@ -1,0 +1,40 @@
+key: Widget
+status: accepted
+definition: A standalone fixture entity with no prohibited names or runtime state.
+purpose: Prove that a well-formed term document passes schema validation and semantic lint.
+identity:
+  field: widget_id
+  kind: name
+  authorization: false
+authority:
+  owner: Widget
+  mutable: true
+  notes: Fixture authority for Widget.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture-ok
+    text: Widget exists only as a valid fixture term.
+aliases:
+  - fixture-widget
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - A named widget used by tests.
+anti_examples:
+  - An unqualified session.
+fields:
+  - name: widget_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: display_name
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+mapping_hooks:
+  fixture:
+    native_term: widget
+    fidelity: exact
+    notes: Fixture mapping.

@@ -1,0 +1,39 @@
+key: Widget
+status: accepted
+definition: Fixture term whose relationship target does not exist.
+purpose: Prove the linter rejects unknown term references.
+identity:
+  field: widget_id
+  kind: name
+  authorization: false
+authority:
+  owner: Widget
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships:
+  - name: parent_session
+    target: MissingSession
+    kind: references
+    cardinality: "1"
+    inverse: widgets
+    inverse_cardinality: 0..*
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases: []
+deprecated_aliases: []
+non_synonyms:
+  - term: AbsentEntity
+    reason: This PascalCase name is not a defined term and must fail the reference check.
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: widget_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

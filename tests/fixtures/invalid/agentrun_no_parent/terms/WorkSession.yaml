@@ -1,0 +1,31 @@
+key: WorkSession
+status: accepted
+definition: Fixture WorkSession used as the required parent that AgentRun fails to declare.
+purpose: Pair with a parentless AgentRun.
+identity:
+  field: work_session_id
+  kind: name
+  authorization: false
+authority:
+  owner: WorkSession
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases: []
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: work_session_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

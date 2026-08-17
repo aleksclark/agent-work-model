@@ -1,0 +1,32 @@
+key: Alpha
+status: accepted
+definition: First fixture term that claims the colliding accepted alias.
+purpose: Prove accepted aliases are globally unique.
+identity:
+  field: alpha_id
+  kind: name
+  authorization: false
+authority:
+  owner: Alpha
+  mutable: true
+  notes: Fixture authority.
+mutability: mutable
+relationships: []
+invariants:
+  - level: MUST
+    code: fixture
+    text: This fixture is expected to fail lint.
+aliases:
+  - shared-alias
+deprecated_aliases: []
+non_synonyms: []
+examples:
+  - none
+anti_examples:
+  - none
+fields:
+  - name: alpha_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+mapping_hooks: {}

@@ -1,0 +1,62 @@
+system: awesometree
+status: draft
+description: >-
+  Mapping hook for awesometree. Worktrees resemble Workspace resources.
+  No awesometree revision has been verified against this model.
+fidelity_overview: partial
+verified_against: null
+notes: >-
+  Encode only the obvious environment correspondence. Do not invent
+  WorkSession or AgentRun mappings that have not been observed.
+compatibility_field_mappings: []
+terms:
+  Project:
+    native_term: null
+    fidelity: tbd
+  ProjectSnapshot:
+    native_term: null
+    fidelity: tbd
+  WorkProfile:
+    native_term: null
+    fidelity: tbd
+  Resource:
+    native_term: entry
+    fidelity: partial
+    notes: Tree entries are independently addressable; identity mapping is unverified.
+  ResourceBinding:
+    native_term: null
+    fidelity: tbd
+  Workspace:
+    native_term: worktree
+    fidelity: partial
+    notes: A worktree is a material working environment. Not a WorkSession.
+  WorkSession:
+    native_term: null
+    fidelity: tbd
+  AgentProfile:
+    native_term: null
+    fidelity: none
+  AgentInstance:
+    native_term: null
+    fidelity: none
+  AgentRun:
+    native_term: null
+    fidelity: tbd
+  RunAttempt:
+    native_term: null
+    fidelity: none
+  Turn:
+    native_term: null
+    fidelity: none
+  HostConversation:
+    native_term: null
+    fidelity: none
+  Task:
+    native_term: null
+    fidelity: tbd
+  Artifact:
+    native_term: null
+    fidelity: tbd
+  Principal:
+    native_term: null
+    fidelity: none

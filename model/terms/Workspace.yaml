@@ -1,0 +1,90 @@
+key: Workspace
+status: accepted
+definition: >-
+  A Resource subtype that provides a material working environment (files,
+  checkout, container, or equivalent). A Workspace is not a WorkSession.
+purpose: >-
+  Name the environment in which work is performed so it can be bound into
+  a WorkSession without being confused with the episode of work itself.
+identity:
+  field: workspace_id
+  kind: name
+  authorization: false
+authority:
+  owner: Workspace
+  mutable: true
+  notes: The environment's host is the mutable authority for the Workspace resource.
+mutability: mutable
+relationships:
+  - name: as_resource
+    target: Resource
+    kind: specializes
+    cardinality: "1"
+    inverse: workspace_form
+    inverse_cardinality: 0..1
+  - name: bound_in
+    target: ResourceBinding
+    kind: observes
+    cardinality: 0..*
+    notes: Bindings attach the workspace into WorkSessions; they do not own it.
+fields:
+  - name: workspace_id
+    kind: identity
+    type: name
+    portable_snapshot: true
+  - name: resource_id
+    kind: reference
+    type: name
+    portable_snapshot: true
+  - name: environment_kind
+    kind: descriptive
+    type: string
+    portable_snapshot: true
+invariants:
+  - level: MUST
+    code: is-a-resource
+    text: A Workspace MUST be independently addressable as a Resource.
+  - level: MUST NOT
+    code: not-a-session
+    text: A Workspace MUST NOT be treated as a WorkSession or as an MCP connection.
+  - level: MUST NOT
+    code: not-the-project
+    text: A Workspace MUST NOT be treated as the Project.
+aliases:
+  - working-environment
+deprecated_aliases: []
+non_synonyms:
+  - term: WorkSession
+    reason: The session coordinates work; the workspace is one bound environment.
+  - term: Project
+    reason: The project is the durable policy scope, not a checkout or container.
+  - term: HostConversation
+    reason: Chat history is not a working environment.
+examples:
+  - A git worktree used by one WorkSession.
+  - A container filesystem mounted for an AgentRun.
+anti_examples:
+  - The host product's chat transcript.
+  - An MCP stdio connection.
+mapping_hooks:
+  project-interop:
+    native_term: null
+    fidelity: tbd
+  awesometree:
+    native_term: worktree
+    fidelity: partial
+    notes: Awesometree worktrees look like Workspace resources; treat identity mapping as unverified.
+  mcp:
+    native_term: Root
+    fidelity: partial
+    notes: MCP roots expose filesystem-like environments; they are not WorkSessions.
+  goose:
+    native_term: working directory
+    fidelity: tbd
+    notes: Goose working directories are a likely partial mapping, unverified.
+  hermes:
+    native_term: null
+    fidelity: tbd
+  crush:
+    native_term: null
+    fidelity: tbd

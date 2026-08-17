@@ -1,0 +1,26 @@
+model:
+  name: Fixture
+  version: 0.0.0
+  status: draft
+  license: Apache-2.0
+  canonical_source: model/
+  description: Invalid fixture with a broken term reference.
+load:
+  terms: terms
+  rules: rules
+  mappings: mappings
+term_keys:
+  - Widget
+systems:
+  - fixture
+conventions:
+  identity_field_pattern: '^[a-z]+(_[a-z0-9]+)*_id$'
+  prohibited_unqualified_fields:
+    - session_id
+  runtime_field_name_patterns: []
+  runtime_field_kinds: []
+  credential_field_kinds:
+    - credential
+  no_runtime_state_terms: []
+  immutable_terms: []
+  exact_parent: {}

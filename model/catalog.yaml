@@ -1,0 +1,80 @@
+# Canonical catalog for the Agent Work Model.
+# This file, together with terms/, rules/, and mappings/, is the source of truth.
+# Generated prose and JSON are derived from these documents. Do not edit generated/.
+
+model:
+  name: Agent Work Model
+  version: 0.1.0
+  status: draft
+  license: Apache-2.0
+  canonical_source: model/
+  description: >-
+    Protocol-neutral semantic interoperability model for agent work. The
+    machine-readable documents under model/ are canonical for terms,
+    relationships, ownership, lifecycle, aliases, mappings, and guidance.
+
+load:
+  terms: terms
+  rules: rules
+  mappings: mappings
+
+term_keys:
+  - Project
+  - ProjectSnapshot
+  - WorkProfile
+  - Resource
+  - ResourceBinding
+  - Workspace
+  - WorkSession
+  - AgentProfile
+  - AgentInstance
+  - AgentRun
+  - RunAttempt
+  - Turn
+  - HostConversation
+  - Task
+  - Artifact
+  - Principal
+
+systems:
+  - project-interop
+  - awesometree
+  - mcp
+  - goose
+  - hermes
+  - crush
+
+conventions:
+  identity_field_pattern: '^[a-z]+(_[a-z0-9]+)*_id$'
+  prohibited_unqualified_fields:
+    - session
+    - agent
+    - context
+    - session_id
+    - agent_id
+    - context_id
+  runtime_field_name_patterns:
+    - '(^|_)pid($|_)'
+    - '(^|_)port($|_)'
+    - heartbeat
+    - current_workspace
+    - current_run
+    - current_conversation
+  runtime_field_kinds:
+    - runtime
+    - process
+    - heartbeat
+    - connection
+  credential_field_kinds:
+    - credential
+    - secret
+    - token
+  no_runtime_state_terms:
+    - Project
+    - ProjectSnapshot
+  immutable_terms:
+    - ProjectSnapshot
+  exact_parent:
+    AgentRun:
+      term: WorkSession
+      cardinality: "1"

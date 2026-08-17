@@ -1,0 +1,169 @@
+id: architecture
+title: Architecture rules
+description: >-
+  Cross-cutting rules that the semantic linter and future generated prose
+  must treat as normative. Distinct owner, lifecycle, cardinality, or
+  failure semantics imply distinct entities and IDs.
+
+rules:
+  - id: distinct-semantics-distinct-entities
+    level: MUST
+    statement: >-
+      Distinct owner, lifecycle, cardinality, or failure semantics imply
+      distinct entities and distinct identity fields.
+    enforcement: documentary
+    applies_to:
+      - "*"
+
+  - id: no-unqualified-session-agent-context
+    level: MUST NOT
+    statement: >-
+      Unqualified session, agent, and context MUST NOT appear as normative
+      schema field names except in documented compatibility mappings.
+    enforcement: lint
+    lint_codes:
+      - PROHIBITED_FIELD
+    applies_to:
+      - fields
+      - identity
+
+  - id: one-mutable-authority
+    level: MUST
+    statement: >-
+      Each entity has exactly one mutable authority. Foreign entities are
+      referenced or observed, not duplicated as a second mutable truth.
+    enforcement: lint
+    lint_codes:
+      - MISSING_AUTHORITY
+      - FOREIGN_AUTHORITY
+    applies_to:
+      - authority
+
+  - id: no-project-runtime-state
+    level: MUST NOT
+    statement: >-
+      Project and ProjectSnapshot MUST NOT contain active runtime state
+      such as PIDs, ports, heartbeats, or current workspaces, runs, or
+      conversations.
+    enforcement: lint
+    lint_codes:
+      - RUNTIME_STATE
+    applies_to:
+      - Project
+      - ProjectSnapshot
+
+  - id: snapshot-immutable
+    level: MUST
+    statement: >-
+      ProjectSnapshot is immutable. A project-bound WorkSession pins an
+      exact snapshot revision and does not mutate it.
+    enforcement: lint
+    lint_codes:
+      - IMMUTABLE_VIOLATION
+    applies_to:
+      - ProjectSnapshot
+      - WorkSession
+
+  - id: worksession-children
+    level: MUST
+    statement: >-
+      A WorkSession has zero or more ResourceBindings, AgentRuns,
+      HostConversation attachments, Tasks, and Artifacts.
+    enforcement: lint
+    lint_codes:
+      - REQUIRED_RELATIONSHIP
+    applies_to:
+      - WorkSession
+
+  - id: agentrun-one-worksession
+    level: MUST
+    statement: >-
+      An AgentRun belongs to exactly one WorkSession and has zero or more
+      RunAttempts and Turns.
+    enforcement: lint
+    lint_codes:
+      - PARENT_CARDINALITY
+      - REQUIRED_RELATIONSHIP
+    applies_to:
+      - AgentRun
+
+  - id: instance-not-assignment
+    level: MUST
+    statement: >-
+      An AgentInstance may execute many RunAttempts. Replacing or
+      restarting an instance does not change the AgentRun identity.
+    enforcement: lint
+    lint_codes:
+      - REQUIRED_RELATIONSHIP
+    applies_to:
+      - AgentInstance
+      - AgentRun
+      - RunAttempt
+
+  - id: ids-are-names
+    level: MUST
+    statement: >-
+      Identity fields and handles are names, not authorization.
+    enforcement: lint
+    lint_codes:
+      - IDENTITY_AUTHORIZATION
+    applies_to:
+      - identity
+
+  - id: no-credentials-in-snapshots
+    level: MUST NOT
+    statement: >-
+      Credentials MUST NOT be serialized in portable project or session
+      snapshots.
+    enforcement: lint
+    lint_codes:
+      - CREDENTIAL_SNAPSHOT
+    applies_to:
+      - fields
+
+  - id: policy-narrows
+    level: MUST
+    statement: >-
+      Policy only narrows across trust boundaries. A child binding or run
+      MUST NOT grant more than its parent project or session allows.
+    enforcement: documentary
+    applies_to:
+      - Project
+      - WorkSession
+      - ResourceBinding
+      - AgentRun
+
+  - id: inverse-cardinality-consistency
+    level: MUST
+    statement: >-
+      Represented inverse relationships and cardinalities MUST agree on
+      both ends.
+    enforcement: lint
+    lint_codes:
+      - INVERSE_MISSING
+      - INVERSE_CARDINALITY
+      - INVERSE_TARGET
+    applies_to:
+      - relationships
+      - parent
+
+  - id: lifecycle-closed
+    level: MUST
+    statement: >-
+      Lifecycle transitions MUST reference declared states of the same term.
+    enforcement: lint
+    lint_codes:
+      - LIFECYCLE_STATE
+    applies_to:
+      - lifecycle
+
+  - id: qualified-identity
+    level: MUST
+    statement: >-
+      Identity field names MUST be qualified snake_case names ending in
+      _id, never a bare session, agent, or context token.
+    enforcement: lint
+    lint_codes:
+      - QUALIFIED_IDENTITY
+    applies_to:
+      - identity

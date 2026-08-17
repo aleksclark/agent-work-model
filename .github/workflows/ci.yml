@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: validate-lint-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install pinned dependencies
+        run: python -m pip install --require-hashes=false -r requirements-dev.txt
+
+      - name: Validate canonical source
+        run: python -m awm validate
+
+      - name: Semantic lint
+        run: python -m awm lint
+
+      - name: Test suite
+        run: python -m pytest
+
+      - name: Generated drift check
+        run: python -m awm generate --check
