@@ -33,7 +33,7 @@ jobs:
             requirements-dev.txt
 
       - name: Install pinned dependencies
-        run: python -m pip install --require-hashes=false -r requirements-dev.txt
+        run: python -m pip install -r requirements-dev.txt
 
       - name: Validate canonical source
         run: python -m awm validate
