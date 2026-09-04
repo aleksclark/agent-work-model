@@ -55,4 +55,4 @@
 
 ## Open blockers
 
-None. Production DNS/TLS and legacy-host redirect must be verified after deployment.
+None. Production DNS/TLS is active for the apex and `www` host. Cloudflare dynamic redirect rules return path- and query-preserving HTTP 301 responses from `www.agent-work-model.org`, `agentregistryprotocol.org`, and `www.agentregistryprotocol.org` to the canonical apex.
