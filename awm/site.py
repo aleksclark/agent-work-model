@@ -1020,7 +1020,7 @@ def write_site(
                 "  X-Frame-Options: DENY",
                 "",
                 "/assets/*",
-                "  Cache-Control: public, max-age=3600",
+                "  Cache-Control: public, max-age=0, must-revalidate",
                 "",
             ]
         ),

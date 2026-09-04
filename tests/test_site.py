@@ -98,6 +98,7 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     headers = (tmp_path / "_headers").read_text(encoding="utf-8")
     redirects = (tmp_path / "_redirects").read_text(encoding="utf-8")
     assert "X-Content-Type-Options: nosniff" in headers
+    assert "Cache-Control: public, max-age=0, must-revalidate" in headers
     assert "https://www.agent-work-model.org/*" in redirects
     assert "https://agentregistryprotocol.org/*" in redirects
     assert "https://agent-work-model.org/:splat" in redirects
