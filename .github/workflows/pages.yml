@@ -1,21 +1,22 @@
-name: CI
+name: Pages
 
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
+  workflow_dispatch:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  check:
-    name: validate-lint-test
+  build:
+    name: build-site
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -40,11 +41,26 @@ jobs:
       - name: Semantic lint
         run: python -m awm lint
 
-      - name: Test suite
-        run: python -m pytest
-
-      - name: Generated drift check
-        run: python -m awm generate --check
+      - name: Generate derived artifacts
+        run: python -m awm generate
 
       - name: Build documentation site
         run: python -m awm site --base-path /agent-work-model/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: deploy-pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

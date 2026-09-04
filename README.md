@@ -57,12 +57,19 @@ python3 -m awm validate              # JSON Schema 2020-12
 python3 -m awm lint                  # semantic checks
 python3 -m awm generate              # write generated/
 python3 -m awm generate --check      # detect drift, do not write
+python3 -m awm site                  # write the static docs site to _site/
 python3 -m awm check                 # validate + lint + drift
 ```
 
-`make test`, `make lint`, `make validate`, `make generate`, and
-`make check` wrap the same commands. `make check` also runs the test
+`make test`, `make lint`, `make validate`, `make generate`, `make site`,
+and `make check` wrap the same commands. `make check` also runs the test
 suite.
+
+The documentation site is generated from `model/` plus hand-authored
+assets under `site/`. HTML under `_site/` is build output and is not
+checked in. GitHub Pages publishes it from `master` via
+`.github/workflows/pages.yml` at
+<https://aleksclark.github.io/agent-work-model/>.
 
 ## Contribute
 
