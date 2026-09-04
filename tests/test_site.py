@@ -43,9 +43,10 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     assert "Agentic software has a language problem" in index
     assert "LangGraph" in index
     assert "OpenAI Agents SDK" in index
-    assert "Hermes" in index
-    assert "Paseo" in index
-    assert "Dig Deeper" in index
+    assert "Guides" in index
+    assert "Three short explanations" in index
+    assert "View source on GitHub" in index
+    assert 'aria-label="Close navigation"' in index
     assert 'href="/boundaries.html"' in index
     assert "Do not edit by hand" in index
     assert "family=Archivo" in index
@@ -55,16 +56,28 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     assert "work_session_id" in term
     assert "work-session-coordinator" in term
     assert "Accepted terms" in glossary
+    assert 'class="record-table"' in glossary
+    assert 'data-label="Definition"' in glossary
     assert "Project is not workspace" in boundaries
+    assert "Guides · 01 of 03" in boundaries
     assert 'aria-current="page"' in boundaries
     assert "Mapping fidelity is part of the data" in interoperability
+    assert "Guides · 02 of 03" in interoperability
     assert "LangGraph" in interoperability
     assert "CrewAI" in interoperability
+    assert "Hermes" in interoperability
+    assert "Paseo" in interoperability
     assert "Ambiguous prose produces accidental architecture" in specifications
+    assert "Guides · 03 of 03" in specifications
     assert "new RunAttempt under the existing AgentRun" in specifications
     assert "--house-accent-base: #3DE0F0;" in (tmp_path / "assets" / "house-tokens.css").read_text(
         encoding="utf-8"
     )
+    site_css = (tmp_path / "assets" / "site.css").read_text(encoding="utf-8")
+    site_js = (tmp_path / "assets" / "site.js").read_text(encoding="utf-8")
+    assert ".site-guide-nav" in site_css
+    assert ".record-table td::before" in site_css
+    assert "site-nav-open" in site_js
     headers = (tmp_path / "_headers").read_text(encoding="utf-8")
     redirects = (tmp_path / "_redirects").read_text(encoding="utf-8")
     assert "X-Content-Type-Options: nosniff" in headers

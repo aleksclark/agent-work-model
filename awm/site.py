@@ -24,10 +24,10 @@ PRIMARY_PAGES = (
     ("glossary", "Glossary", "glossary.html", "explore"),
     ("reference", "Reference", "reference.html", "inspect"),
 )
-DEEPER_PAGES = (
-    ("boundaries", "Boundaries that matter", "boundaries.html", "components"),
-    ("interoperability", "Mapping systems", "interoperability.html", "pipeline"),
-    ("specifications", "Writing clear specs", "specifications.html", "decisions"),
+GUIDE_PAGES = (
+    ("boundaries", "Boundaries", "boundaries.html", "What stays distinct"),
+    ("interoperability", "Mapping", "interoperability.html", "Translate without erasing"),
+    ("specifications", "Specifications", "specifications.html", "Make meaning testable"),
 )
 
 ASSET_FILES = (
@@ -101,12 +101,25 @@ def _nav_item(
     return f'<li><a href="{_e(href)}"{cls}{aria}>{_icon(icon)}{_e(label)}</a></li>'
 
 
-def _nav(base_path: str, active: str) -> str:
-    items = [_nav_item(page, base_path, active) for page in PRIMARY_PAGES]
-    items.append(f'<li><a href="{_e(REPO_URL)}">{_icon("open")}Source</a></li>')
-    items.append('<li class="site-nav-heading">Dig Deeper</li>')
-    items.extend(_nav_item(page, base_path, active) for page in DEEPER_PAGES)
-    return "\n            ".join(items)
+def _primary_nav(base_path: str, active: str) -> str:
+    return "\n            ".join(
+        _nav_item(page, base_path, active) for page in PRIMARY_PAGES
+    )
+
+
+def _guide_nav(base_path: str, active: str) -> str:
+    items = []
+    for index, (key, label, filename, description) in enumerate(GUIDE_PAGES, 1):
+        href = join_base(base_path, filename)
+        cls = ' class="is-active"' if key == active else ""
+        aria = ' aria-current="page"' if key == active else ""
+        items.append(
+            f'<li><a href="{_e(href)}"{cls}{aria}>'
+            f'<span class="site-guide-index">{index:02d}</span>'
+            f'<span><strong>{_e(label)}</strong><small>{_e(description)}</small></span>'
+            "</a></li>"
+        )
+    return "\n              ".join(items)
 
 
 def _shell(
@@ -149,13 +162,26 @@ def _shell(
   <div class="site-backdrop" data-nav-backdrop></div>
   <div class="site-shell">
     <nav class="site-nav" data-site-nav aria-label="Primary">
-      <a class="site-brand" href="{_e(home)}">
-        <span class="site-brand-kicker">Specification</span>
-        <span class="site-brand-name">Agent Work Model</span>
-      </a>
+      <div class="site-nav-header">
+        <a class="site-brand" href="{_e(home)}">
+          <span class="site-brand-kicker">Specification</span>
+          <span class="site-brand-name">Agent Work Model</span>
+        </a>
+        <button type="button" class="icon-button site-nav-close" data-nav-toggle aria-expanded="false" aria-label="Close navigation">
+          {_icon("arrow-left")}
+        </button>
+      </div>
       <ul class="site-nav-list">
-            {_nav(base_path, active)}
+            {_primary_nav(base_path, active)}
       </ul>
+      <section class="site-guide-nav" aria-labelledby="guide-nav-title">
+        <p id="guide-nav-title">Guides</p>
+        <span>Three short explanations</span>
+        <ol>
+              {_guide_nav(base_path, active)}
+        </ol>
+      </section>
+      <a class="site-source" href="{_e(REPO_URL)}">{_icon("open")}<span>View source on GitHub</span></a>
     </nav>
     <div class="site-main">
       <div class="site-toolbar">
@@ -206,28 +232,27 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
         definition = _e(term.get("definition", ""))
         rows.append(
             "<tr>"
-            f'<td class="cell-primary"><a href="{_e(term_href(base_path, key))}">{_e(key)}</a></td>'
-            f'<td><span class="identity-row"><code>{_e(identity)}</code>'
+            f'<td class="cell-primary" data-label="Term"><a href="{_e(term_href(base_path, key))}">{_e(key)}</a></td>'
+            f'<td data-label="Identity"><span class="identity-row"><code>{_e(identity)}</code>'
             f"{_copy_control(identity)}</span></td>"
-            f'<td><span class="{_status_class(status)}">{_icon("check")}{_e(status)}</span></td>'
-            f"<td>{definition}</td>"
+            f'<td data-label="Status"><span class="{_status_class(status)}">{_icon("check")}{_e(status)}</span></td>'
+            f'<td data-label="Definition">{definition}</td>'
             "</tr>"
         )
     body = f"""
         <header class="site-page-header site-hero">
-          <p class="house-type-eyebrow">Decide / Learn</p>
+          <p class="house-type-eyebrow">Shared vocabulary for agent work</p>
           <h1 class="house-type-display">{_e(name)}</h1>
-          <p class="house-type-lede">{_e(description)}</p>
+          <p class="house-type-lede">Precise names for the projects, work episodes, agents, attempts, conversations, and artifacts that different systems need to discuss together.</p>
           {_meta_strip([
               ("Version", f"<code>{_e(meta.get('version', ''))}</code>"),
               ("Status", f'<span class="{_status_class(str(meta.get("status", "")))}">{_icon("info")}{_e(meta.get("status", ""))}</span>'),
               ("License", _e(meta.get("license", ""))),
-              ("Canonical source", f"<code>{_e(meta.get('canonical_source', 'model/'))}</code>"),
+              ("Machine-readable", f'<a href="{_e(join_base(base_path, "model.json"))}"><code>model.json</code></a>'),
           ])}
           <div class="site-actions">
             <a class="house-button house-button--primary" href="{_e(join_base(base_path, 'glossary.html'))}">{_icon("explore")}Open glossary</a>
             <a class="house-button house-button--secondary" href="{_e(join_base(base_path, 'reference.html'))}">{_icon("inspect")}Architecture rules</a>
-            <a class="house-button house-button--ghost" href="{_e(join_base(base_path, 'model.json'))}">{_icon("record")}model.json</a>
           </div>
         </header>
         <section class="site-section">
@@ -238,19 +263,19 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
         </section>
         <section class="site-section">
           <h2 class="house-type-section">The confusion is already visible</h2>
-          <p><a href="https://docs.langchain.com/oss/python/langgraph/persistence">LangGraph</a> uses a <em>thread</em> for checkpointed graph state and conversation continuity. The <a href="https://openai.github.io/openai-agents-python/sessions/">OpenAI Agents SDK</a> uses a <em>session</em> to preserve conversation history across agent runs. <a href="https://github.com/NousResearch/hermes-agent/blob/main/docs/session-lifecycle.md">Hermes</a> uses a session for a continuous conversation on a messaging platform, while separately tracking turns, provider requests, tool calls, and delegated tasks.</p>
-          <p><a href="https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture">MCP</a> now defines a stateless protocol for context exchange, even though many developers still encounter older transport-level “session” identifiers. <a href="https://github.com/getpaseo/paseo/blob/main/docs/product.md">Paseo</a> distinguishes projects, workspaces, agents, executions, and turns because a workspace can contain several agents and can outlive any one client connection.</p>
-          <p>Every one of those meanings is reasonable inside its own product. They are not interchangeable. The pain appears at the boundaries: adapters grow special cases, database columns acquire misleading names, lifecycle events cannot be compared, and specifications depend on tribal knowledge.</p>
+          <p><a href="https://docs.langchain.com/oss/python/langgraph/persistence">LangGraph</a> uses a <em>thread</em> for checkpointed graph state. The <a href="https://openai.github.io/openai-agents-python/sessions/">OpenAI Agents SDK</a> uses a <em>session</em> for conversation history across runs. <a href="https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture">MCP</a> now defines a stateless context-exchange protocol, although developers still encounter older transport-level “session” identifiers.</p>
+          <p>Each meaning is reasonable inside its own system. They are not interchangeable. At the boundary, adapters grow special cases, database columns acquire misleading names, lifecycle events cannot be compared, and specifications depend on tribal knowledge. The <a href="{_e(join_base(base_path, 'interoperability.html'))}">mapping guide</a> compares more systems without claiming false equivalence.</p>
         </section>
         <section class="site-section">
           <h2 class="house-type-section">Clear language changes the work</h2>
-          <p>Agent Work Model gives each important boundary a stable name. A <strong>WorkSession</strong> is the bounded episode of work. An <strong>AgentRun</strong> is one agent’s assignment inside it. A <strong>RunAttempt</strong> is one infrastructure try at that assignment. A <strong>Turn</strong> is one input-to-output cycle. A <strong>HostConversation</strong> is chat history that may be attached to the work, but is not the work itself.</p>
-          <p>Once those distinctions are explicit, a specification can say exactly what survives a crash, what is retried, what owns mutable state, and what completion means. APIs become easier to review. Events become easier to join. Tests can assert real invariants instead of guessing what a field named <code>session_id</code> was intended to mean.</p>
+          <p>Agent Work Model starts with one primary distinction: a <strong>WorkSession</strong> is the bounded episode of work, while an <strong>AgentRun</strong> is one agent’s assignment inside it.</p>
+          <p>The remaining terms make that distinction operational. A <strong>RunAttempt</strong> is one infrastructure try at the assignment. A <strong>Turn</strong> is one input-to-output cycle. A <strong>HostConversation</strong> is chat history that may attach to the work, but is not the work itself.</p>
+          <p>Now a specification can say exactly what survives a crash, what is retried, what owns mutable state, and what completion means. APIs become easier to review. Events become easier to join. Tests can assert real invariants instead of guessing what a field named <code>session_id</code> was intended to mean.</p>
           <p class="purpose">The joy is practical: fewer translation meetings, fewer “which run?” questions, and more time spent building the behavior the team actually agreed on.</p>
         </section>
         <section class="site-section">
           <h2 class="house-type-section">A shared model, not another platform</h2>
-          <p>AWM does not ask LangGraph, OpenAI, Hermes, Paseo, or any other system to rename its native objects. It supplies a neutral semantic layer so those objects can be mapped without pretending that similar names guarantee identical meaning.</p>
+          <p>AWM does not ask any system to rename its native objects. It supplies a neutral semantic layer so those objects can be mapped without pretending that similar names guarantee identical meaning.</p>
           <p>The machine-readable documents under <code>model/</code> are canonical. They define identity, authority, lifecycle, cardinality, invariants, aliases, non-synonyms, and mapping fidelity. Generated prose, JSON, and this site are derived from that source.</p>
           <div class="site-actions">
             <a class="house-button house-button--secondary" href="{_e(join_base(base_path, 'boundaries.html'))}">{_icon("components")}Explore the boundaries</a>
@@ -259,9 +284,10 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
         </section>
         <section class="site-section">
           <h2 class="house-type-section">The vocabulary</h2>
+          <p>New to the model? Start with the <a href="{_e(join_base(base_path, 'boundaries.html'))}">boundaries guide</a>. Building an integration? Read <a href="{_e(join_base(base_path, 'interoperability.html'))}">mapping systems</a>. Use the complete table below as reference.</p>
           <p>Each accepted term has a qualified identity field, one external authority role, and explicit relationships to the rest of the model.</p>
           <div class="site-table-wrap">
-            <table>
+            <table class="record-table">
               <thead><tr><th>Term</th><th>Identity</th><th>Status</th><th>Definition</th></tr></thead>
               <tbody>
                 {"".join(rows)}
@@ -284,14 +310,14 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
 def render_boundaries(base_path: str, sprite: str) -> str:
     body = f"""
         <header class="site-page-header">
-          <p class="house-type-eyebrow">Dig Deeper</p>
+          <p class="house-type-eyebrow">Guides · 01 of 03</p>
           <h1 class="house-type-title">Boundaries that matter</h1>
           <p class="house-type-lede">If two things have different owners, lifecycles, cardinalities, or failure behavior, they need different names and different identities.</p>
         </header>
         <section class="site-section">
           <h2 class="house-type-section">Project is not workspace</h2>
           <p>A <a href="{_e(term_href(base_path, 'Project'))}">Project</a> is the durable scope people recognize as “the work we keep doing together.” A <a href="{_e(term_href(base_path, 'Workspace'))}">Workspace</a> is a material environment: a checkout, container, remote directory, or similar place where work can happen.</p>
-          <p>Paseo makes the practical difference visible. A project appears in its sidebar, while a project can have a main workspace plus additional isolated worktree workspaces. Deleting a worktree should not erase the project’s identity. Restarting a workspace should not rewrite project policy.</p>
+          <p>One durable project can have several replaceable working environments. Deleting an environment should not erase the project’s identity, and restarting one should not rewrite project policy. Paseo makes this concrete: a project can have a main workspace plus additional isolated worktree workspaces.</p>
           <p>A <a href="{_e(term_href(base_path, 'ProjectSnapshot'))}">ProjectSnapshot</a> adds a third boundary: it is an immutable view of the project definition at an exact revision. A running episode can pin that revision without mutating the durable project or claiming that a live workspace is part of the snapshot.</p>
         </section>
         <section class="site-section">
@@ -338,29 +364,20 @@ def render_boundaries(base_path: str, sprite: str) -> str:
         body=body,
         base_path=base_path,
         sprite=sprite,
+        extra_class="site-guide",
     )
 
 
 def render_interoperability(base_path: str, sprite: str) -> str:
     body = f"""
         <header class="site-page-header">
-          <p class="house-type-eyebrow">Dig Deeper</p>
-          <h1 class="house-type-title">Mapping systems without flattening them</h1>
-          <p class="house-type-lede">Interoperability does not require every framework to use the same nouns. It requires each side to say what its nouns actually mean.</p>
+          <p class="house-type-eyebrow">Guides · 02 of 03</p>
+          <h1 class="house-type-title">Map systems without erasing their differences</h1>
+          <p class="house-type-lede">Interoperability does not require every framework to use the same nouns. It requires each side to state what its nouns actually mean.</p>
         </header>
         <section class="site-section">
-          <h2 class="house-type-section">Native models are allowed to be native</h2>
-          <p>LangGraph organizes short-term persistence around threads and checkpoints, with stores for cross-thread memory. The OpenAI Agents SDK has agents, runs, results, and sessions that preserve conversation history. CrewAI distinguishes agents, tasks, crews, and event-driven flows. Hermes separates conversation sessions, turns, provider requests, tool calls, and delegated subagent tasks. Paseo separates projects, workspaces, agents, executions, and turns.</p>
-          <p>AWM does not declare any of those product models wrong. It gives integrations a neutral target. A native object may map exactly to one AWM term, partially cover it, combine several concerns, or have no equivalent at all.</p>
-        </section>
-        <section class="site-section">
-          <h2 class="house-type-section">Similar names are only the beginning</h2>
-          <p>Consider the word <em>session</em>. In the OpenAI Agents SDK it is a store for conversation history across runs. In Hermes it is a continuous messaging-platform conversation with reset and resume behavior. In older MCP implementations, a session identifier could be transport metadata; the current MCP protocol is stateless. In AWM, a WorkSession is none of those things: it is the bounded episode that coordinates the work.</p>
-          <p>A safe adapter therefore asks about semantics, not spelling. Does the native object own message history? Does it contain multiple agent assignments? Can it survive a process restart? Does closing it end the work, detach a client, or merely stop preserving context?</p>
-        </section>
-        <section class="site-section">
           <h2 class="house-type-section">Mapping fidelity is part of the data</h2>
-          <p>AWM uses explicit fidelity labels so an integration cannot hide uncertainty behind a neat-looking crosswalk.</p>
+          <p>AWM records uncertainty instead of hiding it behind a tidy crosswalk.</p>
           <dl class="definition-list">
             <div><dt>Exact</dt><dd>The native concept and AWM term agree on the relevant meaning and boundary.</dd></div>
             <div><dt>Partial</dt><dd>The concepts overlap, but fields, lifecycle, authority, or scope differ.</dd></div>
@@ -368,7 +385,23 @@ def render_interoperability(base_path: str, sprite: str) -> str:
             <div><dt>None</dt><dd>The system has no corresponding native concept.</dd></div>
             <div><dt>TBD</dt><dd>No specific implementation revision has been checked yet.</dd></div>
           </dl>
-          <p>The current repository demonstrates the conservative approach: the Project Interop hook is explicitly unverified, and most term mappings remain <code>tbd</code>. An honest missing crosswalk is more useful than false precision.</p>
+          <p>The current repository takes the conservative path: the Project Interop hook is explicitly unverified, and most term mappings remain <code>tbd</code>. An honest missing crosswalk is more useful than false precision.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">The same noun can mark different boundaries</h2>
+          <p>Consider <em>session</em>. In the OpenAI Agents SDK it stores conversation history across runs. In Hermes it is a messaging-platform conversation with reset and resume behavior. In older MCP implementations, a session identifier could be transport metadata; the current protocol is stateless. An AWM WorkSession is none of those: it is the bounded episode that coordinates the work.</p>
+          <p>A safe adapter asks about semantics, not spelling. Does the native object own message history? Does it contain several agent assignments? Can it survive a process restart? Does closing it end the work, detach a client, or merely stop preserving context?</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Native models stay native</h2>
+          <dl class="definition-list system-examples">
+            <div><dt>LangGraph</dt><dd>Threads and checkpoints carry short-term graph state; stores carry cross-thread memory.</dd></div>
+            <div><dt>OpenAI</dt><dd>Agents run through a runner, return results, and may use sessions for conversation history.</dd></div>
+            <div><dt>CrewAI</dt><dd>Agents perform tasks in crews, while flows provide event-driven orchestration and state.</dd></div>
+            <div><dt>Hermes</dt><dd>Conversation sessions are distinct from turns, provider requests, tool calls, and delegated tasks.</dd></div>
+            <div><dt>Paseo</dt><dd>Projects, workspaces, agents, executions, and turns have separate operational boundaries.</dd></div>
+          </dl>
+          <p>AWM does not declare any of these product models wrong. It gives integrations a neutral target. A native object may map exactly to one AWM term, partially cover it, combine several concerns, or have no equivalent.</p>
         </section>
         <section class="site-section">
           <h2 class="house-type-section">A practical mapping review</h2>
@@ -394,13 +427,14 @@ def render_interoperability(base_path: str, sprite: str) -> str:
         body=body,
         base_path=base_path,
         sprite=sprite,
+        extra_class="site-guide",
     )
 
 
 def render_specifications(base_path: str, sprite: str) -> str:
     body = f"""
         <header class="site-page-header">
-          <p class="house-type-eyebrow">Dig Deeper</p>
+          <p class="house-type-eyebrow">Guides · 03 of 03</p>
           <h1 class="house-type-title">Writing specifications agents can implement</h1>
           <p class="house-type-lede">Clear names turn product intent into contracts that humans can review, agents can implement, and tests can verify.</p>
         </header>
@@ -437,8 +471,8 @@ def render_specifications(base_path: str, sprite: str) -> str:
           <p>This is especially valuable in agentic development. Agents move quickly and confidently, including when a prompt is underspecified. A precise model narrows the solution space before code is generated. It gives an implementation agent fewer plausible but incompatible interpretations and gives a review agent objective invariants to check.</p>
           <p class="purpose">The result is not more ceremony. It is less rework: specifications that survive handoffs, retries, provider changes, and the arrival of the next framework.</p>
           <div class="site-actions">
-            <a class="house-button house-button--primary" href="{_e(join_base(base_path, 'model.json'))}">{_icon("record")}Read model.json</a>
-            <a class="house-button house-button--secondary" href="{_e(join_base(base_path, 'reference.html'))}">{_icon("inspect")}Read the rules</a>
+            <a class="house-button house-button--primary" href="{_e(join_base(base_path, 'model.json'))}">{_icon("record")}Browse the machine-readable model</a>
+            <a class="house-button house-button--secondary" href="{_e(join_base(base_path, 'reference.html'))}">{_icon("inspect")}Read normative rules</a>
           </div>
         </section>
 """
@@ -449,6 +483,7 @@ def render_specifications(base_path: str, sprite: str) -> str:
         body=body,
         base_path=base_path,
         sprite=sprite,
+        extra_class="site-guide",
     )
 
 
@@ -461,10 +496,10 @@ def render_glossary(model: Model, base_path: str, sprite: str) -> str:
         status = term.get("status", "")
         rows.append(
             "<tr>"
-            f'<td class="cell-primary"><a href="{_e(term_href(base_path, key))}">{_e(key)}</a></td>'
-            f'<td class="cell-meta"><code>{_e(identity)}</code> {_copy_control(identity)}</td>'
-            f'<td><span class="{_status_class(status)}">{_icon("check")}{_e(status)}</span></td>'
-            f"<td>{_e(term.get('definition', ''))}</td>"
+            f'<td class="cell-primary" data-label="Term"><a href="{_e(term_href(base_path, key))}">{_e(key)}</a></td>'
+            f'<td class="cell-meta" data-label="Identity"><span class="identity-row"><code>{_e(identity)}</code>{_copy_control(identity)}</span></td>'
+            f'<td data-label="Status"><span class="{_status_class(status)}">{_icon("check")}{_e(status)}</span></td>'
+            f'<td data-label="Definition">{_e(term.get("definition", ""))}</td>'
             "</tr>"
         )
     body = f"""
@@ -475,7 +510,7 @@ def render_glossary(model: Model, base_path: str, sprite: str) -> str:
         </header>
         <section class="site-section">
           <div class="site-table-wrap">
-            <table>
+            <table class="record-table">
               <thead><tr><th>Term</th><th>Identity</th><th>Status</th><th>Definition</th></tr></thead>
               <tbody>{"".join(rows)}</tbody>
             </table>
@@ -504,18 +539,18 @@ def _term_relationships(term: dict[str, Any], base_path: str) -> str:
         inverse_cell = f"<code>{_e(inverse)}</code> {_e(inv_card)}".strip() if inverse else ""
         rows.append(
             "<tr>"
-            f"<td><code>{_e(rel.get('name', ''))}</code></td>"
-            f'<td class="cell-primary"><a href="{_e(term_href(base_path, target))}">{_e(target)}</a></td>'
-            f"<td>{_e(rel.get('kind', ''))}</td>"
-            f"<td><code>{_e(rel.get('cardinality', ''))}</code></td>"
-            f"<td>{inverse_cell}</td>"
+            f'<td data-label="Name"><code>{_e(rel.get("name", ""))}</code></td>'
+            f'<td class="cell-primary" data-label="Target"><a href="{_e(term_href(base_path, target))}">{_e(target)}</a></td>'
+            f'<td data-label="Kind">{_e(rel.get("kind", ""))}</td>'
+            f'<td data-label="Cardinality"><code>{_e(rel.get("cardinality", ""))}</code></td>'
+            f'<td data-label="Inverse">{inverse_cell}</td>'
             "</tr>"
         )
     return f"""
         <section class="site-section">
           <h2 class="house-type-section">Relationships</h2>
           <div class="site-table-wrap">
-            <table>
+            <table class="record-table">
               <thead><tr><th>Name</th><th>Target</th><th>Kind</th><th>Cardinality</th><th>Inverse</th></tr></thead>
               <tbody>{"".join(rows)}</tbody>
             </table>
@@ -580,11 +615,11 @@ def render_term(term: dict[str, Any], base_path: str, sprite: str, model_name: s
     for item in fields:
         field_rows.append(
             "<tr>"
-            f"<td><code>{_e(item.get('name', ''))}</code></td>"
-            f"<td>{_e(item.get('kind', ''))}</td>"
-            f"<td>{_e(item.get('type', ''))}</td>"
-            f"<td>{_e(item.get('portable_snapshot', ''))}</td>"
-            f"<td>{_e(item.get('notes', ''))}</td>"
+            f'<td data-label="Name"><code>{_e(item.get("name", ""))}</code></td>'
+            f'<td data-label="Kind">{_e(item.get("kind", ""))}</td>'
+            f'<td data-label="Type">{_e(item.get("type", ""))}</td>'
+            f'<td data-label="Portable">{_e(item.get("portable_snapshot", ""))}</td>'
+            f'<td data-label="Notes">{_e(item.get("notes", ""))}</td>'
             "</tr>"
         )
     fields_block = ""
@@ -594,7 +629,7 @@ def render_term(term: dict[str, Any], base_path: str, sprite: str, model_name: s
           <h2 class="house-type-section">Fields</h2>
           <p>The identity field is the index of the handle. <code>fields</code> is the exchange shape.</p>
           <div class="site-table-wrap">
-            <table>
+            <table class="record-table">
               <thead><tr><th>Name</th><th>Kind</th><th>Type</th><th>Portable</th><th>Notes</th></tr></thead>
               <tbody>{"".join(field_rows)}</tbody>
             </table>
@@ -611,17 +646,17 @@ def render_term(term: dict[str, Any], base_path: str, sprite: str, model_name: s
             native_cell = f"<code>{_e(native)}</code>" if native else "_none_"
             hook_rows.append(
                 "<tr>"
-                f"<td><code>{_e(system)}</code></td>"
-                f"<td>{native_cell}</td>"
-                f"<td>{_e(hook.get('fidelity', ''))}</td>"
-                f"<td>{_e(hook.get('notes') or '')}</td>"
+                f'<td data-label="System"><code>{_e(system)}</code></td>'
+                f'<td data-label="Native term">{native_cell}</td>'
+                f'<td data-label="Fidelity">{_e(hook.get("fidelity", ""))}</td>'
+                f'<td data-label="Notes">{_e(hook.get("notes") or "")}</td>'
                 "</tr>"
             )
         hook_block = f"""
         <section class="site-section">
           <h2 class="house-type-section">Native mapping hooks</h2>
           <div class="site-table-wrap">
-            <table>
+            <table class="record-table">
               <thead><tr><th>System</th><th>Native term</th><th>Fidelity</th><th>Notes</th></tr></thead>
               <tbody>{"".join(hook_rows)}</tbody>
             </table>
@@ -687,8 +722,8 @@ def render_reference(model: Model, base_path: str, sprite: str) -> str:
     for role in model.catalog.get("authority_roles") or []:
         role_rows.append(
             "<tr>"
-            f"<td><code>{_e(role.get('id', ''))}</code></td>"
-            f"<td>{_e(role.get('description') or '')}</td>"
+            f'<td data-label="Role"><code>{_e(role.get("id", ""))}</code></td>'
+            f'<td data-label="Description">{_e(role.get("description") or "")}</td>'
             "</tr>"
         )
     rule_sections = []
@@ -698,10 +733,10 @@ def render_reference(model: Model, base_path: str, sprite: str) -> str:
         for rule in document.get("rules") or []:
             rows.append(
                 "<tr>"
-                f"<td><code>{_e(rule.get('id', ''))}</code></td>"
-                f"<td>{_e(rule.get('level', ''))}</td>"
-                f"<td>{_e(rule.get('enforcement', ''))}</td>"
-                f"<td>{_e(rule.get('statement', ''))}</td>"
+                f'<td data-label="ID"><code>{_e(rule.get("id", ""))}</code></td>'
+                f'<td data-label="Level">{_e(rule.get("level", ""))}</td>'
+                f'<td data-label="Enforcement">{_e(rule.get("enforcement", ""))}</td>'
+                f'<td data-label="Statement">{_e(rule.get("statement", ""))}</td>'
                 "</tr>"
             )
         description = document.get("description") or ""
@@ -712,7 +747,7 @@ def render_reference(model: Model, base_path: str, sprite: str) -> str:
           <h2 class="house-type-section">{_e(title)}</h2>
           {desc}
           <div class="site-table-wrap">
-            <table>
+            <table class="record-table">
               <thead><tr><th>ID</th><th>Level</th><th>Enforcement</th><th>Statement</th></tr></thead>
               <tbody>{"".join(rows)}</tbody>
             </table>
@@ -731,10 +766,10 @@ def render_reference(model: Model, base_path: str, sprite: str) -> str:
             native_cell = f"<code>{_e(native)}</code>" if native else "_none_"
             rows.append(
                 "<tr>"
-                f'<td class="cell-primary"><a href="{_e(term_href(base_path, term_key))}">{_e(term_key)}</a></td>'
-                f"<td>{native_cell}</td>"
-                f"<td>{_e(entry.get('fidelity', ''))}</td>"
-                f"<td>{_e(entry.get('notes') or '')}</td>"
+                f'<td class="cell-primary" data-label="AWM term"><a href="{_e(term_href(base_path, term_key))}">{_e(term_key)}</a></td>'
+                f'<td data-label="Native term">{native_cell}</td>'
+                f'<td data-label="Fidelity">{_e(entry.get("fidelity", ""))}</td>'
+                f'<td data-label="Notes">{_e(entry.get("notes") or "")}</td>'
                 "</tr>"
             )
         mapping_sections.append(
@@ -744,7 +779,7 @@ def render_reference(model: Model, base_path: str, sprite: str) -> str:
           <p><strong>Status:</strong> {_e(mapping.get('status', ''))}. <strong>Overview fidelity:</strong> {_e(mapping.get('fidelity_overview', ''))}. <strong>Verified against:</strong> {_e(mapping.get('verified_against') or 'unverified')}.</p>
           <p>{_e((mapping.get("description") or "").strip())}</p>
           <div class="site-table-wrap">
-            <table>
+            <table class="record-table">
               <thead><tr><th>AWM term</th><th>Native term</th><th>Fidelity</th><th>Notes</th></tr></thead>
               <tbody>{"".join(rows)}</tbody>
             </table>
@@ -762,7 +797,7 @@ def render_reference(model: Model, base_path: str, sprite: str) -> str:
           <h2 class="house-type-section">Authority roles</h2>
           <p>External SYSTEM/ROLE boundaries. A term's <code>authority.owner</code> names exactly one of these roles.</p>
           <div class="site-table-wrap">
-            <table>
+            <table class="record-table">
               <thead><tr><th>Role</th><th>Description</th></tr></thead>
               <tbody>{"".join(role_rows)}</tbody>
             </table>
