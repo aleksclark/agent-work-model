@@ -334,6 +334,14 @@
   margin: 0;
   max-width: 68ch;
 }
+.site-vocabulary > h2,
+.site-vocabulary > p {
+  width: min(100%, var(--awm-prose-measure));
+  margin-inline: auto;
+}
+.site-vocabulary .site-table-wrap {
+  width: 100%;
+}
 .site-section p a,
 .site-section li a {
   color: var(--house-text-primary);
@@ -384,6 +392,17 @@ table {
   border-collapse: collapse;
   font: 400 var(--house-type-body-compact) / 1.5 var(--house-font-product);
 }
+.terms-table {
+  table-layout: fixed;
+}
+.terms-table th:nth-child(1),
+.terms-table td:nth-child(1) { width: 19%; }
+.terms-table th:nth-child(2),
+.terms-table td:nth-child(2) { width: 25%; }
+.terms-table th:nth-child(3),
+.terms-table td:nth-child(3) { width: 15%; }
+.terms-table th:nth-child(4),
+.terms-table td:nth-child(4) { width: 41%; }
 th, td {
   text-align: left;
   vertical-align: top;
@@ -413,9 +432,13 @@ td a:hover {
 
 .identity-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: var(--house-space-2);
+}
+.identity-row code {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 .identity-row code,
 code, kbd {
@@ -451,8 +474,10 @@ pre code {
   color: var(--house-text-secondary);
   font: 500 var(--house-type-control) / var(--house-leading-control) var(--house-font-product);
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: var(--house-space-2);
+  white-space: nowrap;
   cursor: pointer;
 }
 .copy-button:hover {
@@ -555,6 +580,57 @@ a.house-button {
     padding-top: 0;
     border-top: 0;
   }
+
+  .record-table,
+  .record-table tbody,
+  .record-table tr,
+  .record-table td {
+    display: block;
+    width: 100%;
+  }
+  .record-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .record-table tr {
+    padding: var(--house-space-3) 0;
+    border-bottom: var(--house-rule-width) solid var(--house-rule-subtle);
+  }
+  .record-table td[data-label] {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(5.5rem, 0.34fr) minmax(0, 1fr);
+    gap: var(--house-space-3);
+    padding: var(--house-space-2) 0;
+    border-bottom: 0;
+    font: 400 var(--house-type-body) / var(--house-leading-body) var(--house-font-product);
+  }
+  .record-table td::before {
+    content: attr(data-label);
+    color: var(--house-text-tertiary);
+    font: 500 var(--house-type-eyebrow) / 1.4 var(--house-font-technical);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .record-table .cell-primary {
+    font: 500 var(--house-type-body) / var(--house-leading-body) var(--house-font-product);
+  }
+  .record-table .identity-row {
+    align-items: flex-start;
+  }
+  .record-table code,
+  .record-table td > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .record-table .copy-button {
+    padding-inline: var(--house-space-2);
+  }
 }
 
 @media (max-width: 640px) {
@@ -600,51 +676,11 @@ a.house-button {
     min-height: var(--house-target-mobile);
   }
 
-  .record-table,
-  .record-table tbody,
-  .record-table tr,
-  .record-table td {
-    display: block;
-    width: 100%;
-  }
-  .record-table thead {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-  .record-table tr {
-    padding: var(--house-space-3) 0;
-    border-bottom: var(--house-rule-width) solid var(--house-rule-subtle);
-  }
-  .record-table td {
-    display: grid;
-    grid-template-columns: minmax(5.5rem, 0.34fr) minmax(0, 1fr);
-    gap: var(--house-space-3);
-    padding: var(--house-space-2) 0;
-    border-bottom: 0;
-    font: 400 var(--house-type-body) / var(--house-leading-body) var(--house-font-product);
-  }
-  .record-table td::before {
-    content: attr(data-label);
-    color: var(--house-text-tertiary);
-    font: 500 var(--house-type-eyebrow) / 1.4 var(--house-font-technical);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .record-table .cell-primary {
-    font: 500 var(--house-type-body) / var(--house-leading-body) var(--house-font-product);
-  }
-  .record-table .identity-row {
-    align-items: flex-start;
-  }
-  .record-table code,
-  .record-table td > * {
-    min-width: 0;
-    overflow-wrap: anywhere;
+}
+
+@media (max-width: 360px) {
+  .record-table td[data-label] {
+    grid-template-columns: 1fr;
   }
 }
 

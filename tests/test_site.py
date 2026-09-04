@@ -65,7 +65,9 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     assert "work_session_id" in term
     assert "work-session-coordinator" in term
     assert "Accepted terms" in glossary
-    assert 'class="record-table"' in glossary
+    assert 'class="record-table terms-table"' in index
+    assert 'class="record-table terms-table"' in glossary
+    assert 'class="site-section site-vocabulary"' in index
     assert 'data-label="Definition"' in glossary
     assert "Project is not workspace" in boundaries
     assert "Guides · 01 of 03" in boundaries
@@ -94,6 +96,8 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     assert ".page-toc-mobile" in site_css
     assert ".site-guide-nav" in site_css
     assert ".record-table td::before" in site_css
+    assert "flex-wrap: nowrap" in site_css
+    assert ".terms-table th:nth-child(2)" in site_css
     assert "site-nav-open" in site_js
     headers = (tmp_path / "_headers").read_text(encoding="utf-8")
     redirects = (tmp_path / "_redirects").read_text(encoding="utf-8")

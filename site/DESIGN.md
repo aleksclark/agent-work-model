@@ -346,4 +346,4 @@ Primary navigation remains Overview, Glossary, and Reference. Guides are a numbe
 
 ### Responsive reference data
 
-Reference tables remain tabular on wide screens. At mobile widths they recompose into labeled records using the same semantic row order. Do not shrink essential identifiers or require hidden horizontal panning.
+Reference tables remain tabular on wide screens. The landing-page vocabulary table may break out to the full 960px documentation canvas while its heading and explanatory prose remain centered at the 65ch reading measure. Identity and its Copy action form one non-wrapping unit with a deliberately sized identity column. At tablet/mobile widths, tables recompose into labeled records using the same semantic row order; below 360px, labels stack above values so the identity/Copy unit still fits. Do not shrink essential identifiers or require hidden horizontal panning.

@@ -272,6 +272,21 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
             f'<td data-label="Definition">{definition}</td>'
             "</tr>"
         )
+    vocabulary = f"""
+        <section class="site-section site-vocabulary" id="vocabulary">
+          <h2 class="house-type-section">The vocabulary</h2>
+          <p>New to the model? Start with the <a href="{_e(join_base(base_path, 'boundaries.html'))}">boundaries guide</a>. Building an integration? Read <a href="{_e(join_base(base_path, 'interoperability.html'))}">mapping systems</a>. Use the complete table below as reference.</p>
+          <p>Each accepted term has a qualified identity field, one external authority role, and explicit relationships to the rest of the model.</p>
+          <div class="site-table-wrap">
+            <table class="record-table terms-table">
+              <thead><tr><th>Term</th><th>Identity</th><th>Status</th><th>Definition</th></tr></thead>
+              <tbody>
+                {"".join(rows)}
+              </tbody>
+            </table>
+          </div>
+        </section>
+"""
     body = f"""
         <header class="site-page-header site-hero">
           <p class="house-type-eyebrow">Shared vocabulary for agent work</p>
@@ -315,19 +330,6 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
             <a class="house-button house-button--ghost" href="{_e(join_base(base_path, 'interoperability.html'))}">{_icon("pipeline")}See how mapping works</a>
           </div>
         </section>
-        <section class="site-section" id="vocabulary">
-          <h2 class="house-type-section">The vocabulary</h2>
-          <p>New to the model? Start with the <a href="{_e(join_base(base_path, 'boundaries.html'))}">boundaries guide</a>. Building an integration? Read <a href="{_e(join_base(base_path, 'interoperability.html'))}">mapping systems</a>. Use the complete table below as reference.</p>
-          <p>Each accepted term has a qualified identity field, one external authority role, and explicit relationships to the rest of the model.</p>
-          <div class="site-table-wrap">
-            <table class="record-table">
-              <thead><tr><th>Term</th><th>Identity</th><th>Status</th><th>Definition</th></tr></thead>
-              <tbody>
-                {"".join(rows)}
-              </tbody>
-            </table>
-          </div>
-        </section>
 """
     body = _reading_layout(
         body,
@@ -339,6 +341,7 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
             ("vocabulary", "The vocabulary"),
         ),
     )
+    body += vocabulary
     return _shell(
         title=f"{name}",
         description=description,
@@ -587,7 +590,7 @@ def render_glossary(model: Model, base_path: str, sprite: str) -> str:
         </header>
         <section class="site-section">
           <div class="site-table-wrap">
-            <table class="record-table">
+            <table class="record-table terms-table">
               <thead><tr><th>Term</th><th>Identity</th><th>Status</th><th>Definition</th></tr></thead>
               <tbody>{"".join(rows)}</tbody>
             </table>

@@ -32,6 +32,7 @@
 | LF-004 | P2 responsive | PASS | Dense reference tables previously required hidden horizontal panning. | Existing labeled-record mobile recomposition retained; browser probes report zero wrapper overflow. |
 | LF-005 | P2 accessibility | PASS | Long-form layout must tolerate user text spacing. | WCAG 1.4.12 override probe at 390px produced zero clipped elements and zero document overflow. |
 | LF-006 | P2 hierarchy | PASS | Long-form sections needed stronger scan landmarks. | Scoped 20px desktop / 18px mobile prose-section role; reference headings retain house scale. |
+| TB-001 | P2 data layout | PASS | The landing vocabulary table was constrained by the prose measure, and identity actions could wrap. | Landing table breaks out to 960px while its prose remains 65ch; both term tables reserve 25% for identity and keep identity/Copy inline; tablet/mobile use labeled records. |
 | DM-001 | P1 hosting | PASS | Canonical production host changed. | Pages custom domains active; canonical tags, sitemap, robots, workflow URL, and redirect plan use `agent-work-model.org`. |
 
 ## Best-practice inputs
