@@ -69,7 +69,7 @@ The documentation site is generated from `model/` plus hand-authored
 assets under `site/`. HTML under `_site/` is build output and is not
 checked in. Cloudflare Pages publishes it from `master` via
 `.github/workflows/pages.yml` at
-<https://agentregistryprotocol.org/>.
+<https://agent-work-model.org/>.
 
 ## Contribute
 

@@ -58,7 +58,7 @@ jobs:
     timeout-minutes: 10
     environment:
       name: production
-      url: https://agentregistryprotocol.org/
+      url: https://agent-work-model.org/
     steps:
       - name: Download site artifact
         uses: actions/download-artifact@v4

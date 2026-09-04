@@ -309,3 +309,41 @@ Operational headers use eyebrow, title, lede, actions, and optional ruled metada
 Do design dark mode first, use one allowed accent, keep typography/spacing rigid, default to comfortable density, prefer human-readable names, and send collection controls to the server.
 
 Do not treat a framework theme as design, use centered heroes on operational surfaces, make every section a card, add arbitrary shadows/pills, decorate headings with icon tiles, use emoji as product icons, lead with opaque IDs when names exist, or transform live resource collections in the browser.
+
+## Agent Work Model long-form extension
+
+Agent Work Model is primarily a Decide / Learn documentation surface with unusually prose-heavy Overview and Guide pages. The local exception record is `site/product-design-exceptions.md`; it changes no color, font-family, spacing, shape, focus, status, elevation, or icon invariant.
+
+### Evidence base
+
+- Butterick’s Practical Typography recommends roughly 45–90 characters per line and warns that long return sweeps reduce reading comfort.
+- U.S. Web Design System provides dedicated Prose and In-page Navigation patterns rather than treating running text like compact application UI.
+- W3C WCAG 2.2 Success Criterion 1.4.12 requires content to survive user overrides including 1.5 line height and larger paragraph, letter, and word spacing.
+- Nielsen Norman Group’s scanning guidance supports descriptive headings, front-loaded meaning, short sections, and visible structure for web reading.
+
+### Long-form typography
+
+- Running explanatory prose: Archivo 16px / 1.7.
+- Long-form section heading: Archivo 20px / 1.3 desktop, 18px / 1.3 mobile.
+- Lede on long-form pages: Archivo 16px / 1.6.
+- Reflective or persuasive emphasis may use Newsreader at the same 16px / 1.7 reading role.
+- Measure: maximum 65ch. Never widen prose to fill the 960px reference canvas.
+- Reference tables, controls, metadata, code, glossary, and term inspectors retain the original compact house scale.
+
+### Long-form composition
+
+1. Kicker, title, and concise lede establish the promise.
+2. A generated “On this page” list exposes the article structure.
+3. One idea lands per section under a heading that makes sense out of context.
+4. Wide screens place the contents list in a quiet sticky right rail; tablet/mobile use a native disclosure after the header.
+5. Section spacing uses the existing 24/32/48px scale. Rules mark major transitions but do not underline every heading.
+6. Links remain visibly underlined in prose. Machine identifiers remain secondary mono text.
+7. No text container uses fixed height; 200% zoom and WCAG text-spacing overrides must not clip or overlap content.
+
+### Long-form navigation
+
+Primary navigation remains Overview, Glossary, and Reference. Guides are a numbered secondary learning sequence. The in-page contents rail is local to one article and must not compete with global navigation. On narrow screens, global navigation remains an explicit drawer and article contents remain in document flow.
+
+### Responsive reference data
+
+Reference tables remain tabular on wide screens. At mobile widths they recompose into labeled records using the same semantic row order. Do not shrink essential identifiers or require hidden horizontal panning.

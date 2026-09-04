@@ -171,6 +171,55 @@
   max-width: var(--house-read-width);
 }
 
+.reading-layout {
+  display: grid;
+  grid-template-columns: minmax(0, var(--awm-prose-measure)) var(--awm-toc-width);
+  gap: var(--house-space-12);
+  align-items: start;
+}
+.reading-article {
+  min-width: 0;
+}
+.page-toc {
+  position: sticky;
+  top: var(--house-space-8);
+  padding-left: var(--house-space-4);
+  border-left: var(--house-rule-width) solid var(--house-rule-subtle);
+}
+.page-toc > p {
+  margin: 0 0 var(--house-space-3);
+  color: var(--house-text-tertiary);
+  font: 500 var(--house-type-eyebrow) / 1 var(--house-font-technical);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.page-toc ol,
+.page-toc-mobile ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.page-toc li + li,
+.page-toc-mobile li + li {
+  margin-top: var(--house-space-2);
+}
+.page-toc a,
+.page-toc-mobile a {
+  color: var(--house-text-secondary);
+  text-decoration: none;
+  font: 500 var(--house-type-control) / 1.35 var(--house-font-product);
+}
+.page-toc a:hover,
+.page-toc-mobile a:hover {
+  color: var(--house-text-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--house-accent);
+  text-underline-offset: 0.18em;
+}
+.page-toc-mobile {
+  display: none;
+}
+
 .site-toolbar {
   display: flex;
   justify-content: flex-end;
@@ -253,6 +302,29 @@
 .site-guide .site-section h2 {
   padding-bottom: 0;
   border-bottom: 0;
+}
+.site-reading-page .reading-article .site-section p,
+.site-reading-page .reading-article .site-section li,
+.site-reading-page .reading-article .definition-list dd {
+  max-width: var(--awm-prose-measure);
+  font-size: var(--awm-type-prose);
+  line-height: var(--awm-leading-prose);
+}
+.site-reading-page .reading-article .site-section {
+  gap: var(--house-space-6);
+  scroll-margin-top: var(--house-space-6);
+}
+.site-reading-page .reading-article .site-section h2 {
+  font: 600 var(--awm-type-prose-section) / var(--awm-leading-prose-section) var(--house-font-product);
+}
+.site-reading-page .reading-article .house-type-lede {
+  max-width: var(--awm-prose-measure);
+  font-size: var(--awm-type-prose);
+  line-height: 1.6;
+}
+.site-reading-page .reading-article .purpose {
+  font-size: var(--awm-type-prose);
+  line-height: var(--awm-leading-prose);
 }
 .site-section p {
   margin: 0;
@@ -446,6 +518,35 @@ a.house-button {
 
 .site-backdrop {
   display: none;
+}
+
+@media (max-width: 960px) {
+  .reading-layout {
+    grid-template-columns: minmax(0, var(--awm-prose-measure));
+  }
+  .page-toc {
+    display: none;
+  }
+  .page-toc-mobile {
+    display: block;
+    margin: 0 0 var(--house-space-8);
+    padding: var(--house-space-3) 0;
+    border-top: var(--house-rule-width) solid var(--house-rule-subtle);
+    border-bottom: var(--house-rule-width) solid var(--house-rule-subtle);
+  }
+  .page-toc-mobile summary {
+    min-height: var(--house-control-height);
+    color: var(--house-text-primary);
+    cursor: pointer;
+    font: 600 var(--house-type-control) / var(--house-leading-control) var(--house-font-product);
+  }
+  .page-toc-mobile ol {
+    padding: var(--house-space-2) 0 var(--house-space-1) var(--house-space-4);
+  }
+  .page-toc-mobile + .site-section {
+    padding-top: 0;
+    border-top: 0;
+  }
 }
 
 @media (max-width: 640px) {

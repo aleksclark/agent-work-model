@@ -114,6 +114,14 @@
   --house-type-data: 30px;
   --house-type-code: 12px;
 
+  /* Agent Work Model long-form documentation extension. */
+  --awm-type-prose: 16px;
+  --awm-type-prose-section: 20px;
+  --awm-leading-prose: 1.7;
+  --awm-leading-prose-section: 1.3;
+  --awm-prose-measure: 65ch;
+  --awm-toc-width: 200px;
+
   --house-leading-display: 1.05;
   --house-leading-title: 1.12;
   --house-leading-section: 1.2;
@@ -166,6 +174,7 @@
     --house-type-display: 32px;
     --house-type-page-title: 22px;
     --house-type-data: 22px;
+    --awm-type-prose-section: 18px;
     --house-control-height: 44px;
     --house-row-height: 48px;
     --house-page-gutter: 16px;

@@ -22,6 +22,15 @@
     "editorial": "Newsreader",
     "technical": "IBM Plex Mono"
   },
+  "productExtensions": {
+    "longFormDocumentation": {
+      "proseBody": { "size": 16, "weight": 400, "lineHeight": 1.7, "family": "product" },
+      "proseSection": { "desktop": 20, "mobile": 18, "weight": 600, "lineHeight": 1.3, "family": "product" },
+      "measure": "65ch",
+      "tableOfContentsWidth": 200,
+      "scope": "Overview and guide prose only; reference UI retains the compact house scale."
+    }
+  },
   "type": {
     "display": { "desktop": 48, "mobile": 32, "weight": 400, "lineHeight": 1.05, "family": "editorial" },
     "pageTitle": { "desktop": 30, "mobile": 22, "weight": 700, "lineHeight": 1.12, "letterSpacing": "-0.022em", "family": "product" },
