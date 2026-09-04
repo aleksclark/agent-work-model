@@ -24,6 +24,9 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     index = (tmp_path / "index.html").read_text(encoding="utf-8")
     term = (tmp_path / "terms" / "WorkSession.html").read_text(encoding="utf-8")
     glossary = (tmp_path / "glossary.html").read_text(encoding="utf-8")
+    boundaries = (tmp_path / "boundaries.html").read_text(encoding="utf-8")
+    interoperability = (tmp_path / "interoperability.html").read_text(encoding="utf-8")
+    specifications = (tmp_path / "specifications.html").read_text(encoding="utf-8")
     assert (tmp_path / ".nojekyll").is_file()
     assert (tmp_path / "_headers").is_file()
     assert (tmp_path / "_redirects").is_file()
@@ -37,6 +40,13 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     assert 'href="/assets/site.css"' in index
     assert "Agent Work Model" in index
     assert "WorkSession" in index
+    assert "Agentic software has a language problem" in index
+    assert "LangGraph" in index
+    assert "OpenAI Agents SDK" in index
+    assert "Hermes" in index
+    assert "Paseo" in index
+    assert "Dig Deeper" in index
+    assert 'href="/boundaries.html"' in index
     assert "Do not edit by hand" in index
     assert "family=Archivo" in index
     assert "Newsreader" in index
@@ -45,6 +55,13 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     assert "work_session_id" in term
     assert "work-session-coordinator" in term
     assert "Accepted terms" in glossary
+    assert "Project is not workspace" in boundaries
+    assert 'aria-current="page"' in boundaries
+    assert "Mapping fidelity is part of the data" in interoperability
+    assert "LangGraph" in interoperability
+    assert "CrewAI" in interoperability
+    assert "Ambiguous prose produces accidental architecture" in specifications
+    assert "new RunAttempt under the existing AgentRun" in specifications
     assert "--house-accent-base: #3DE0F0;" in (tmp_path / "assets" / "house-tokens.css").read_text(
         encoding="utf-8"
     )
@@ -79,3 +96,6 @@ def test_cli_site_writes_fixture(tmp_path: Path) -> None:
     assert (output / "terms" / "Widget.html").is_file()
     assert (output / "404.html").is_file()
     assert (output / "reference.html").is_file()
+    assert (output / "boundaries.html").is_file()
+    assert (output / "interoperability.html").is_file()
+    assert (output / "specifications.html").is_file()

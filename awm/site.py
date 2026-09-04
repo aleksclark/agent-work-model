@@ -19,10 +19,15 @@ SITE_NOTICE = "This file is generated from model/. Do not edit by hand."
 ACCENT = "cyan"
 CANONICAL_THEME = "dark"
 REPO_URL = "https://github.com/aleksclark/agent-work-model"
-PAGES = (
+PRIMARY_PAGES = (
     ("overview", "Overview", "index.html", "learn"),
     ("glossary", "Glossary", "glossary.html", "explore"),
     ("reference", "Reference", "reference.html", "inspect"),
+)
+DEEPER_PAGES = (
+    ("boundaries", "Boundaries that matter", "boundaries.html", "components"),
+    ("interoperability", "Mapping systems", "interoperability.html", "pipeline"),
+    ("specifications", "Writing clear specs", "specifications.html", "decisions"),
 )
 
 ASSET_FILES = (
@@ -86,17 +91,21 @@ def _sprite(source_dir: Path) -> str:
     )
 
 
+def _nav_item(
+    page: tuple[str, str, str, str], base_path: str, active: str
+) -> str:
+    key, label, filename, icon = page
+    href = join_base(base_path, filename)
+    cls = ' class="is-active"' if key == active else ""
+    aria = ' aria-current="page"' if key == active else ""
+    return f'<li><a href="{_e(href)}"{cls}{aria}>{_icon(icon)}{_e(label)}</a></li>'
+
+
 def _nav(base_path: str, active: str) -> str:
-    items: list[str] = []
-    for key, label, filename, icon in PAGES:
-        href = join_base(base_path, filename)
-        cls = ' class="is-active"' if key == active else ""
-        aria = ' aria-current="page"' if key == active else ""
-        items.append(
-            f'<li><a href="{_e(href)}"{cls}{aria}>{_icon(icon)}{_e(label)}</a></li>'
-        )
-    source = f"{REPO_URL}"
-    items.append(f'<li><a href="{_e(source)}">{_icon("open")}Source</a></li>')
+    items = [_nav_item(page, base_path, active) for page in PRIMARY_PAGES]
+    items.append(f'<li><a href="{_e(REPO_URL)}">{_icon("open")}Source</a></li>')
+    items.append('<li class="site-nav-heading">Dig Deeper</li>')
+    items.extend(_nav_item(page, base_path, active) for page in DEEPER_PAGES)
     return "\n            ".join(items)
 
 
@@ -222,13 +231,35 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
           </div>
         </header>
         <section class="site-section">
-          <h2 class="house-type-section">Shared meaning, not a runtime</h2>
-          <p>Agent Work Model is a protocol-neutral vocabulary for Projects, WorkSessions, resources, agents, and AgentRuns. Systems map to it; they do not have to adopt a transport, SDK, or host product.</p>
-          <p>The machine-readable documents under <code>model/</code> are canonical. Generated prose, JSON, and this site are derived. Do not hand-edit generated artifacts or treat a host chat transcript as the work itself.</p>
+          <h2 class="house-type-section">Agentic software has a language problem</h2>
+          <p class="purpose">Agent systems are becoming more capable every month. The language used to connect them is not keeping pace.</p>
+          <p>Teams routinely use the same words for different things. A <em>session</em> might mean a conversation, a graph checkpoint namespace, a network connection, one agent assignment, or the whole span of work. A <em>run</em> might mean one model loop, one retry, one workflow, or everything that happened after a user clicked “start.”</p>
+          <p>This sounds like a documentation problem. It becomes an architecture problem the moment two systems exchange data. If “resume the session” is not precise, developers cannot know which history to load, which process to restart, which permissions still apply, or whether the work is already complete.</p>
         </section>
         <section class="site-section">
-          <h2 class="house-type-section">Accepted terms</h2>
-          <p>Each term has a human-readable name, a qualified identity field that is a name rather than authorization, and exactly one catalogued authority role.</p>
+          <h2 class="house-type-section">The confusion is already visible</h2>
+          <p><a href="https://docs.langchain.com/oss/python/langgraph/persistence">LangGraph</a> uses a <em>thread</em> for checkpointed graph state and conversation continuity. The <a href="https://openai.github.io/openai-agents-python/sessions/">OpenAI Agents SDK</a> uses a <em>session</em> to preserve conversation history across agent runs. <a href="https://github.com/NousResearch/hermes-agent/blob/main/docs/session-lifecycle.md">Hermes</a> uses a session for a continuous conversation on a messaging platform, while separately tracking turns, provider requests, tool calls, and delegated tasks.</p>
+          <p><a href="https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture">MCP</a> now defines a stateless protocol for context exchange, even though many developers still encounter older transport-level “session” identifiers. <a href="https://github.com/getpaseo/paseo/blob/main/docs/product.md">Paseo</a> distinguishes projects, workspaces, agents, executions, and turns because a workspace can contain several agents and can outlive any one client connection.</p>
+          <p>Every one of those meanings is reasonable inside its own product. They are not interchangeable. The pain appears at the boundaries: adapters grow special cases, database columns acquire misleading names, lifecycle events cannot be compared, and specifications depend on tribal knowledge.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Clear language changes the work</h2>
+          <p>Agent Work Model gives each important boundary a stable name. A <strong>WorkSession</strong> is the bounded episode of work. An <strong>AgentRun</strong> is one agent’s assignment inside it. A <strong>RunAttempt</strong> is one infrastructure try at that assignment. A <strong>Turn</strong> is one input-to-output cycle. A <strong>HostConversation</strong> is chat history that may be attached to the work, but is not the work itself.</p>
+          <p>Once those distinctions are explicit, a specification can say exactly what survives a crash, what is retried, what owns mutable state, and what completion means. APIs become easier to review. Events become easier to join. Tests can assert real invariants instead of guessing what a field named <code>session_id</code> was intended to mean.</p>
+          <p class="purpose">The joy is practical: fewer translation meetings, fewer “which run?” questions, and more time spent building the behavior the team actually agreed on.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">A shared model, not another platform</h2>
+          <p>AWM does not ask LangGraph, OpenAI, Hermes, Paseo, or any other system to rename its native objects. It supplies a neutral semantic layer so those objects can be mapped without pretending that similar names guarantee identical meaning.</p>
+          <p>The machine-readable documents under <code>model/</code> are canonical. They define identity, authority, lifecycle, cardinality, invariants, aliases, non-synonyms, and mapping fidelity. Generated prose, JSON, and this site are derived from that source.</p>
+          <div class="site-actions">
+            <a class="house-button house-button--secondary" href="{_e(join_base(base_path, 'boundaries.html'))}">{_icon("components")}Explore the boundaries</a>
+            <a class="house-button house-button--ghost" href="{_e(join_base(base_path, 'interoperability.html'))}">{_icon("pipeline")}See how mapping works</a>
+          </div>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">The vocabulary</h2>
+          <p>Each accepted term has a qualified identity field, one external authority role, and explicit relationships to the rest of the model.</p>
           <div class="site-table-wrap">
             <table>
               <thead><tr><th>Term</th><th>Identity</th><th>Status</th><th>Definition</th></tr></thead>
@@ -237,10 +268,6 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
               </tbody>
             </table>
           </div>
-        </section>
-        <section class="site-section">
-          <h2 class="house-type-section">Authority is external</h2>
-          <p>A term names exactly one catalogued SYSTEM/ROLE as its owner. The owner is never the term itself and never another entity. Roles do not encode credentials or endpoints.</p>
         </section>
 """
     return _shell(
@@ -251,6 +278,177 @@ def render_overview(model: Model, base_path: str, sprite: str) -> str:
         base_path=base_path,
         sprite=sprite,
         extra_class="site-overview",
+    )
+
+
+def render_boundaries(base_path: str, sprite: str) -> str:
+    body = f"""
+        <header class="site-page-header">
+          <p class="house-type-eyebrow">Dig Deeper</p>
+          <h1 class="house-type-title">Boundaries that matter</h1>
+          <p class="house-type-lede">If two things have different owners, lifecycles, cardinalities, or failure behavior, they need different names and different identities.</p>
+        </header>
+        <section class="site-section">
+          <h2 class="house-type-section">Project is not workspace</h2>
+          <p>A <a href="{_e(term_href(base_path, 'Project'))}">Project</a> is the durable scope people recognize as “the work we keep doing together.” A <a href="{_e(term_href(base_path, 'Workspace'))}">Workspace</a> is a material environment: a checkout, container, remote directory, or similar place where work can happen.</p>
+          <p>Paseo makes the practical difference visible. A project appears in its sidebar, while a project can have a main workspace plus additional isolated worktree workspaces. Deleting a worktree should not erase the project’s identity. Restarting a workspace should not rewrite project policy.</p>
+          <p>A <a href="{_e(term_href(base_path, 'ProjectSnapshot'))}">ProjectSnapshot</a> adds a third boundary: it is an immutable view of the project definition at an exact revision. A running episode can pin that revision without mutating the durable project or claiming that a live workspace is part of the snapshot.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Work is larger than one agent loop</h2>
+          <p>A <a href="{_e(term_href(base_path, 'WorkSession'))}">WorkSession</a> is the complete bounded episode: the implementation push, incident response, migration, or review. It can contain people, resources, tasks, artifacts, conversations, and several agent assignments.</p>
+          <p>An <a href="{_e(term_href(base_path, 'AgentRun'))}">AgentRun</a> is one agent’s assignment inside that episode. A <a href="{_e(term_href(base_path, 'RunAttempt'))}">RunAttempt</a> is one infrastructure try at executing the assignment. A <a href="{_e(term_href(base_path, 'Turn'))}">Turn</a> is one input-to-output cycle inside the run.</p>
+          <p>This separation answers a common production question cleanly: if a process crashes and another worker retries the same assignment, the <code>agent_run_id</code> stays stable and a new <code>run_attempt_id</code> is created. The retry is observable without pretending the logical assignment changed.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Conversation is not completion</h2>
+          <p>LangGraph threads preserve checkpointed graph state. OpenAI Agents SDK sessions preserve conversation history across runs. Hermes sessions represent continuous conversations on messaging platforms. Those are useful host concepts, but none can safely stand in for the whole episode of work.</p>
+          <p>AWM names that host-owned history <a href="{_e(term_href(base_path, 'HostConversation'))}">HostConversation</a>. It may be attached to a WorkSession. It may begin before the work, continue after the work, or contain discussion that never becomes assigned work at all.</p>
+          <p>That distinction prevents a chat reset from silently cancelling work, and prevents a long-lived transcript from keeping an already completed WorkSession open forever.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Description is not execution</h2>
+          <p>An <a href="{_e(term_href(base_path, 'AgentProfile'))}">AgentProfile</a> describes an eligible kind of agent: capabilities, constraints, and intended roles. An <a href="{_e(term_href(base_path, 'AgentInstance'))}">AgentInstance</a> is a running process or endpoint. A <a href="{_e(term_href(base_path, 'Principal'))}">Principal</a> is the accountable actor to whom work can be attributed.</p>
+          <p>Collapsing those concepts makes restarts destructive and accountability vague. A process can disappear while its assignment remains. A replacement process can continue that assignment. The person or service accountable for the result does not become identical to either process.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Resource is not access</h2>
+          <p>A <a href="{_e(term_href(base_path, 'Resource'))}">Resource</a> is an independently addressable thing relevant to work. A <a href="{_e(term_href(base_path, 'ResourceBinding'))}">ResourceBinding</a> records how one WorkSession locates and is allowed to use it.</p>
+          <p>This keeps durable identity separate from temporary grants. A repository, database, browser, or tool service can outlive the session-specific path, mount, token, or policy used to reach it. Portable snapshots can name the relationship without serializing credentials.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">The boundary test</h2>
+          <p>When deciding whether two records are really one entity, ask four questions:</p>
+          <ol class="prose-list">
+            <li>Who is allowed to mutate each record?</li>
+            <li>Can one outlive, contain, or be retried independently of the other?</li>
+            <li>Can there be one of the first and many of the second?</li>
+            <li>Does a failure in one require a new identity for the other?</li>
+          </ol>
+          <p>If the answers differ, one convenient noun is hiding two real concepts.</p>
+          <div class="site-actions">
+            <a class="house-button house-button--secondary" href="{_e(join_base(base_path, 'interoperability.html'))}">{_icon("arrow-right")}Next: mapping systems</a>
+          </div>
+        </section>
+"""
+    return _shell(
+        title="Boundaries that matter · Agent Work Model",
+        description="How Agent Work Model separates projects, workspaces, work sessions, agent runs, attempts, turns, and conversations.",
+        active="boundaries",
+        body=body,
+        base_path=base_path,
+        sprite=sprite,
+    )
+
+
+def render_interoperability(base_path: str, sprite: str) -> str:
+    body = f"""
+        <header class="site-page-header">
+          <p class="house-type-eyebrow">Dig Deeper</p>
+          <h1 class="house-type-title">Mapping systems without flattening them</h1>
+          <p class="house-type-lede">Interoperability does not require every framework to use the same nouns. It requires each side to say what its nouns actually mean.</p>
+        </header>
+        <section class="site-section">
+          <h2 class="house-type-section">Native models are allowed to be native</h2>
+          <p>LangGraph organizes short-term persistence around threads and checkpoints, with stores for cross-thread memory. The OpenAI Agents SDK has agents, runs, results, and sessions that preserve conversation history. CrewAI distinguishes agents, tasks, crews, and event-driven flows. Hermes separates conversation sessions, turns, provider requests, tool calls, and delegated subagent tasks. Paseo separates projects, workspaces, agents, executions, and turns.</p>
+          <p>AWM does not declare any of those product models wrong. It gives integrations a neutral target. A native object may map exactly to one AWM term, partially cover it, combine several concerns, or have no equivalent at all.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Similar names are only the beginning</h2>
+          <p>Consider the word <em>session</em>. In the OpenAI Agents SDK it is a store for conversation history across runs. In Hermes it is a continuous messaging-platform conversation with reset and resume behavior. In older MCP implementations, a session identifier could be transport metadata; the current MCP protocol is stateless. In AWM, a WorkSession is none of those things: it is the bounded episode that coordinates the work.</p>
+          <p>A safe adapter therefore asks about semantics, not spelling. Does the native object own message history? Does it contain multiple agent assignments? Can it survive a process restart? Does closing it end the work, detach a client, or merely stop preserving context?</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Mapping fidelity is part of the data</h2>
+          <p>AWM uses explicit fidelity labels so an integration cannot hide uncertainty behind a neat-looking crosswalk.</p>
+          <dl class="definition-list">
+            <div><dt>Exact</dt><dd>The native concept and AWM term agree on the relevant meaning and boundary.</dd></div>
+            <div><dt>Partial</dt><dd>The concepts overlap, but fields, lifecycle, authority, or scope differ.</dd></div>
+            <div><dt>Ambiguous</dt><dd>The native concept combines meanings that AWM keeps separate.</dd></div>
+            <div><dt>None</dt><dd>The system has no corresponding native concept.</dd></div>
+            <div><dt>TBD</dt><dd>No specific implementation revision has been checked yet.</dd></div>
+          </dl>
+          <p>The current repository demonstrates the conservative approach: the Project Interop hook is explicitly unverified, and most term mappings remain <code>tbd</code>. An honest missing crosswalk is more useful than false precision.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">A practical mapping review</h2>
+          <ol class="prose-list">
+            <li>Choose a specific product and version. Product names alone are not evidence.</li>
+            <li>Document the native object’s owner, identity, lifecycle, relationships, and failure behavior.</li>
+            <li>Compare those semantics with the relevant AWM terms—not only their labels.</li>
+            <li>Record field transformations and information loss explicitly.</li>
+            <li>Mark the fidelity and keep unknowns as <code>tbd</code>.</li>
+            <li>Test round trips for the claims the integration actually makes.</li>
+          </ol>
+          <p>These pages use popular systems to illustrate mapping questions. They do not claim audited equivalence. Verified product mappings belong in versioned mapping documents under <code>model/mappings/</code>.</p>
+          <div class="site-actions">
+            <a class="house-button house-button--secondary" href="{_e(join_base(base_path, 'reference.html'))}">{_icon("inspect")}Inspect current mappings</a>
+            <a class="house-button house-button--ghost" href="{_e(join_base(base_path, 'specifications.html'))}">{_icon("arrow-right")}Next: clear specifications</a>
+          </div>
+        </section>
+"""
+    return _shell(
+        title="Mapping systems · Agent Work Model",
+        description="How to map popular agent frameworks to Agent Work Model without erasing native semantics.",
+        active="interoperability",
+        body=body,
+        base_path=base_path,
+        sprite=sprite,
+    )
+
+
+def render_specifications(base_path: str, sprite: str) -> str:
+    body = f"""
+        <header class="site-page-header">
+          <p class="house-type-eyebrow">Dig Deeper</p>
+          <h1 class="house-type-title">Writing specifications agents can implement</h1>
+          <p class="house-type-lede">Clear names turn product intent into contracts that humans can review, agents can implement, and tests can verify.</p>
+        </header>
+        <section class="site-section">
+          <h2 class="house-type-section">Ambiguous prose produces accidental architecture</h2>
+          <p>“Retry the agent and keep the session” sounds understandable until implementation begins. Should the same process be restarted? Should chat history be replayed? Is this a new assignment? Does the retry inherit permissions? Which identifier appears in logs?</p>
+          <p>With AWM terms, the same requirement can be written directly: “When an AgentInstance fails, create a new RunAttempt under the existing AgentRun. Preserve <code>agent_run_id</code>. The replacement instance may differ. Do not widen the AgentRun’s grants.”</p>
+          <p>That sentence tells the database designer which keys survive, the orchestrator what to create, the telemetry pipeline how to correlate events, and the test author what must remain invariant.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Identity answers what survived</h2>
+          <p>Every AWM entity has a qualified identity field such as <code>work_session_id</code>, <code>agent_run_id</code>, or <code>run_attempt_id</code>. Handles are names, not credentials.</p>
+          <p>Qualified identities remove a common source of integration bugs: a bare <code>session_id</code> arriving at an API boundary with no indication whether it names a conversation, a transport, or a work episode. When the identity is explicit, restart and resume behavior can be explicit too.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Authority answers who may change it</h2>
+          <p>Each entity names one external authority role. A work-session coordinator owns the mutable WorkSession graph. An agent executor owns a RunAttempt. A host product owns HostConversation history. Other systems may observe or reference those records; they do not quietly become a second mutable truth.</p>
+          <p>This matters when several agents and services act at once. Clear ownership makes conflict resolution, idempotency, and recovery design possible before production traffic exposes the missing rule.</p>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Lifecycle and cardinality answer what is legal</h2>
+          <p>A WorkSession may contain many AgentRuns. Each AgentRun belongs to exactly one WorkSession and may contain many RunAttempts and Turns. Lifecycle transitions name the allowed movement between states, and terminal states say when a record is done.</p>
+          <p>Those constraints make acceptance criteria concrete:</p>
+          <ul class="prose-list">
+            <li>Given an AgentRun whose first process crashes, when execution is retried, then the new RunAttempt has a new identity and the AgentRun does not.</li>
+            <li>Given a host conversation that is reset, when attached work is still open, then resetting the conversation does not close the WorkSession.</li>
+            <li>Given project policy that denies a capability, when a WorkSession, ResourceBinding, or AgentRun is created, then no child grant can re-enable it.</li>
+            <li>Given a project-bound WorkSession, when its definition is recorded, then it pins one immutable ProjectSnapshot revision.</li>
+          </ul>
+        </section>
+        <section class="site-section">
+          <h2 class="house-type-section">Machine-readable meaning compounds</h2>
+          <p>Because the model is structured data, the same definition can drive schemas, generated reference material, semantic lint, event contracts, client types, storage reviews, and conformance tests. A correction is made once in the canonical model instead of being rediscovered in every integration.</p>
+          <p>This is especially valuable in agentic development. Agents move quickly and confidently, including when a prompt is underspecified. A precise model narrows the solution space before code is generated. It gives an implementation agent fewer plausible but incompatible interpretations and gives a review agent objective invariants to check.</p>
+          <p class="purpose">The result is not more ceremony. It is less rework: specifications that survive handoffs, retries, provider changes, and the arrival of the next framework.</p>
+          <div class="site-actions">
+            <a class="house-button house-button--primary" href="{_e(join_base(base_path, 'model.json'))}">{_icon("record")}Read model.json</a>
+            <a class="house-button house-button--secondary" href="{_e(join_base(base_path, 'reference.html'))}">{_icon("inspect")}Read the rules</a>
+          </div>
+        </section>
+"""
+    return _shell(
+        title="Writing clear specifications · Agent Work Model",
+        description="How Agent Work Model turns agentic product intent into implementable, testable specifications.",
+        active="specifications",
+        body=body,
+        base_path=base_path,
+        sprite=sprite,
     )
 
 
@@ -613,6 +811,9 @@ def rendered_pages(model: Model, base_path: str, source_dir: Path) -> dict[str, 
         "index.html": render_overview(model, base_path, sprite),
         "glossary.html": render_glossary(model, base_path, sprite),
         "reference.html": render_reference(model, base_path, sprite),
+        "boundaries.html": render_boundaries(base_path, sprite),
+        "interoperability.html": render_interoperability(base_path, sprite),
+        "specifications.html": render_specifications(base_path, sprite),
         "404.html": render_not_found(base_path, sprite),
     }
     for term in ordered_terms(model):
