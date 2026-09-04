@@ -2,7 +2,7 @@ PYTHON ?= python3
 PIP ?= $(PYTHON) -m pip
 AWM ?= $(PYTHON) -m awm
 
-.PHONY: help install test lint validate generate check
+.PHONY: help install test lint validate generate site check
 
 help:
 	@echo "Targets:"
@@ -10,6 +10,7 @@ help:
 	@echo "  validate  JSON Schema validation of model/"
 	@echo "  lint      semantic lint of model/"
 	@echo "  generate  write generated/ from model/"
+	@echo "  site      write the static documentation site to _site/"
 	@echo "  test      run the pytest suite"
 	@echo "  check     validate + lint + tests + generated-drift check"
 
@@ -24,6 +25,9 @@ lint:
 
 generate:
 	$(AWM) generate
+
+site:
+	$(AWM) site
 
 test:
 	$(PYTHON) -m pytest

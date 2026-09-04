@@ -11,7 +11,14 @@ from awm import __version__
 from awm.generate import check_generated, write_generated
 from awm.lint import lint_model
 from awm.loader import LoadError, load_model
-from awm.paths import DEFAULT_GENERATED_DIR, DEFAULT_MODEL_DIR, DEFAULT_SCHEMA_DIR
+from awm.paths import (
+    DEFAULT_GENERATED_DIR,
+    DEFAULT_MODEL_DIR,
+    DEFAULT_SCHEMA_DIR,
+    DEFAULT_SITE_OUTPUT_DIR,
+    DEFAULT_SITE_SOURCE_DIR,
+)
+from awm.site import write_site
 from awm.validate import SchemaLoadError, load_schemas, validate_model
 
 
@@ -65,6 +72,32 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=DEFAULT_GENERATED_DIR,
         help="Directory of generated artifacts to compare",
+    )
+
+    site = sub.add_parser("site", help="Write the static documentation site from the canonical source")
+    _add_common(site)
+    site.add_argument(
+        "--output-dir",
+        type=Path,
+        default=DEFAULT_SITE_OUTPUT_DIR,
+        help="Directory for the built site (default: repository _site/)",
+    )
+    site.add_argument(
+        "--source-dir",
+        type=Path,
+        default=DEFAULT_SITE_SOURCE_DIR,
+        help="Hand-authored site assets (default: repository site/)",
+    )
+    site.add_argument(
+        "--generated-dir",
+        type=Path,
+        default=DEFAULT_GENERATED_DIR,
+        help="Directory containing generated model.json to copy into the site",
+    )
+    site.add_argument(
+        "--base-path",
+        default="/",
+        help="URL prefix for GitHub Pages (default: /)",
     )
     return parser
 
@@ -129,6 +162,23 @@ def cmd_generate(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_site(args: argparse.Namespace) -> int:
+    try:
+        model = load_model(args.model_dir)
+    except LoadError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    written = write_site(
+        model,
+        args.output_dir,
+        base_path=args.base_path,
+        source_dir=args.source_dir,
+        generated_dir=args.generated_dir,
+    )
+    print(f"wrote {len(written)} site files under {args.output_dir}")
+    return 0
+
+
 def cmd_check(args: argparse.Namespace) -> int:
     try:
         model = load_model(args.model_dir)
@@ -172,6 +222,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "validate": cmd_validate,
         "lint": cmd_lint,
         "generate": cmd_generate,
+        "site": cmd_site,
         "check": cmd_check,
     }
     return dispatch[args.command](args)

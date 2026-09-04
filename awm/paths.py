@@ -9,6 +9,8 @@ REPO_ROOT = PACKAGE_DIR.parent
 DEFAULT_MODEL_DIR = REPO_ROOT / "model"
 DEFAULT_SCHEMA_DIR = REPO_ROOT / "schema"
 DEFAULT_GENERATED_DIR = REPO_ROOT / "generated"
+DEFAULT_SITE_SOURCE_DIR = REPO_ROOT / "site"
+DEFAULT_SITE_OUTPUT_DIR = REPO_ROOT / "_site"
 
 SCHEMA_FILES = {
     "catalog": "catalog.schema.json",
