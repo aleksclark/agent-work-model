@@ -27,7 +27,7 @@ No color, font-family, spacing-scale, radius, elevation, focus, status, or icon 
 ## Long-form contract
 
 - Overview and Guide pages use the long-form reading role.
-- Wide screens show a sticky “On this page” rail generated from section headings.
+- Wide screens center the prose column in the available main canvas and show a sticky “On this page” rail in reserved right-side space.
 - Tablet and mobile replace the rail with a native disclosure immediately after the page header.
 - One idea lands per section; section headings remain descriptive out of context.
 - Paragraphs and lists have no fixed height and must tolerate WCAG 1.4.12 text-spacing overrides.

@@ -28,7 +28,7 @@
 | --- | --- | --- | --- | --- |
 | LF-001 | P1 foundation | INTENTIONAL EXCEPTION | Fixed 14px body role is optimized for product UI, not sustained prose. | Scoped 16px / 1.7 long-form role documented in `product-design-exceptions.md`; reference UI remains unchanged. |
 | LF-002 | P1 composition | PASS | Long pages lacked local orientation. | Generated sticky desktop “On this page” rail and mobile native disclosure. |
-| LF-003 | P1 composition | PASS | Prose occupied only part of the 960px canvas without using the remaining space. | Text capped at 65ch; remaining width carries local contents rather than more prose. |
+| LF-003 | P1 composition | PASS | Prose occupied only part of the 960px canvas without using the remaining space. | Text is capped at 65ch and centered in the available main canvas; reserved right-side space carries local contents without displacing the body. |
 | LF-004 | P2 responsive | PASS | Dense reference tables previously required hidden horizontal panning. | Existing labeled-record mobile recomposition retained; browser probes report zero wrapper overflow. |
 | LF-005 | P2 accessibility | PASS | Long-form layout must tolerate user text spacing. | WCAG 1.4.12 override probe at 390px produced zero clipped elements and zero document overflow. |
 | LF-006 | P2 hierarchy | PASS | Long-form sections needed stronger scan landmarks. | Scoped 20px desktop / 18px mobile prose-section role; reference headings retain house scale. |

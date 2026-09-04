@@ -89,6 +89,8 @@ def test_site_writes_canonical_pages(tmp_path: Path) -> None:
     assert "--awm-type-prose: 16px" in tokens_css
     assert tokens_json["productExtensions"]["longFormDocumentation"]["measure"] == "65ch"
     assert ".reading-layout" in site_css
+    assert "margin-inline: auto" in site_css
+    assert "grid-template-columns: minmax(0, 1fr) minmax(0, var(--awm-prose-measure))" in site_css
     assert ".page-toc-mobile" in site_css
     assert ".site-guide-nav" in site_css
     assert ".record-table td::before" in site_css

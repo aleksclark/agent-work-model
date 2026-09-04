@@ -335,7 +335,7 @@ Agent Work Model is primarily a Decide / Learn documentation surface with unusua
 1. Kicker, title, and concise lede establish the promise.
 2. A generated “On this page” list exposes the article structure.
 3. One idea lands per section under a heading that makes sense out of context.
-4. Wide screens place the contents list in a quiet sticky right rail; tablet/mobile use a native disclosure after the header.
+4. Wide screens center the prose column in the available main canvas and reserve a quiet sticky right rail for contents, so navigation never pushes the body off-center. Tablet/mobile use a native disclosure after the header.
 5. Section spacing uses the existing 24/32/48px scale. Rules mark major transitions but do not underline every heading.
 6. Links remain visibly underlined in prose. Machine identifiers remain secondary mono text.
 7. No text container uses fixed height; 200% zoom and WCAG text-spacing overrides must not clip or overlap content.
