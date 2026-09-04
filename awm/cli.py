@@ -97,7 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
     site.add_argument(
         "--base-path",
         default="/",
-        help="URL prefix for GitHub Pages (default: /)",
+        help="URL prefix for generated asset and page links (default: /)",
     )
     return parser
 

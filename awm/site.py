@@ -32,6 +32,7 @@ ASSET_FILES = (
     "site.css",
     "site.js",
 )
+CANONICAL_HOST = "https://agentregistryprotocol.org"
 
 
 def join_base(base_path: str, *parts: str) -> str:
@@ -661,4 +662,29 @@ def write_site(
     nojekyll = root / ".nojekyll"
     nojekyll.write_text("", encoding="utf-8")
     written[".nojekyll"] = nojekyll
+
+    headers = root / "_headers"
+    headers.write_text(
+        "\n".join(
+            [
+                "/*",
+                "  X-Content-Type-Options: nosniff",
+                "  Referrer-Policy: strict-origin-when-cross-origin",
+                "  X-Frame-Options: DENY",
+                "",
+                "/assets/*",
+                "  Cache-Control: public, max-age=3600",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    written["_headers"] = headers
+
+    redirects = root / "_redirects"
+    redirects.write_text(
+        f"https://www.agentregistryprotocol.org/* {CANONICAL_HOST}/:splat 301\n",
+        encoding="utf-8",
+    )
+    written["_redirects"] = redirects
     return written

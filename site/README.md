@@ -13,4 +13,5 @@ is written to `_site/` by `python3 -m awm site` and is not checked in.
 | `assets/site.js` | Theme, nav, and copy affordances |
 
 Do not restyle tokens in `site.css`. Accent is cyan `#3DE0F0`.
-The primary surface class is Decide / Learn.
+The primary surface class is Decide / Learn. Production hosting is
+Cloudflare Pages at https://agentregistryprotocol.org/.
