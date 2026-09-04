@@ -28,13 +28,20 @@
   const nav = document.querySelector("[data-site-nav]");
   const backdrop = document.querySelector("[data-nav-backdrop]");
   const menuButtons = document.querySelectorAll("[data-nav-toggle]");
+  const openButton = document.querySelector(".site-menu");
+  const closeButton = document.querySelector(".site-nav-close");
 
   function setNav(open) {
     if (!nav) return;
     nav.classList.toggle("is-open", open);
+    document.body.classList.toggle("site-nav-open", open);
     if (backdrop) backdrop.classList.toggle("is-open", open);
     menuButtons.forEach(function (button) {
       button.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    window.requestAnimationFrame(function () {
+      if (open && closeButton) closeButton.focus();
+      if (!open && openButton) openButton.focus();
     });
   }
 

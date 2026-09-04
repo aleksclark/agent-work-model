@@ -47,4 +47,4 @@ jobs:
         run: python -m awm generate --check
 
       - name: Build documentation site
-        run: python -m awm site --base-path /agent-work-model/
+        run: python -m awm site
